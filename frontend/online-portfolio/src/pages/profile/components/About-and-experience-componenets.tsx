@@ -2,8 +2,10 @@ import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bo
 import { useState } from 'react';
 import ExperienceContainer from './Experience-container-component';
 import ProjectContainer from './Project-container-component';
+import { Experience } from '../../../types/Experience';
+import { Project } from '../../../types/Project';
 
-function AboutAndExperience() {
+function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[] }) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -69,9 +71,9 @@ function AboutAndExperience() {
                             </Col>
                         </Row>
                         <Stack gap={3}>
-                            <ExperienceContainer></ExperienceContainer>
+                            {props.expereinceList.map((experience) => <ExperienceContainer experience={experience} ></ExperienceContainer>)}
                         </Stack>
-                    </div> 
+                    </div>
 
                     <div className='mt-3'>
                         <Row>
@@ -84,7 +86,9 @@ function AboutAndExperience() {
                                 </div>
                             </Col>
                         </Row>
-                        <ProjectContainer></ProjectContainer>
+                        <Stack gap={3}>
+                            {props.projectList.map((project) => <ProjectContainer project={project}></ProjectContainer>)}
+                        </Stack>
                     </div>
 
                 </div>

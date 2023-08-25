@@ -24,6 +24,14 @@ public class Project {
             new Project(
                     "Some title",
                     "Some description",
+                    List.of("Java", "Spring Boot", "Typescript", "kotlin")),
+            new Project(
+                    "Some title",
+                    "Some description",
+                    List.of("Java", "Spring Boot", "Typescript", "kotlin")),
+            new Project(
+                    "Some title",
+                    "Some description",
                     List.of("Java", "Spring Boot", "Typescript", "kotlin"))
     );
   }

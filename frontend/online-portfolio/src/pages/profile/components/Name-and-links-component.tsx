@@ -1,7 +1,7 @@
 import { Button, Stack } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 
-function NameAndLinks() {
+function NameAndLinks(props : {name: string}) {
 
     return (
 
@@ -14,7 +14,7 @@ function NameAndLinks() {
                 </h5>
 
                 <div className="display-2 mb-3 name-font" >
-                    Mukundi Chitamba
+                    {props.name}
                 </div>
 
                 <div className='mb-3'>

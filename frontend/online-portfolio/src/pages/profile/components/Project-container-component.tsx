@@ -1,45 +1,20 @@
 import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bootstrap';
+import { Project } from '../../../types/Project';
 
-function ProjectContainer() {
+function ProjectContainer(props: { project: Project }) {
 
     return (
         <div className="justify-content-center align-items-center 
                       h-100 w-100  align-middle border rounded  p-3" id="exp-card">
             <div>
-                <h6>Platform that does something</h6>
+                <h6> {props.project.title} </h6>
                 <p>
-                    Developed the ecocash platform and did this then that then another
-                    dumb boring thing again. Developed the ecocash platform and did
-                    this then that then another dumb boring thing again
+                    {props.project.description}
                 </p>
                 <div className='d-flex flex-wrap'>
-                    <Badge className='m-1' pill bg="secondary ">
-                        Java
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Spring Boot
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Typescript
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary ">
-                        Java
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Spring Boot
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Typescript
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary ">
-                        Java
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Spring Boot
-                    </Badge>
-                    <Badge className='m-1' pill bg="secondary">
-                        Typescript
-                    </Badge>
+                    {props.project.skills.map((skill) => {
+                        return <Badge className='m-1' pill bg="secondary "> {skill} </Badge>
+                    })}
                 </div>
             </div>
         </div>

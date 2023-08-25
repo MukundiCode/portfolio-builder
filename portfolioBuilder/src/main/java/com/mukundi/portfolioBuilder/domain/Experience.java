@@ -16,7 +16,7 @@ public class Experience {
 
   private String position;
 
-  private String Company;
+  private String company;
 
   private String description;
 
