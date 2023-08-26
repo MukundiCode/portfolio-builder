@@ -1,12 +1,33 @@
 import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import ExperienceContainer from './Experience-container-component';
 import ProjectContainer from './Project-container-component';
 import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
+import axios from 'axios';
 
-function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[] }) {
+function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[], uuid: string, updatePortfolio: (exp: Experience) => void }) {
     const [show, setShow] = useState(false);
+    const [experience, setExperience] = useState<Experience>({
+        position: '',
+        company: '',
+        description: '',
+        from: new Date(),
+        to: new Date(),
+        skills: []
+    });
+
+
+    const getHandler = (name: keyof Experience) => {
+        return (event: ChangeEvent<HTMLInputElement>) => {
+            setExperience({ ...experience, [name]: event.target.value });
+        };
+    };
+
+
+    const handleSubmit = async () => {
+        props.updatePortfolio(experience)
+    }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -19,19 +40,43 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Email address</Form.Label>
+                            <Form.Label>Position</Form.Label>
                             <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
+                                type="text"
+                                placeholder="Software developer"
                                 autoFocus
+                                onChange={getHandler('position')}
                             />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="exampleForm.ControlTextarea1"
-                        >
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
+
+                            <Form.Label>Company</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="XYZ"
+                                autoFocus
+                                onChange={getHandler('company')}
+                            />
+                            <Row>
+                                <Col>
+                                    <Form.Label>From</Form.Label>
+                                    <Form.Control type="date"
+                                        name="dob"
+                                        placeholder="Start date"
+                                        onChange={getHandler('from')} />
+                                </Col>
+                                <Col>
+                                    <Form.Label>To</Form.Label>
+                                    <Form.Control type="date"
+                                        name="dob"
+                                        placeholder="End date"
+                                        onChange={getHandler('to')} />
+                                </Col>
+
+                            </Row>
+
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control as="textarea"
+                                rows={3}
+                                onChange={getHandler('description')} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -39,7 +84,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

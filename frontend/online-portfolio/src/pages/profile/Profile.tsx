@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
 import { json } from 'stream/consumers';
+import { Experience } from '../../types/Experience';
 
 
 function Profile() {
@@ -26,6 +27,14 @@ function Profile() {
             });
     }, [])
 
+    const updatePortfolio = (exp: Experience) => {
+        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
+            exp)
+            .then(response => {
+                setPortfolio(response.data)
+            });
+    }
+
     return (
         <div>
             <Container fluid className='w-75'>
@@ -35,7 +44,11 @@ function Profile() {
                     </Col>
 
                     <Col>
-                        <AboutAndExperience expereinceList={portfolio.experienceList} projectList={portfolio.projectList}></AboutAndExperience>
+                        <AboutAndExperience
+                            expereinceList={portfolio.experienceList}
+                            projectList={portfolio.projectList}
+                            uuid={portfolio.uuid}
+                            updatePortfolio={updatePortfolio}></AboutAndExperience>
                     </Col>
                 </Row>
             </Container>

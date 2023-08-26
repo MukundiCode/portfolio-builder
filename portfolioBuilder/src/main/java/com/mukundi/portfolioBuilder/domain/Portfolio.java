@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -27,13 +29,27 @@ public class Portfolio {
 
   private List<Project> projectList;
 
-  public static Portfolio getDemoPortfolio(){
-    return new Portfolio(UUID.randomUUID(),
+  public static List<Portfolio> portfolios = new ArrayList<>();
+
+  static {
+    Portfolio portfolio = new Portfolio(UUID.randomUUID(),
             "Mukundi Chitamba",
             "A short intro",
             "about me here",
             Experience.getDemoList(),
             Project.getDemoList());
+    portfolios.add(portfolio);
+  }
+
+  public static Optional<Portfolio> addExperience(UUID portfolioId, Experience experience){
+
+    for (Portfolio portfolio : portfolios ){
+      if (portfolio.uuid.equals(portfolioId)){
+        portfolio.experienceList.add(experience);
+        return Optional.of(portfolio);
+      }
+    }
+    return Optional.empty();
   }
 
 }

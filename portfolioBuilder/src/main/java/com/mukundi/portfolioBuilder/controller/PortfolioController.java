@@ -1,10 +1,10 @@
 package com.mukundi.portfolioBuilder.controller;
 
+import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("portfolio")
@@ -13,7 +13,13 @@ public class PortfolioController {
 
   @GetMapping("")
   public Portfolio getPortfolio(){
-    return Portfolio.getDemoPortfolio();
+    return Portfolio.portfolios.get(0);
+  }
+
+  @PostMapping("{uuid}/experience/add")
+  public Portfolio addExperience(@PathVariable UUID uuid, @RequestBody Experience experience){
+    return Portfolio.addExperience(uuid, experience)
+            .orElseThrow(() -> new IllegalArgumentException());
   }
 
 
