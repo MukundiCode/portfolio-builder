@@ -6,8 +6,9 @@ import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
 import axios from 'axios';
 
-function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[], uuid: string, updatePortfolio: (exp: Experience) => void }) {
-    const [show, setShow] = useState(false);
+function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[], uuid: string, updatePortfolio: (exp: Experience | Project) => void }) {
+    const [showExperienceModal, setShowExperienceModal] = useState(false);
+    const [showProjectModal, setShowProjectModal] = useState(false);
     const [experience, setExperience] = useState<Experience>({
         position: '',
         company: '',
@@ -17,23 +18,43 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
         skills: []
     });
 
+    const [project, setProject] = useState<Project>({
+        title: '',
+        description: '',
+        skills: []
+    });
 
-    const getHandler = (name: keyof Experience) => {
+
+    const getExperienceHandler = (name: keyof Experience) => {
         return (event: ChangeEvent<HTMLInputElement>) => {
             setExperience({ ...experience, [name]: event.target.value });
         };
     };
 
 
-    const handleSubmit = async () => {
+    const handleNewExperienceSubmit = async () => {
         props.updatePortfolio(experience)
     }
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const getProjectHandler = (name: keyof Project) => {
+        return (event: ChangeEvent<HTMLInputElement>) => {
+            setProject({ ...project, [name]: event.target.value });
+        };
+    };
+
+
+    const handleNewProjectSubmit = async () => {
+        props.updatePortfolio(project)
+    }
+
+    const handleCloseExperienceModal = () => setShowExperienceModal(false);
+    const handleShowExperienceModal = () => setShowExperienceModal(true);
+
+    const handleCloseProjectModal = () => setShowProjectModal(false);
+    const handleShowProjectModal = () => setShowProjectModal(true);
     return (
         <div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={showExperienceModal} onHide={handleCloseExperienceModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Experience/Project</Modal.Title>
                 </Modal.Header>
@@ -45,7 +66,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                                 type="text"
                                 placeholder="Software developer"
                                 autoFocus
-                                onChange={getHandler('position')}
+                                onChange={getExperienceHandler('position')}
                             />
 
                             <Form.Label>Company</Form.Label>
@@ -53,7 +74,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                                 type="text"
                                 placeholder="XYZ"
                                 autoFocus
-                                onChange={getHandler('company')}
+                                onChange={getExperienceHandler('company')}
                             />
                             <Row>
                                 <Col>
@@ -61,14 +82,14 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                                     <Form.Control type="date"
                                         name="dob"
                                         placeholder="Start date"
-                                        onChange={getHandler('from')} />
+                                        onChange={getExperienceHandler('from')} />
                                 </Col>
                                 <Col>
                                     <Form.Label>To</Form.Label>
                                     <Form.Control type="date"
                                         name="dob"
                                         placeholder="End date"
-                                        onChange={getHandler('to')} />
+                                        onChange={getExperienceHandler('to')} />
                                 </Col>
 
                             </Row>
@@ -76,19 +97,53 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea"
                                 rows={3}
-                                onChange={getHandler('description')} />
+                                onChange={getExperienceHandler('description')} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleCloseExperienceModal}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
+                    <Button variant="primary" onClick={handleNewExperienceSubmit}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal show={showProjectModal} onHide={handleCloseProjectModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Experience/Project</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="..."
+                                autoFocus
+                                onChange={getProjectHandler('title')}
+                            />
+
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control as="textarea"
+                                rows={3}
+                                onChange={getProjectHandler('description')} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseProjectModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleNewProjectSubmit}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
             <div className='d-flex justify-content-center mt-4 pt-5'>
                 <div className="justify-content-center align-items-center 
               h-100 w-100  align-middle  rounded  p-3" id="intro">
@@ -111,7 +166,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>
-                                    <Button variant='light' className='new-section-element-button' onClick={handleShow}>+</Button>
+                                    <Button variant='light' className='new-section-element-button' onClick={handleShowExperienceModal}>+</Button>
                                 </div>
                             </Col>
                         </Row>
@@ -127,7 +182,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>
-                                    <Button variant='light' className='new-section-element-button' onClick={handleShow}>+</Button>
+                                    <Button variant='light' className='new-section-element-button' onClick={handleShowProjectModal}>+</Button>
                                 </div>
                             </Col>
                         </Row>

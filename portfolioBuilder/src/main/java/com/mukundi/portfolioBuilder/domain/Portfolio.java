@@ -52,4 +52,15 @@ public class Portfolio {
     return Optional.empty();
   }
 
+  public static Optional<Portfolio> addProject(UUID portfolioId, Project project){
+
+    for (Portfolio portfolio : portfolios ){
+      if (portfolio.uuid.equals(portfolioId)){
+        portfolio.projectList.add(project);
+        return Optional.of(portfolio);
+      }
+    }
+    return Optional.empty();
+  }
+
 }

@@ -2,6 +2,7 @@ package com.mukundi.portfolioBuilder.controller;
 
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
+import com.mukundi.portfolioBuilder.domain.Project;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,5 +23,11 @@ public class PortfolioController {
             .orElseThrow(() -> new IllegalArgumentException());
   }
 
+  @PostMapping("{uuid}/project/add")
+  public Portfolio addProject(@PathVariable UUID uuid, @RequestBody Project project){
+    System.out.println("project = " + project);
+    return Portfolio.addProject(uuid, project)
+            .orElseThrow(() -> new IllegalArgumentException());
+  }
 
 }

@@ -7,6 +7,7 @@ import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
 import { json } from 'stream/consumers';
 import { Experience } from '../../types/Experience';
+import { Project } from '../../types/Project';
 
 
 function Profile() {
@@ -27,12 +28,21 @@ function Profile() {
             });
     }, [])
 
-    const updatePortfolio = (exp: Experience) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
-            exp)
-            .then(response => {
-                setPortfolio(response.data)
-            });
+    const updatePortfolio = (exp: Experience | Project) => {
+        if (exp instanceof Experience) {
+            axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
+                exp)
+                .then(response => {
+                    setPortfolio(response.data)
+                });
+        } else {
+            axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/project/add',
+                exp)
+                .then(response => {
+                    setPortfolio(response.data)
+                });
+        }
+
     }
 
     return (
