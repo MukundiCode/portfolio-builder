@@ -4,7 +4,9 @@ import ExperienceContainer from './Experience-container-component';
 import ProjectContainer from './Project-container-component';
 import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
-import axios from 'axios';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { getSkills } from '../data/skills';
 
 function AboutAndExperience(props: {
     expereinceList: Experience[],
@@ -15,8 +17,8 @@ function AboutAndExperience(props: {
 }) {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
-    const [experienceSkill, setExperienceSkill] = useState("")
-    const [projectSkill, setProjectSkill] = useState("")
+    const [experienceSkills, setExperienceSkills] = useState<string[]>([])
+    const [projectSkills, setProjectSkills] = useState<string[]>([])
     const [experience, setExperience] = useState<Experience>({
         position: '',
         company: '',
@@ -32,7 +34,6 @@ function AboutAndExperience(props: {
         skills: []
     });
 
-
     const getExperienceHandler = (name: keyof Experience) => {
         return (event: ChangeEvent<HTMLInputElement>) => {
             setExperience({ ...experience, [name]: event.target.value });
@@ -40,18 +41,17 @@ function AboutAndExperience(props: {
     };
 
     const handleNewExperienceSubmit = async () => {
+        experience.skills = experienceSkills
         props.addExperienceAndUpdatePortfolio(experience)
+        setExperience({
+            position: '',
+            company: '',
+            description: '',
+            from: new Date(),
+            to: new Date(),
+            skills: []
+        })
         handleCloseExperienceModal()
-    }
-
-    const addExperienceSkill = () => {
-        experience.skills.push(experienceSkill)
-        setExperienceSkill("")
-    }
-
-    const addProjectSkill = () => {
-        project.skills.push(experienceSkill)
-        setProjectSkill("")
     }
 
     const getProjectHandler = (name: keyof Project) => {
@@ -61,7 +61,14 @@ function AboutAndExperience(props: {
     };
 
     const handleNewProjectSubmit = async () => {
+        project.skills = projectSkills
         props.addProjectAndUpdatePortfolio(project)
+        setProject({
+            title: '',
+            description: '',
+            skills: []
+        })
+        handleCloseProjectModal()
     }
 
     const handleCloseExperienceModal = () => setShowExperienceModal(false);
@@ -69,6 +76,7 @@ function AboutAndExperience(props: {
 
     const handleCloseProjectModal = () => setShowProjectModal(false);
     const handleShowProjectModal = () => setShowProjectModal(true);
+
     return (
         <div>
             <Modal show={showExperienceModal} onHide={handleCloseExperienceModal}>
@@ -109,20 +117,18 @@ function AboutAndExperience(props: {
 
                             </Row>
 
-                            <Row>
-                                <Form.Label>Skills</Form.Label>
-                                <Col>
-
-                                    <Form.Control
-                                        type="text"
-                                        value={experienceSkill}
-                                        onChange={(event) => setExperienceSkill(event.target.value)}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Button onClick={addExperienceSkill}>Add</Button>
-                                </Col>
-                            </Row>
+                            <Form.Label>Skills</Form.Label>
+                            <Typeahead
+                                id="basic-typeahead-single"
+                                labelKey="name"
+                                multiple
+                                onChange={selected => {
+                                    setExperienceSkills(selected.map(s => s.toString()))
+                                }}
+                                options={getSkills()}
+                                placeholder="Choose a state..."
+                                selected={experienceSkills}
+                            />
 
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea"
@@ -151,25 +157,21 @@ function AboutAndExperience(props: {
                             <Form.Label>Title</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="..."
                                 autoFocus
                                 onChange={getProjectHandler('title')}
                             />
 
-                            <Row>
-                                <Form.Label>Skills</Form.Label>
-                                <Col>
-
-                                    <Form.Control
-                                        type="text"
-                                        value={projectSkill}
-                                        onChange={(event) => setProjectSkill(event.target.value)}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Button onClick={addProjectSkill}>Add</Button>
-                                </Col>
-                            </Row>
+                            <Form.Label>Skills</Form.Label>
+                            <Typeahead
+                                id="basic-typeahead-single"
+                                labelKey="name"
+                                multiple
+                                onChange={selected => {
+                                    setProjectSkills(selected.map(s => s.toString()))
+                                }}
+                                options={getSkills()}
+                                selected={projectSkills}
+                            />
 
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea"
