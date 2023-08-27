@@ -126,7 +126,7 @@ function AboutAndExperience(props: {
                                     setExperienceSkills(selected.map(s => s.toString()))
                                 }}
                                 options={getSkills()}
-                                placeholder="Choose a state..."
+                                placeholder="Choose a skill..."
                                 selected={experienceSkills}
                             />
 
@@ -170,6 +170,7 @@ function AboutAndExperience(props: {
                                     setProjectSkills(selected.map(s => s.toString()))
                                 }}
                                 options={getSkills()}
+                                placeholder="Choose a skill..."
                                 selected={projectSkills}
                             />
 
