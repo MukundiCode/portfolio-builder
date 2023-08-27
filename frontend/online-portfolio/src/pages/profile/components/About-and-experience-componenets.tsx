@@ -6,9 +6,17 @@ import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
 import axios from 'axios';
 
-function AboutAndExperience(props: { expereinceList: Experience[], projectList: Project[], uuid: string, updatePortfolio: (exp: Experience | Project) => void }) {
+function AboutAndExperience(props: {
+    expereinceList: Experience[],
+    projectList: Project[],
+    uuid: string,
+    addExperienceAndUpdatePortfolio: (exp: Experience) => void,
+    addProjectAndUpdatePortfolio: (proj: Project) => void
+}) {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const [experienceSkill, setExperienceSkill] = useState("")
+    const [projectSkill, setProjectSkill] = useState("")
     const [experience, setExperience] = useState<Experience>({
         position: '',
         company: '',
@@ -31,9 +39,19 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
         };
     };
 
-
     const handleNewExperienceSubmit = async () => {
-        props.updatePortfolio(experience)
+        props.addExperienceAndUpdatePortfolio(experience)
+        handleCloseExperienceModal()
+    }
+
+    const addExperienceSkill = () => {
+        experience.skills.push(experienceSkill)
+        setExperienceSkill("")
+    }
+
+    const addProjectSkill = () => {
+        project.skills.push(experienceSkill)
+        setProjectSkill("")
     }
 
     const getProjectHandler = (name: keyof Project) => {
@@ -42,9 +60,8 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
         };
     };
 
-
     const handleNewProjectSubmit = async () => {
-        props.updatePortfolio(project)
+        props.addProjectAndUpdatePortfolio(project)
     }
 
     const handleCloseExperienceModal = () => setShowExperienceModal(false);
@@ -56,7 +73,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
         <div>
             <Modal show={showExperienceModal} onHide={handleCloseExperienceModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Experience/Project</Modal.Title>
+                    <Modal.Title>Add Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -64,7 +81,6 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                             <Form.Label>Position</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Software developer"
                                 autoFocus
                                 onChange={getExperienceHandler('position')}
                             />
@@ -72,7 +88,6 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                             <Form.Label>Company</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="XYZ"
                                 autoFocus
                                 onChange={getExperienceHandler('company')}
                             />
@@ -94,6 +109,21 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
 
                             </Row>
 
+                            <Row>
+                                <Form.Label>Skills</Form.Label>
+                                <Col>
+
+                                    <Form.Control
+                                        type="text"
+                                        value={experienceSkill}
+                                        onChange={(event) => setExperienceSkill(event.target.value)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Button onClick={addExperienceSkill}>Add</Button>
+                                </Col>
+                            </Row>
+
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea"
                                 rows={3}
@@ -113,7 +143,7 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
 
             <Modal show={showProjectModal} onHide={handleCloseProjectModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Experience/Project</Modal.Title>
+                    <Modal.Title>Add Project</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -125,6 +155,21 @@ function AboutAndExperience(props: { expereinceList: Experience[], projectList: 
                                 autoFocus
                                 onChange={getProjectHandler('title')}
                             />
+
+                            <Row>
+                                <Form.Label>Skills</Form.Label>
+                                <Col>
+
+                                    <Form.Control
+                                        type="text"
+                                        value={projectSkill}
+                                        onChange={(event) => setProjectSkill(event.target.value)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Button onClick={addProjectSkill}>Add</Button>
+                                </Col>
+                            </Row>
 
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea"

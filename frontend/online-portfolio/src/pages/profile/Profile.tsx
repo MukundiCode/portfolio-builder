@@ -5,7 +5,6 @@ import AboutAndExperience from './components/About-and-experience-componenets';
 import axios from 'axios';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
-import { json } from 'stream/consumers';
 import { Experience } from '../../types/Experience';
 import { Project } from '../../types/Project';
 
@@ -28,21 +27,20 @@ function Profile() {
             });
     }, [])
 
-    const updatePortfolio = (exp: Experience | Project) => {
-        if (exp instanceof Experience) {
-            axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
-                exp)
-                .then(response => {
-                    setPortfolio(response.data)
-                });
-        } else {
-            axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/project/add',
-                exp)
-                .then(response => {
-                    setPortfolio(response.data)
-                });
-        }
+    const addExperienceAndUpdatePortfolio = (exp: Experience) => {
+        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
+            exp)
+            .then(response => {
+                setPortfolio(response.data)
+            });
+    }
 
+    const addProjectAndUpdatePortfolio = (proj: Project) => {
+        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/project/add',
+            proj)
+            .then(response => {
+                setPortfolio(response.data)
+            });
     }
 
     return (
@@ -58,7 +56,8 @@ function Profile() {
                             expereinceList={portfolio.experienceList}
                             projectList={portfolio.projectList}
                             uuid={portfolio.uuid}
-                            updatePortfolio={updatePortfolio}></AboutAndExperience>
+                            addExperienceAndUpdatePortfolio={addExperienceAndUpdatePortfolio}
+                            addProjectAndUpdatePortfolio={addProjectAndUpdatePortfolio}></AboutAndExperience>
                     </Col>
                 </Row>
             </Container>
