@@ -2,6 +2,8 @@ import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bo
 import { Experience } from '../../../types/Experience';
 
 function ExperienceContainer(props: { experience: Experience }) {
+    let from = new Date(props.experience.from)
+    let to = new Date(props.experience.to)
     return (
         <div className="justify-content-center align-items-center 
                       h-100 w-100  align-middle border rounded  p-3" id="exp-card">
@@ -9,7 +11,7 @@ function ExperienceContainer(props: { experience: Experience }) {
                 <Row >
                     <Col xs={3}>
                         <div>
-                            <p className="font-weight-light" >{props.experience.from.toString()} - {props.experience.to.toString()}</p>
+                            <p className="font-weight-light" ><small>{ from.getFullYear() + "/" + from.getMonth() } - {to.getFullYear() + "/" + to.getMonth() }</small></p>
                         </div>
                     </Col>
                     <Col>

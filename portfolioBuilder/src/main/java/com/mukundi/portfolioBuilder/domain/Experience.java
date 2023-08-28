@@ -1,56 +1,51 @@
 package com.mukundi.portfolioBuilder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Experience {
 
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @Column(nullable = false)
   private String position;
 
+  @Column(nullable = false)
   private String company;
 
+  @Column(nullable = false)
   private String description;
 
-  private LocalDate from;
+  @Column(nullable = false)
+  private LocalDate since;
 
-  private LocalDate to;
+  @Column(nullable = false)
+  private LocalDate until;
 
-  private List<String> skills;
+  @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "experience_skills", joinColumns = @JoinColumn(name = "experience_id"))
+  @Column(nullable = false)
+  private Set<String> skills;
 
-  public static List<Experience> getDemoList() {
-    List<Experience> experienceList = new ArrayList<>();
-    experienceList.add(new Experience("Software Developer",
-            "Some Company",
-            "Some description",
-            LocalDate.now(),
-            LocalDate.now(),
-            List.of("Java", "Spring Boot", "Typescript", "kotlin")));
+  @ManyToOne
+  @JoinColumn(name = "portfolio_id")
+  private Portfolio portfolio;
 
-    experienceList.add(new Experience("Software Developer",
-            "Some Company",
-            "Some description",
-            LocalDate.now(),
-            LocalDate.now(),
-            List.of("Java", "Spring Boot", "Typescript", "kotlin")));
-
-    experienceList.add(new Experience("Software Developer",
-            "Some Company",
-            "Some description",
-            LocalDate.now(),
-            LocalDate.now(),
-            List.of("Java", "Spring Boot", "Typescript", "kotlin")));
-
-    return experienceList;
-  }
 }

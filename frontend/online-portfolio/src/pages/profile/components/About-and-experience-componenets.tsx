@@ -11,7 +11,7 @@ import { getSkills } from '../data/skills';
 function AboutAndExperience(props: {
     expereinceList: Experience[],
     projectList: Project[],
-    uuid: string,
+    id: number | undefined,
     addExperienceAndUpdatePortfolio: (exp: Experience) => void,
     addProjectAndUpdatePortfolio: (proj: Project) => void
 }) {

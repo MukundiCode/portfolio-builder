@@ -2,7 +2,7 @@ import { Experience } from "./Experience";
 import { Project } from "./Project";
 
 export interface Portfolio {
-    uuid: string;
+    id: number | undefined;
     name: string;
     shortIntro: string;
     aboutMe: string;

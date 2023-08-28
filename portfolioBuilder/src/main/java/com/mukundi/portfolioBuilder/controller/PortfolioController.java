@@ -3,6 +3,8 @@ package com.mukundi.portfolioBuilder.controller;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
+import com.mukundi.portfolioBuilder.service.PortfolioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -12,22 +14,27 @@ import java.util.UUID;
 @CrossOrigin("*")
 public class PortfolioController {
 
-  @GetMapping("")
-  public Portfolio getPortfolio(){
-    return Portfolio.portfolios.get(0);
+  @Autowired
+  private PortfolioService portfolioService;
+
+  @GetMapping("/{id}")
+  public Portfolio getPortfolioById(@PathVariable Long id){
+    return portfolioService.getById(id);
   }
 
-  @PostMapping("{uuid}/experience/add")
-  public Portfolio addExperience(@PathVariable UUID uuid, @RequestBody Experience experience){
-    return Portfolio.addExperience(uuid, experience)
-            .orElseThrow(() -> new IllegalArgumentException());
+  @PostMapping("{id}/experience/add")
+  public Portfolio addExperience(@PathVariable Long id, @RequestBody Experience experience){
+    return portfolioService.addExperience(id, experience);
   }
 
-  @PostMapping("{uuid}/project/add")
-  public Portfolio addProject(@PathVariable UUID uuid, @RequestBody Project project){
-    System.out.println("project = " + project);
-    return Portfolio.addProject(uuid, project)
-            .orElseThrow(() -> new IllegalArgumentException());
+  @PostMapping("{id}/project/add")
+  public Portfolio addProject(@PathVariable Long id, @RequestBody Project project){
+    return portfolioService.addProject(id, project);
+  }
+
+  @GetMapping("add")
+  public Portfolio addPortfolio(){
+    return portfolioService.create();
   }
 
 }

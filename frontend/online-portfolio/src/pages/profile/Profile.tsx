@@ -12,7 +12,7 @@ import { Project } from '../../types/Project';
 function Profile() {
 
     const [portfolio, setPortfolio] = useState<Portfolio>({
-        uuid: "",
+        id: undefined,
         name: "",
         shortIntro: "",
         aboutMe: "",
@@ -21,14 +21,14 @@ function Profile() {
     });
 
     useEffect(() => {
-        axios.get<Portfolio>('http://localhost:8080/portfolio')
+        axios.get<Portfolio>('http://localhost:8080/portfolio/1')
             .then(response => {
                 setPortfolio(response.data)
-            });
+            }).catch( err => console.log(err));
     }, [])
 
     const addExperienceAndUpdatePortfolio = (exp: Experience) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/experience/add',
+        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/experience/add',
             exp)
             .then(response => {
                 setPortfolio(response.data)
@@ -36,7 +36,7 @@ function Profile() {
     }
 
     const addProjectAndUpdatePortfolio = (proj: Project) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.uuid + '/project/add',
+        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/project/add',
             proj)
             .then(response => {
                 setPortfolio(response.data)
@@ -55,7 +55,7 @@ function Profile() {
                         <AboutAndExperience
                             expereinceList={portfolio.experienceList}
                             projectList={portfolio.projectList}
-                            uuid={portfolio.uuid}
+                            id={portfolio.id}
                             addExperienceAndUpdatePortfolio={addExperienceAndUpdatePortfolio}
                             addProjectAndUpdatePortfolio={addProjectAndUpdatePortfolio}></AboutAndExperience>
                     </Col>
