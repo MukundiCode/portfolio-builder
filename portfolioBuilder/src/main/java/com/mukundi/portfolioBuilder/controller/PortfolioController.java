@@ -5,6 +5,7 @@ import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
 import com.mukundi.portfolioBuilder.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,12 +23,12 @@ public class PortfolioController {
     return portfolioService.getById(id);
   }
 
-  @PostMapping("{id}/experience/add")
+  @PostMapping(path = "{id}/experience/add" , consumes = MediaType.APPLICATION_JSON_VALUE)
   public Portfolio addExperience(@PathVariable Long id, @RequestBody Experience experience){
     return portfolioService.addExperience(id, experience);
   }
 
-  @PostMapping("{id}/project/add")
+  @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Portfolio addProject(@PathVariable Long id, @RequestBody Project project){
     return portfolioService.addProject(id, project);
   }

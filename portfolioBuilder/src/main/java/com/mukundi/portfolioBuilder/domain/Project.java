@@ -32,6 +32,7 @@ public class Project {
   @Column(name = "project_skills", nullable = false)
   private List<String> skills;
 
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;

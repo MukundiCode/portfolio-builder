@@ -1,11 +1,9 @@
 package com.mukundi.portfolioBuilder.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Experience {
 
   @Id
@@ -44,8 +43,17 @@ public class Experience {
   @Column(nullable = false)
   private Set<String> skills;
 
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "portfolio_id")
   private Portfolio portfolio;
 
+  public Experience(String position, String company, String description, LocalDate since, LocalDate until, Set<String> skills) {
+    this.position = position;
+    this.company = company;
+    this.description = description;
+    this.since = since;
+    this.until = until;
+    this.skills = skills;
+  }
 }

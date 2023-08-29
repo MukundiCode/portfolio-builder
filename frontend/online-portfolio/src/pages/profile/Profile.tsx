@@ -24,12 +24,17 @@ function Profile() {
         axios.get<Portfolio>('http://localhost:8080/portfolio/1')
             .then(response => {
                 setPortfolio(response.data)
-            }).catch( err => console.log(err));
+            }).catch(err => console.log(err));
     }, [])
 
     const addExperienceAndUpdatePortfolio = (exp: Experience) => {
+        console.log(exp)
         axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/experience/add',
-            exp)
+            exp, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
             .then(response => {
                 setPortfolio(response.data)
             });
@@ -37,7 +42,11 @@ function Profile() {
 
     const addProjectAndUpdatePortfolio = (proj: Project) => {
         axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/project/add',
-            proj)
+            proj, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
             .then(response => {
                 setPortfolio(response.data)
             });

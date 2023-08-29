@@ -23,8 +23,8 @@ function AboutAndExperience(props: {
         position: '',
         company: '',
         description: '',
-        from: new Date(),
-        to: new Date(),
+        since: new Date(),
+        until: new Date(),
         skills: []
     });
 
@@ -47,8 +47,8 @@ function AboutAndExperience(props: {
             position: '',
             company: '',
             description: '',
-            from: new Date(),
-            to: new Date(),
+            since: new Date(),
+            until: new Date(),
             skills: []
         })
         handleCloseExperienceModal()
@@ -105,14 +105,14 @@ function AboutAndExperience(props: {
                                     <Form.Control type="date"
                                         name="dob"
                                         placeholder="Start date"
-                                        onChange={getExperienceHandler('from')} />
+                                        onChange={getExperienceHandler('since')} />
                                 </Col>
                                 <Col>
                                     <Form.Label>To</Form.Label>
                                     <Form.Control type="date"
                                         name="dob"
                                         placeholder="End date"
-                                        onChange={getExperienceHandler('to')} />
+                                        onChange={getExperienceHandler('until')} />
                                 </Col>
 
                             </Row>

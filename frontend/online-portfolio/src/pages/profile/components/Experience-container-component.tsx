@@ -2,8 +2,8 @@ import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bo
 import { Experience } from '../../../types/Experience';
 
 function ExperienceContainer(props: { experience: Experience }) {
-    let from = new Date(props.experience.from)
-    let to = new Date(props.experience.to)
+    let from = new Date(props.experience.since)
+    let to = new Date(props.experience.until)
     return (
         <div className="justify-content-center align-items-center 
                       h-100 w-100  align-middle border rounded  p-3" id="exp-card">

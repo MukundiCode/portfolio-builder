@@ -22,14 +22,14 @@ public class PortfolioService {
   }
 
   public Portfolio addExperience(Long id, Experience experience) {
-    Portfolio portfolio = portfolioRepository.getById(id);
+    Portfolio portfolio = portfolioRepository.findById(id).get();
     portfolio.addExperience(experience);
     portfolioRepository.save(portfolio);
     return portfolio;
   }
 
   public Portfolio addProject(Long id, Project project) {
-    Portfolio portfolio = portfolioRepository.getById(id);
+    Portfolio portfolio = portfolioRepository.findById(id).get();
     portfolio.addProject(project);
     portfolioRepository.save(portfolio);
     return portfolio;
