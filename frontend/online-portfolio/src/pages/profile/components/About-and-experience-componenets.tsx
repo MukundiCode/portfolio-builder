@@ -219,7 +219,7 @@ function AboutAndExperience(props: {
                             </Col>
                         </Row>
                         <Stack gap={3}>
-                            {props.expereinceList.map((experience) => <ExperienceContainer experience={experience} ></ExperienceContainer>)}
+                            {props.expereinceList.map((experience, i) => <ExperienceContainer key={i} experience={experience} ></ExperienceContainer>)}
                         </Stack>
                     </div>
 
@@ -235,7 +235,7 @@ function AboutAndExperience(props: {
                             </Col>
                         </Row>
                         <Stack gap={3}>
-                            {props.projectList.map((project) => <ProjectContainer project={project}></ProjectContainer>)}
+                            {props.projectList.map((project, i) => <ProjectContainer key={i} project={project}></ProjectContainer>)}
                         </Stack>
                     </div>
 

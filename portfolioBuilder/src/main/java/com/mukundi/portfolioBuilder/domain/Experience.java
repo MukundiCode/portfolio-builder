@@ -17,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @ToString
+@EqualsAndHashCode
 public class Experience {
 
   @Id
@@ -45,7 +46,7 @@ public class Experience {
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "portfolio_id")
+  @JoinColumn(name = "portfolio_id", nullable = false)
   private Portfolio portfolio;
 
   public Experience(String position, String company, String description, LocalDate since, LocalDate until, Set<String> skills) {
