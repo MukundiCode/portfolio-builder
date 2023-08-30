@@ -7,6 +7,7 @@ import { Project } from '../../../types/Project';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { getSkills } from '../data/skills';
+import * as Icon from 'react-bootstrap-icons';
 
 function AboutAndExperience(props: {
     id: number | undefined,
@@ -22,6 +23,7 @@ function AboutAndExperience(props: {
     const [showAboutMeModal, setShowAboutMeModal] = useState(false);
     const [experienceSkills, setExperienceSkills] = useState<string[]>([])
     const [projectSkills, setProjectSkills] = useState<string[]>([])
+    const [aboutMe, setAboutMe] = useState<string>("")
     const [experience, setExperience] = useState<Experience>({
         position: '',
         company: '',
@@ -72,6 +74,11 @@ function AboutAndExperience(props: {
             skills: []
         })
         handleCloseProjectModal()
+    }
+
+    const handleEditAboutMeSubmit = async () => {
+        props.editAboutMe(aboutMe)
+        handleCloseAboutMeModal()
     }
 
     const handleCloseExperienceModal = () => setShowExperienceModal(false);
@@ -197,26 +204,25 @@ function AboutAndExperience(props: {
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={showAboutMeModal} onHide={handleCloseProjectModal}>
+            <Modal show={showAboutMeModal} onHide={handleCloseAboutMeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit About Me</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            {/* <Form.Label>Description</Form.Label> */}
                             <Form.Control as="textarea"
                                 rows={3}
-                                value={props.aboutMe}
-                                onChange={getProjectHandler('description')} />
+                                placeholder={props.aboutMe}
+                                onChange={(e) => setAboutMe(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseProjectModal}>
+                    <Button variant="secondary" onClick={handleCloseAboutMeModal}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleNewProjectSubmit}>
+                    <Button variant="primary" onClick={handleEditAboutMeSubmit}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
@@ -229,7 +235,12 @@ function AboutAndExperience(props: {
 
                     <div>
                         <h5>
-                            About Me <Button onClick={ () => handleShowAboutMeModal() }>Edit</Button>
+                            <Stack direction='horizontal' gap={3}>
+                                <div>
+                                    About Me
+                                </div>
+                                <Icon.PencilFill role='button' onClick={() => handleShowAboutMeModal()}></Icon.PencilFill>
+                            </Stack>
                         </h5>
                         <p>
                             {props.aboutMe}
@@ -239,11 +250,22 @@ function AboutAndExperience(props: {
                     <div>
                         <Row>
                             <Col>
-                                <h5>Experience</h5>
+
+                                <h5>
+                                    <Stack direction='horizontal' gap={3}>
+                                        <div>
+                                            Experience
+                                        </div>
+                                        <Icon.PlusSquareDotted role='button' onClick={handleShowExperienceModal} ></Icon.PlusSquareDotted>
+                                    </Stack>
+                                </h5>
+
+
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>
-                                    <Button variant='light' className='new-section-element-button' onClick={handleShowExperienceModal}>+</Button>
+                                    {/* <Button variant='light' className='new-section-element-button' onClick={handleShowExperienceModal}>+</Button> */}
+
                                 </div>
                             </Col>
                         </Row>
@@ -255,11 +277,19 @@ function AboutAndExperience(props: {
                     <div className='mt-3'>
                         <Row>
                             <Col>
-                                <h5>Projects</h5>
+                                {/* <h5>Projects</h5> */}
+                                <h5>
+                                    <Stack direction='horizontal' gap={3}>
+                                        <div>
+                                        Projects
+                                        </div>
+                                        <Icon.PlusSquareDotted role='button' onClick={handleShowProjectModal} ></Icon.PlusSquareDotted>
+                                    </Stack>
+                                </h5>
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>
-                                    <Button variant='light' className='new-section-element-button' onClick={handleShowProjectModal}>+</Button>
+                                    {/* <Button variant='light' className='new-section-element-button' onClick={handleShowProjectModal}>+</Button> */}
                                 </div>
                             </Col>
                         </Row>
