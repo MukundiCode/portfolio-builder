@@ -21,7 +21,6 @@ public class PortfolioService {
   @Transactional
   public Portfolio getById(Long id){
     Portfolio portfolio = portfolioRepository.findById(id).get();
-    System.out.println("portfolio = " + portfolio);
     return portfolio;
   }
 
@@ -49,8 +48,16 @@ public class PortfolioService {
             "Mukundi Chitamba",
             "Some intro",
             "Some about me ",
-            new HashSet<Experience>(),
-            new HashSet<Project>());
+            new HashSet<>(),
+            new HashSet<>());
     return portfolioRepository.save(portfolio);
+  }
+
+  @Transactional
+  public Portfolio editAboutMe(Long id, String aboutMe) {
+    Portfolio portfolio = portfolioRepository.findById(id).get();
+    portfolio.setAboutMe(aboutMe);
+    portfolioRepository.save(portfolio);
+    return portfolio;
   }
 }

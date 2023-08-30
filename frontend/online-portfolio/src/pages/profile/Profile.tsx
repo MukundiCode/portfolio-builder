@@ -52,6 +52,18 @@ function Profile() {
             });
     }
 
+    const editAboutMe = (aboutMe: string) => {
+        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/aboutMe/edit',
+            aboutMe, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => {
+                setPortfolio(response.data)
+            });
+    }
+
     return (
         <div>
             <Container fluid className='w-75'>
@@ -62,11 +74,13 @@ function Profile() {
 
                     <Col>
                         <AboutAndExperience
+                            id={portfolio.id}
                             expereinceList={portfolio.experienceList}
                             projectList={portfolio.projectList}
-                            id={portfolio.id}
+                            aboutMe={portfolio.aboutMe}
                             addExperienceAndUpdatePortfolio={addExperienceAndUpdatePortfolio}
-                            addProjectAndUpdatePortfolio={addProjectAndUpdatePortfolio}></AboutAndExperience>
+                            addProjectAndUpdatePortfolio={addProjectAndUpdatePortfolio}
+                            editAboutMe={editAboutMe}></AboutAndExperience>
                     </Col>
                 </Row>
             </Container>

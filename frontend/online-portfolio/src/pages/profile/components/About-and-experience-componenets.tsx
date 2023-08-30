@@ -9,14 +9,17 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { getSkills } from '../data/skills';
 
 function AboutAndExperience(props: {
+    id: number | undefined,
     expereinceList: Experience[],
     projectList: Project[],
-    id: number | undefined,
+    aboutMe: string,
     addExperienceAndUpdatePortfolio: (exp: Experience) => void,
-    addProjectAndUpdatePortfolio: (proj: Project) => void
+    addProjectAndUpdatePortfolio: (proj: Project) => void,
+    editAboutMe: (aboutMe: string) => void
 }) {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showAboutMeModal, setShowAboutMeModal] = useState(false);
     const [experienceSkills, setExperienceSkills] = useState<string[]>([])
     const [projectSkills, setProjectSkills] = useState<string[]>([])
     const [experience, setExperience] = useState<Experience>({
@@ -76,6 +79,9 @@ function AboutAndExperience(props: {
 
     const handleCloseProjectModal = () => setShowProjectModal(false);
     const handleShowProjectModal = () => setShowProjectModal(true);
+
+    const handleCloseAboutMeModal = () => setShowAboutMeModal(false);
+    const handleShowAboutMeModal = () => setShowAboutMeModal(true);
 
     return (
         <div>
@@ -191,6 +197,31 @@ function AboutAndExperience(props: {
                 </Modal.Footer>
             </Modal>
 
+            <Modal show={showAboutMeModal} onHide={handleCloseProjectModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit About Me</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            {/* <Form.Label>Description</Form.Label> */}
+                            <Form.Control as="textarea"
+                                rows={3}
+                                value={props.aboutMe}
+                                onChange={getProjectHandler('description')} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseProjectModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleNewProjectSubmit}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
 
             <div className='d-flex justify-content-center mt-4 pt-5'>
                 <div className="justify-content-center align-items-center 
@@ -198,12 +229,10 @@ function AboutAndExperience(props: {
 
                     <div>
                         <h5>
-                            About Me
+                            About Me <Button onClick={ () => handleShowAboutMeModal() }>Edit</Button>
                         </h5>
                         <p>
-                            Professional Software Developer with a passion for delivering reliable software solutions.
-                            Professional Software Developer with a passion for delivering reliable
-                            software solutions. Professional Software Developer with a passion for delivering reliable software solutions. Professional Software Developer with a passion for delivering reliable software solutions
+                            {props.aboutMe}
                         </p>
                     </div>
 

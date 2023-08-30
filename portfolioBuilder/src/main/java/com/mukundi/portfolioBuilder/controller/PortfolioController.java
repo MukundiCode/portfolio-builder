@@ -33,6 +33,11 @@ public class PortfolioController {
     return portfolioService.addProject(id, project);
   }
 
+  @PostMapping(path = "{id}/aboutMe/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Portfolio editAboutMe(@PathVariable Long id, @RequestBody String aboutMe){
+    return portfolioService.editAboutMe(id, aboutMe);
+  }
+
   @GetMapping("add")
   public Portfolio addPortfolio(){
     return portfolioService.create();
