@@ -7,10 +7,10 @@ function ProjectContainer(props: { project: Project }) {
         <div className="justify-content-center align-items-center 
                       h-100 w-100  align-middle border rounded  p-3" id="exp-card">
             <div>
-                <h6> {props.project.title} </h6>
-                <p>
-                    {props.project.description}
-                </p>
+                <h6 className="text-break"> {props.project.title} </h6>
+                    <p className="text-break">
+                        {props.project.description}
+                    </p>
                 <div className='d-flex flex-wrap'>
                     {props.project.skills.map((skill) => {
                         return <Badge className='m-1' pill bg="secondary "> {skill} </Badge>
@@ -19,7 +19,6 @@ function ProjectContainer(props: { project: Project }) {
             </div>
         </div>
     )
-
 }
 
 export default ProjectContainer;

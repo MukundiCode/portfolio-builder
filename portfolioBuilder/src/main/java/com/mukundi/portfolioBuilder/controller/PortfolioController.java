@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,12 +25,22 @@ public class PortfolioController {
   }
 
   @PostMapping(path = "{id}/experience/add" , consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Portfolio addExperience(@PathVariable Long id, @RequestBody Experience experience){
+  public Experience addExperience(@PathVariable Long id, @RequestBody Experience experience){
     return portfolioService.addExperience(id, experience);
   }
 
+  @GetMapping(path = "{id}/experience/all")
+  public List<Experience> getAllExperiences(@PathVariable Long id){
+    return portfolioService.getAllExperiencesById(id);
+  }
+
+  @GetMapping(path = "{id}/project/all")
+  public List<Project> getAllProjects(@PathVariable Long id){
+    return portfolioService.getAllProjectsById(id);
+  }
+
   @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Portfolio addProject(@PathVariable Long id, @RequestBody Project project){
+  public Project addProject(@PathVariable Long id, @RequestBody Project project){
     return portfolioService.addProject(id, project);
   }
 
