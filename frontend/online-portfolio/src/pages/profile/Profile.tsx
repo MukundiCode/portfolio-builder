@@ -20,10 +20,13 @@ function Profile() {
         projectList: []
     });
 
+    const [isPortfolioReady, setIsPortfolioReady] = useState<boolean>(false)
+
     useEffect(() => {
         axios.get<Portfolio>('http://localhost:8080/portfolio/1')
             .then(response => {
                 setPortfolio(response.data)
+                setIsPortfolioReady(true)
             }).catch(err => console.log(err));
     }, [])
 
@@ -66,7 +69,7 @@ function Profile() {
 
     return (
         <div>
-            <Container fluid className='w-75'>
+            { isPortfolioReady && <Container fluid className='w-75'>
                 <Row>
                     <Col xs={5}>
                         <NameAndLinks name={portfolio.name}></NameAndLinks>
@@ -83,7 +86,7 @@ function Profile() {
                             editAboutMe={editAboutMe}></AboutAndExperience>
                     </Col>
                 </Row>
-            </Container>
+            </Container>}
         </div>
     );
 }

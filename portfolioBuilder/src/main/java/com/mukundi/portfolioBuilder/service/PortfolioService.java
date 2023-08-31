@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -25,12 +28,12 @@ public class PortfolioService {
   }
 
   @Transactional
-  public Portfolio addExperience(Long id, Experience experience) {
+  public Experience addExperience(Long id, Experience experience) {
     Portfolio portfolio = portfolioRepository.findById(id).get();
     experience.setPortfolio(portfolio);
     portfolio.addExperience(experience);
     portfolioRepository.save(portfolio);
-    return portfolio;
+    return experience;
   }
 
   @Transactional
@@ -59,5 +62,9 @@ public class PortfolioService {
     portfolio.setAboutMe(aboutMe);
     portfolioRepository.save(portfolio);
     return portfolio;
+  }
+
+  public List<Experience> getAllExperiencesById(Long id) {
+    return new ArrayList<>(portfolioRepository.findById(id).get().getExperienceList());
   }
 }
