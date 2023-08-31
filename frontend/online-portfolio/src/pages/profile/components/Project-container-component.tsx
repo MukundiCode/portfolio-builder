@@ -19,7 +19,6 @@ function ProjectContainer(props: { project: Project }) {
             </div>
         </div>
     )
-
 }
 
 export default ProjectContainer;

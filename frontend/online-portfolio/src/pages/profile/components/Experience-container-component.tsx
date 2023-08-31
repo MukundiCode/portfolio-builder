@@ -1,5 +1,6 @@
 import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bootstrap';
 import { Experience } from '../../../types/Experience';
+import * as Icon from 'react-bootstrap-icons';
 
 function ExperienceContainer(props: { experience: Experience }) {
     let from = new Date(props.experience.since)
@@ -16,7 +17,23 @@ function ExperienceContainer(props: { experience: Experience }) {
                     </Col>
                     <Col>
                         <div>
-                            <h6 className="text-break">{props.experience.position}: {props.experience.company}</h6>
+                            <Row>
+                                <Col>
+                                    <h6 className="text-break">{props.experience.position}: {props.experience.company}</h6>
+                                </Col>
+                                <Col className='d-flex justify-content-end'>
+                                <div className="dropdown">
+                                    <Icon.ThreeDotsVertical role='button' className='dropdown-toggle' id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></Icon.ThreeDotsVertical>
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <button className="dropdown-item" type="button">Action</button>
+                                        <button className="dropdown-item" type="button">Another action</button>
+                                        <button className="dropdown-item" type="button">Something else here</button>
+                                    </div>
+                                    </div>
+                                </Col>
+
+                            </Row>
+
                             <p className="text-break">
                                 {props.experience.description}
                             </p>
