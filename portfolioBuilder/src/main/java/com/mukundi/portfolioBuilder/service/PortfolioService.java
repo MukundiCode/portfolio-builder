@@ -37,12 +37,12 @@ public class PortfolioService {
   }
 
   @Transactional
-  public Portfolio addProject(Long id, Project project) {
+  public Project addProject(Long id, Project project) {
     Portfolio portfolio = portfolioRepository.findById(id).get();
     project.setPortfolio(portfolio);
     portfolio.addProject(project);
     portfolioRepository.save(portfolio);
-    return portfolio;
+    return project;
   }
 
   @Transactional
@@ -66,5 +66,9 @@ public class PortfolioService {
 
   public List<Experience> getAllExperiencesById(Long id) {
     return new ArrayList<>(portfolioRepository.findById(id).get().getExperienceList());
+  }
+
+  public List<Project> getAllProjectsById(Long id) {
+    return new ArrayList<>(portfolioRepository.findById(id).get().getProjectList());
   }
 }

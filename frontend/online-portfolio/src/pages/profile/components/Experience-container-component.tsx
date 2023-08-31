@@ -11,13 +11,13 @@ function ExperienceContainer(props: { experience: Experience }) {
                 <Row >
                     <Col xs={3}>
                         <div>
-                            <p className="font-weight-light" ><small>{ from.getFullYear() + "/" + from.getMonth() } - {to.getFullYear() + "/" + to.getMonth() }</small></p>
+                            <p className="font-weight-light" ><small>{from.getFullYear() + "/" + from.getMonth()} - {to.getFullYear() + "/" + to.getMonth()}</small></p>
                         </div>
                     </Col>
                     <Col>
                         <div>
-                            <h6>{props.experience.position}: {props.experience.company}</h6>
-                            <p>
+                            <h6 className="text-break">{props.experience.position}: {props.experience.company}</h6>
+                            <p className="text-break">
                                 {props.experience.description}
                             </p>
                             <div>

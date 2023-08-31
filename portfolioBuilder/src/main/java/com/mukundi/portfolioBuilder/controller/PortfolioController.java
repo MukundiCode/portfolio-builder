@@ -30,12 +30,17 @@ public class PortfolioController {
   }
 
   @GetMapping(path = "{id}/experience/all")
-  public List<Experience> addExperience(@PathVariable Long id){
+  public List<Experience> getAllExperiences(@PathVariable Long id){
     return portfolioService.getAllExperiencesById(id);
   }
 
+  @GetMapping(path = "{id}/project/all")
+  public List<Project> getAllProjects(@PathVariable Long id){
+    return portfolioService.getAllProjectsById(id);
+  }
+
   @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Portfolio addProject(@PathVariable Long id, @RequestBody Project project){
+  public Project addProject(@PathVariable Long id, @RequestBody Project project){
     return portfolioService.addProject(id, project);
   }
 

@@ -30,31 +30,6 @@ function Profile() {
             }).catch(err => console.log(err));
     }, [])
 
-    const addExperienceAndUpdatePortfolio = (exp: Experience) => {
-        console.log(exp)
-        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/experience/add',
-            exp, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(response => {
-                setPortfolio(response.data)
-            });
-    }
-
-    const addProjectAndUpdatePortfolio = (proj: Project) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/project/add',
-            proj, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(response => {
-                setPortfolio(response.data)
-            });
-    }
-
     const editAboutMe = (aboutMe: string) => {
         axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/aboutMe/edit',
             aboutMe, {
@@ -78,11 +53,7 @@ function Profile() {
                     <Col>
                         <AboutAndExperience
                             id={portfolio.id}
-                            expereinceList={portfolio.experienceList}
-                            projectList={portfolio.projectList}
                             aboutMe={portfolio.aboutMe}
-                            addExperienceAndUpdatePortfolio={addExperienceAndUpdatePortfolio}
-                            addProjectAndUpdatePortfolio={addProjectAndUpdatePortfolio}
                             editAboutMe={editAboutMe}></AboutAndExperience>
                     </Col>
                 </Row>
