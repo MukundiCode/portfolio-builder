@@ -1,4 +1,4 @@
-import { Badge, Button, Col, Container, Row, Stack, Modal, Form } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Row, Stack, Modal, Form, Dropdown } from 'react-bootstrap';
 import { Experience } from '../../../types/Experience';
 import * as Icon from 'react-bootstrap-icons';
 
@@ -18,18 +18,21 @@ function ExperienceContainer(props: { experience: Experience }) {
                     <Col>
                         <div>
                             <Row>
-                                <Col>
+                                <Col xs={10}>
                                     <h6 className="text-break">{props.experience.position}: {props.experience.company}</h6>
                                 </Col>
                                 <Col className='d-flex justify-content-end'>
-                                <div className="dropdown">
-                                    <Icon.ThreeDotsVertical role='button' className='dropdown-toggle' id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></Icon.ThreeDotsVertical>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button className="dropdown-item" type="button">Action</button>
-                                        <button className="dropdown-item" type="button">Another action</button>
-                                        <button className="dropdown-item" type="button">Something else here</button>
-                                    </div>
-                                    </div>
+                                    <Dropdown>
+                                        <Dropdown.Toggle as={Icon.ThreeDotsVertical} role='button' id="dropdown-basic">
+                                            {/* <Icon.ThreeDotsVertical></Icon.ThreeDotsVertical> */}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </Col>
 
                             </Row>
