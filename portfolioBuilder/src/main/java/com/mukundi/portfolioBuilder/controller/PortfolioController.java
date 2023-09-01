@@ -6,6 +6,7 @@ import com.mukundi.portfolioBuilder.domain.Project;
 import com.mukundi.portfolioBuilder.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,12 @@ public class PortfolioController {
     return portfolioService.getAllExperiencesById(id);
   }
 
+  @DeleteMapping("{portfolioId}/experience/{experienceId}/delete")
+  public ResponseEntity deleteExperience(@PathVariable Long portfolioId, @PathVariable Long experienceId){
+    portfolioService.deleteExperience(portfolioId, experienceId);
+    return ResponseEntity.ok().build();
+  }
+
   @GetMapping(path = "{id}/project/all")
   public List<Project> getAllProjects(@PathVariable Long id){
     return portfolioService.getAllProjectsById(id);
@@ -42,6 +49,12 @@ public class PortfolioController {
   @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Project addProject(@PathVariable Long id, @RequestBody Project project){
     return portfolioService.addProject(id, project);
+  }
+
+  @DeleteMapping("{portfolioId}/project/{projectId}/delete")
+  public ResponseEntity deleteProject(@PathVariable Long portfolioId, @PathVariable Long projectId){
+    portfolioService.deleteProject(portfolioId, projectId);
+    return ResponseEntity.ok().build();
   }
 
   @PostMapping(path = "{id}/aboutMe/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
