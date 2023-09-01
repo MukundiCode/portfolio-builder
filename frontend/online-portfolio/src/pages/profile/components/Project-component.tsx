@@ -16,6 +16,7 @@ function ProjectListComponent(props: {
     const [showProjectModal, setShowProjectModal] = useState(false);
 
     const [project, setProject] = useState<Project>({
+        id: undefined,
         title: '',
         description: '',
         skills: []
@@ -49,12 +50,22 @@ function ProjectListComponent(props: {
             });
 
         setProject({
+            id: undefined,
             title: '',
             description: '',
             skills: []
         })
         handleCloseProjectModal()
     }
+
+    const handleDeleteProject = async (id: number | undefined) => {
+        project.skills = projectSkills
+        axios.delete('http://localhost:8080/portfolio/' + props.portfolioId + '/project/' + id + '/delete')
+            .then(response => {
+                setProjectList((prev) => [...prev.filter(item => item.id !== id)])
+            });
+    }
+
 
     const handleCloseProjectModal = () => setShowProjectModal(false);
     const handleShowProjectModal = () => setShowProjectModal(true);
@@ -123,7 +134,7 @@ function ProjectListComponent(props: {
                 </Col>
             </Row>
             <Stack gap={3}>
-                {projectList.map((project, i) => <ProjectContainer key={i} project={project}></ProjectContainer>)}
+                {projectList.map((project, i) => <ProjectContainer handleDelete={handleDeleteProject} key={i} project={project}></ProjectContainer>)}
             </Stack>
         </div>
     )

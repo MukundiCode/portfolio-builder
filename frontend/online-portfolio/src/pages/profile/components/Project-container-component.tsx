@@ -2,7 +2,10 @@ import { Badge, Button, Col, Container, Row, Stack, Modal, Form, Dropdown } from
 import { Project } from '../../../types/Project';
 import * as Icon from 'react-bootstrap-icons';
 
-function ProjectContainer(props: { project: Project }) {
+function ProjectContainer(props: {
+    project: Project,
+    handleDelete: (id: number | undefined) => void
+}) {
 
     return (
         <div className="justify-content-center align-items-center 
@@ -19,7 +22,7 @@ function ProjectContainer(props: { project: Project }) {
 
                             <Dropdown.Menu>
                                 <Dropdown.Item href="#/action-1">Edit <Icon.PencilFill></Icon.PencilFill></Dropdown.Item>
-                                <Dropdown.Item href="#/action-2" className="text-danger">Delete <Icon.Trash3></Icon.Trash3> </Dropdown.Item>
+                                <Dropdown.Item onClick={() => props.handleDelete(props.project.id)} className="text-danger">Delete <Icon.Trash3></Icon.Trash3> </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
