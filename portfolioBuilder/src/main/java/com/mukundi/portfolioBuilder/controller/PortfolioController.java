@@ -6,6 +6,7 @@ import com.mukundi.portfolioBuilder.domain.Project;
 import com.mukundi.portfolioBuilder.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public class PortfolioController {
   @GetMapping(path = "{id}/experience/all")
   public List<Experience> getAllExperiences(@PathVariable Long id){
     return portfolioService.getAllExperiencesById(id);
+  }
+
+  @DeleteMapping("{portfolioId}/experience/{experienceId}/delete")
+  public ResponseEntity deleteExperience(@PathVariable Long portfolioId, @PathVariable Long experienceId){
+    portfolioService.deleteExperience(portfolioId, experienceId);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping(path = "{id}/project/all")

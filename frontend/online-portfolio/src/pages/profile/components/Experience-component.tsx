@@ -15,6 +15,7 @@ function ExperienceListComponent(props: {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [experienceSkills, setExperienceSkills] = useState<string[]>([]);
     const [experience, setExperience] = useState<Experience>({
+        id: undefined,
         position: '',
         company: '',
         description: '',
@@ -45,12 +46,11 @@ function ExperienceListComponent(props: {
             }
         })
             .then(response => {
-                console.log(response.data)
                 setExperienceList(expereinceList => [response.data, ...expereinceList])
             });
 
-
         setExperience({
+            id: undefined,
             position: '',
             company: '',
             description: '',
@@ -59,6 +59,14 @@ function ExperienceListComponent(props: {
             skills: []
         })
         handleCloseExperienceModal()
+    }
+
+    const handleDeleteExperience = async (id: number | undefined) => {
+        experience.skills = experienceSkills
+        axios.delete('http://localhost:8080/portfolio/' + props.portfolioId + '/experience/' + id + '/delete')
+            .then(response => {
+                setExperienceList((prev) => [...prev.filter(item => item.id !== id)])
+            });
     }
 
     const handleCloseExperienceModal = () => setShowExperienceModal(false);
@@ -77,14 +85,14 @@ function ExperienceListComponent(props: {
                             <Form.Label>Position</Form.Label>
                             <Form.Control
                                 type="text"
-                                autoFocus
+                                // autoFocus
                                 onChange={getExperienceHandler('position')}
                             />
 
                             <Form.Label>Company</Form.Label>
                             <Form.Control
                                 type="text"
-                                autoFocus
+                                // autoFocus
                                 onChange={getExperienceHandler('company')}
                             />
                             <Row>
@@ -154,7 +162,7 @@ function ExperienceListComponent(props: {
                 </Col>
             </Row>
             <Stack gap={3}>
-                {expereinceList.map((experience, i) => <ExperienceContainer key={i} experience={experience} ></ExperienceContainer>)}
+                {expereinceList.map((experience, i) => <ExperienceContainer key={i} experience={experience} handleDelete={handleDeleteExperience}></ExperienceContainer>)}
             </Stack>
         </div>
     )

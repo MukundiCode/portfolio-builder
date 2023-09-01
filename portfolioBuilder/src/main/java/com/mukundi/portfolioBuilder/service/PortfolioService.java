@@ -3,6 +3,7 @@ package com.mukundi.portfolioBuilder.service;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
+import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class PortfolioService {
   @Autowired
   private PortfolioRepository portfolioRepository;
 
+  @Autowired
+  private ExperienceRepository experienceRepository;
+
   @Transactional
   public Portfolio getById(Long id){
     Portfolio portfolio = portfolioRepository.findById(id).get();
@@ -31,9 +35,7 @@ public class PortfolioService {
   public Experience addExperience(Long id, Experience experience) {
     Portfolio portfolio = portfolioRepository.findById(id).get();
     experience.setPortfolio(portfolio);
-    portfolio.addExperience(experience);
-    portfolioRepository.save(portfolio);
-    return experience;
+    return experienceRepository.save(experience);
   }
 
   @Transactional
@@ -64,11 +66,18 @@ public class PortfolioService {
     return portfolio;
   }
 
+  @Transactional
   public List<Experience> getAllExperiencesById(Long id) {
     return new ArrayList<>(portfolioRepository.findById(id).get().getExperienceList());
   }
 
+  @Transactional
   public List<Project> getAllProjectsById(Long id) {
     return new ArrayList<>(portfolioRepository.findById(id).get().getProjectList());
+  }
+
+  @Transactional
+  public void deleteExperience(Long portfolioId, Long experienceId) {
+    experienceRepository.deleteById(experienceId);
   }
 }

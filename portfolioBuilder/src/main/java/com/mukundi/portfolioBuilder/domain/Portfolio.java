@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -44,6 +45,13 @@ public class Portfolio {
 
   public void addExperience(Experience experience){
     experienceList.add(experience);
+  }
+
+  public void deleteExperience(Long id){
+    experienceList = experienceList
+            .stream()
+            .filter(exp -> exp.getId().equals(id))
+            .collect(Collectors.toSet());
   }
 
   public void addProject(Project project){
