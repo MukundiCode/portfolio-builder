@@ -3,18 +3,18 @@ package com.mukundi.portfolioBuilder.service;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
+import com.mukundi.portfolioBuilder.domain.Person;
 import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import com.mukundi.portfolioBuilder.repository.ProjectRepository;
+import com.mukundi.portfolioBuilder.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -28,6 +28,9 @@ public class PortfolioService {
 
   @Autowired
   private ProjectRepository projectRepository;
+
+  @Autowired
+  private PersonRepository personRepository;
 
   @Transactional
   public Portfolio getById(Long id){
@@ -49,16 +52,16 @@ public class PortfolioService {
     return projectRepository.save(project);
   }
 
-  @Transactional
-  public Portfolio create() {
-    Portfolio portfolio = new Portfolio(null,
-            "Mukundi Chitamba",
-            "Some intro",
-            "Some about me ",
-            new HashSet<>(),
-            new HashSet<>());
-    return portfolioRepository.save(portfolio);
-  }
+//  @Transactional
+//  public Portfolio create() {
+//    Portfolio portfolio = new Portfolio(null,
+//            "Mukundi Chitamba",
+//            "Some intro",
+//            "Some about me ",
+//            new HashSet<>(),
+//            new HashSet<>());
+//    return portfolioRepository.save(portfolio);
+//  }
 
   @Transactional
   public Portfolio editAboutMe(Long id, String aboutMe) {
@@ -66,6 +69,15 @@ public class PortfolioService {
     portfolio.setAboutMe(aboutMe);
     portfolioRepository.save(portfolio);
     return portfolio;
+  }
+
+  @Transactional
+  public Portfolio editName(Long id, String name) {
+    Portfolio portfolio = portfolioRepository.findById(id).get();
+    portfolio.setName(name);
+    portfolioRepository.save(portfolio);
+    return portfolio;
+
   }
 
   @Transactional
@@ -90,4 +102,12 @@ public class PortfolioService {
   public void deleteProject(Long portfolioId, Long projectId) {
     projectRepository.deleteById(projectId);
   }
+
+  public Person createUser(String username) {
+    Person user = new Person(username);
+    Portfolio portfolio = new Portfolio();
+    user.setPortfolio(portfolio);
+    return personRepository.save(user);
+  }
+
 }

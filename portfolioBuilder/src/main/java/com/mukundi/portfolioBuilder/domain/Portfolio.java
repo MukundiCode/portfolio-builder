@@ -4,10 +4,10 @@ package com.mukundi.portfolioBuilder.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -22,26 +22,27 @@ public class Portfolio {
   @GeneratedValue
   private Long id;
 
-  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
   private String shortIntro;
 
-  @Column(nullable = false)
   private String aboutMe;
 
   @JsonManagedReference
   @OneToMany(
           cascade = CascadeType.ALL,
           mappedBy = "portfolio")
-  private Set<Experience> experienceList;
+  private Set<Experience> experienceList = new HashSet<>();
 
   @JsonManagedReference
   @OneToMany(
           cascade = CascadeType.ALL,
           mappedBy = "portfolio")
-  private Set<Project> projectList;
+  private Set<Project> projectList = new HashSet<>();
+
+  @JsonIgnore
+  @OneToOne(mappedBy = "portfolio")
+  private Person person;
 
   public void addExperience(Experience experience){
     experienceList.add(experience);

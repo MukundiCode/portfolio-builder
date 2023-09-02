@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Archivo+Black');
+@import url('https://fonts.googleapis.com/css?family=Alata');
 
 .App {
   text-align: center;
@@ -33,6 +34,11 @@
 .name-font {
   font-family: 'Archivo Black';
 }
+
+.home-font {
+  font-family: 'Alata';
+}
+
 
 .new-section-element-button {
   color: #000000;
