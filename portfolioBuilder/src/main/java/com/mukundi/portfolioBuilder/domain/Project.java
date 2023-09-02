@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -30,7 +28,7 @@ public class Project {
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
   @CollectionTable(name = "project_skills", joinColumns = @JoinColumn(name = "project_id"))
   @Column(name = "project_skills", nullable = false)
-  private List<String> skills;
+  private Set<String> skills = new HashSet<>();
 
   @JsonIgnore
   @ManyToOne

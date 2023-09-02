@@ -5,8 +5,8 @@ import AboutAndExperience from './components/About-and-experience-componenets';
 import axios from 'axios';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
-import { Experience } from '../../types/Experience';
-import { Project } from '../../types/Project';
+import { useParams } from 'react-router-dom';
+import { Person } from '../../types/Person';
 
 
 function Profile() {
@@ -22,10 +22,13 @@ function Profile() {
 
     const [isPortfolioReady, setIsPortfolioReady] = useState<boolean>(false)
 
+    const params = useParams<{username : string}>();
+
     useEffect(() => {
-        axios.get<Portfolio>('http://localhost:8080/portfolio/1')
+        console.log(params)
+        axios.get<Person>('http://localhost:8080/' + params.username)
             .then(response => {
-                setPortfolio(response.data)
+                setPortfolio(response.data.portfolio)
                 setIsPortfolioReady(true)
             }).catch(err => console.log(err));
     }, [])

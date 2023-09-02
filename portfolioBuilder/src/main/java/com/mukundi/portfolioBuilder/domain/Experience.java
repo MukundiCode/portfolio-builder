@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class Experience {
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
   @CollectionTable(name = "experience_skills", joinColumns = @JoinColumn(name = "experience_id"))
   @Column(nullable = false)
-  private Set<String> skills;
+  private Set<String> skills = new HashSet<>();
 
   @JsonIgnore
   @ManyToOne

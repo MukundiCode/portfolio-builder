@@ -1,7 +1,8 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Profile from './pages/profile/Profile';
+import HomePage from './pages/home/HomePage';
 
 function App() {
   return (
@@ -9,8 +10,11 @@ function App() {
       <div>
         <div>
           <Switch>
-            <Route exact path="/">
+            <Route path="/:username">
               <Profile />
+            </Route>
+            <Route exact path="/">
+              <HomePage></HomePage>
             </Route>
           </Switch>
         </div>
