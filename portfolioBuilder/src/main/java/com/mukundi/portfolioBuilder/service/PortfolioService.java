@@ -72,6 +72,15 @@ public class PortfolioService {
   }
 
   @Transactional
+  public Portfolio editName(Long id, String name) {
+    Portfolio portfolio = portfolioRepository.findById(id).get();
+    portfolio.setName(name);
+    portfolioRepository.save(portfolio);
+    return portfolio;
+
+  }
+
+  @Transactional
   public List<Experience> getAllExperiencesById(Long id) {
     return new ArrayList<>(portfolioRepository.findById(id).get().getExperienceList());
   }
@@ -100,4 +109,5 @@ public class PortfolioService {
     user.setPortfolio(portfolio);
     return personRepository.save(user);
   }
+
 }

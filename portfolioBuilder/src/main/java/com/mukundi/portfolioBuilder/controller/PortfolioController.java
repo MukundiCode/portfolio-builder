@@ -65,10 +65,13 @@ public class PortfolioController {
     return portfolioService.editAboutMe(id, aboutMe);
   }
 
+  @PostMapping(path = "{id}/name/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Portfolio editName(@PathVariable Long id, @RequestBody EditNameDto dto) {
+    return portfolioService.editName(id, dto.name);
+  }
+
   @PostMapping("add")
   public Person createUser(@RequestBody Dto dto) {
-    System.out.println("dto = " + dto);
-    System.out.println("username = " + dto.username);
     return portfolioService.createUser(dto.username);
   }
 
@@ -77,4 +80,8 @@ public class PortfolioController {
     String username;
   }
 
+  @Getter @Setter @ToString
+  static class EditNameDto{
+    String name;
+  }
 }

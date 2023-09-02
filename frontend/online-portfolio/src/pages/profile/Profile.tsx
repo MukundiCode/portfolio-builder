@@ -22,7 +22,7 @@ function Profile() {
 
     const [isPortfolioReady, setIsPortfolioReady] = useState<boolean>(false)
 
-    const params = useParams<{username : string}>();
+    const params = useParams<{ username: string }>();
 
     useEffect(() => {
         console.log(params)
@@ -45,12 +45,27 @@ function Profile() {
             });
     }
 
+    const editName = (name: string) => {
+        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/name/edit',
+            { name: name }, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => {
+                setPortfolio(response.data)
+            });
+    }
+
+
     return (
         <div>
-            { isPortfolioReady && <Container fluid className='w-75'>
+            {isPortfolioReady && <Container fluid className='w-75'>
                 <Row>
                     <Col xs={5}>
-                        <NameAndLinks name={portfolio.name}></NameAndLinks>
+                        <NameAndLinks
+                            name={portfolio.name}
+                            editName={editName}></NameAndLinks>
                     </Col>
 
                     <Col>
