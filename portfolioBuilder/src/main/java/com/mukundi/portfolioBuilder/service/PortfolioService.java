@@ -88,12 +88,4 @@ public class PortfolioService {
     projectRepository.deleteById(projectId);
   }
 
-  @Transactional
-  public Person createUser(String username) {
-    Person user = new Person(username);
-    Portfolio portfolio = new Portfolio();
-    user.setPortfolio(portfolio);
-    return personRepository.save(user);
-  }
-
 }
