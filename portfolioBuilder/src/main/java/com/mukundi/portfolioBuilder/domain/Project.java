@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Getter
@@ -20,9 +22,11 @@ public class Project {
   private Long id;
 
   @Column(nullable = false)
+  @NotBlank
   private String title;
 
   @Column(nullable = false)
+  @NotBlank
   private String description;
 
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)

@@ -1,87 +1,83 @@
 package com.mukundi.portfolioBuilder.controller;
 
+import com.mukundi.portfolioBuilder.controller.dto.EditNameDto;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
-import com.mukundi.portfolioBuilder.domain.Person;
 import com.mukundi.portfolioBuilder.service.PortfolioService;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("portfolio")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class PortfolioController {
 
   @Autowired
   private PortfolioService portfolioService;
 
   @GetMapping("/{id}")
-  public Portfolio getPortfolioById(@PathVariable Long id) {
-    return portfolioService.getById(id);
+  public ResponseEntity<Portfolio> getPortfolioById(@PathVariable Long id) {
+    Portfolio portfolio = portfolioService.getById(id);
+    return ResponseEntity.ok(portfolio);
   }
 
   @PostMapping(path = "{id}/experience/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Experience addExperience(@PathVariable Long id, @RequestBody Experience experience) {
-    return portfolioService.addExperience(id, experience);
+  public ResponseEntity<Experience> addExperience(@PathVariable Long id, @RequestBody @Valid Experience experience) {
+    Experience savedExperience = portfolioService.addExperience(id, experience);
+    return ResponseEntity.ok(savedExperience);
   }
 
   @GetMapping(path = "{id}/experience/all")
-  public List<Experience> getAllExperiences(@PathVariable Long id) {
-    return portfolioService.getAllExperiencesById(id);
+  public ResponseEntity<List<Experience>> getAllExperiences(@PathVariable Long id) {
+    List<Experience> experienceList = portfolioService.getAllExperiencesById(id);
+    return ResponseEntity.ok(experienceList);
   }
 
+  /**
+   * TODO : Change these urls since portfolio id is not needed
+   */
   @DeleteMapping("{portfolioId}/experience/{experienceId}/delete")
-  public ResponseEntity deleteExperience(@PathVariable Long portfolioId, @PathVariable Long experienceId) {
-    portfolioService.deleteExperience(portfolioId, experienceId);
+  public ResponseEntity<Object> deleteExperience(@PathVariable Long portfolioId, @PathVariable Long experienceId) {
+    portfolioService.deleteExperience(experienceId);
     return ResponseEntity.ok().build();
   }
 
   @GetMapping(path = "{id}/project/all")
-  public List<Project> getAllProjects(@PathVariable Long id) {
-    return portfolioService.getAllProjectsById(id);
+  public ResponseEntity<List<Project>> getAllProjects(@PathVariable Long id) {
+    List<Project> projectList = portfolioService.getAllProjectsById(id);
+    return ResponseEntity.ok(projectList);
   }
 
   @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Project addProject(@PathVariable Long id, @RequestBody Project project) {
-    return portfolioService.addProject(id, project);
+  public ResponseEntity<Project> addProject(@PathVariable Long id, @RequestBody @Valid Project project) {
+    Project savedProject = portfolioService.addProject(id, project);
+    return ResponseEntity.ok(savedProject);
   }
 
   @DeleteMapping("{portfolioId}/project/{projectId}/delete")
-  public ResponseEntity deleteProject(@PathVariable Long portfolioId, @PathVariable Long projectId) {
-    portfolioService.deleteProject(portfolioId, projectId);
+  public ResponseEntity<Object> deleteProject(@PathVariable Long portfolioId, @PathVariable Long projectId) {
+    portfolioService.deleteProject(projectId);
     return ResponseEntity.ok().build();
   }
 
   @PostMapping(path = "{id}/aboutMe/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Portfolio editAboutMe(@PathVariable Long id, @RequestBody String aboutMe) {
-    return portfolioService.editAboutMe(id, aboutMe);
+  public ResponseEntity<Portfolio> editAboutMe(@PathVariable Long id, @RequestBody String aboutMe) {
+    Portfolio portfolio = portfolioService.editAboutMe(id, aboutMe);
+    return ResponseEntity.ok(portfolio);
   }
 
   @PostMapping(path = "{id}/name/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Portfolio editName(@PathVariable Long id, @RequestBody EditNameDto dto) {
-    return portfolioService.editName(id, dto.name);
+  public ResponseEntity<Portfolio> editName(@PathVariable Long id, @RequestBody EditNameDto dto) {
+    Portfolio portfolio = portfolioService.editName(id, dto.getName());
+    return ResponseEntity.ok(portfolio);
   }
 
-  @PostMapping("add")
-  public Person createUser(@RequestBody Dto dto) {
-    return portfolioService.createUser(dto.username);
-  }
-
-  @Getter @Setter @ToString
-  static class Dto{
-    String username;
-  }
-
-  @Getter @Setter @ToString
-  static class EditNameDto{
-    String name;
-  }
 }

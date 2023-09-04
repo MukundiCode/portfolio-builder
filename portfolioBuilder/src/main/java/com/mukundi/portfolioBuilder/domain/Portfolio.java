@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,21 +43,7 @@ public class Portfolio {
 
   @JsonIgnore
   @OneToOne(mappedBy = "portfolio")
+  @NotNull
   private Person person;
-
-  public void addExperience(Experience experience){
-    experienceList.add(experience);
-  }
-
-  public void deleteExperience(Long id){
-    experienceList = experienceList
-            .stream()
-            .filter(exp -> exp.getId().equals(id))
-            .collect(Collectors.toSet());
-  }
-
-  public void addProject(Project project){
-    projectList.add(project);
-  }
 
 }

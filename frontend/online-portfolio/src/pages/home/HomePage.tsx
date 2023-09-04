@@ -37,7 +37,7 @@ function HomePage() {
                             <Form.Control
                                 id="basic-url"
                                 aria-describedby="basic-addon3"
-                                placeholder={textBoxPlaceHolder}
+                                placeholder={textBoxPlaceHolder + "|"}
                                 onChange={(event) => setUsername(event.target.value)} />
                             <Button onClick={handleUsernameSubmit} variant="dark">Launch</Button>
                         </InputGroup>
