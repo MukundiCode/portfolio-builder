@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class PortfolioController {
   }
 
   @PostMapping(path = "{id}/experience/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Experience> addExperience(@PathVariable Long id, @RequestBody Experience experience) {
+  public ResponseEntity<Experience> addExperience(@PathVariable Long id, @RequestBody @Valid Experience experience) {
     Experience savedExperience = portfolioService.addExperience(id, experience);
     return ResponseEntity.ok(savedExperience);
   }
@@ -37,7 +38,7 @@ public class PortfolioController {
   @GetMapping(path = "{id}/experience/all")
   public ResponseEntity<List<Experience>> getAllExperiences(@PathVariable Long id) {
     List<Experience> experienceList = portfolioService.getAllExperiencesById(id);
-    ResponseEntity.ok(experienceList);
+    return ResponseEntity.ok(experienceList);
   }
 
   /**
@@ -56,7 +57,7 @@ public class PortfolioController {
   }
 
   @PostMapping(path = "{id}/project/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Project> addProject(@PathVariable Long id, @RequestBody Project project) {
+  public ResponseEntity<Project> addProject(@PathVariable Long id, @RequestBody @Valid Project project) {
     Project savedProject = portfolioService.addProject(id, project);
     return ResponseEntity.ok(savedProject);
   }
