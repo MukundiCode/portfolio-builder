@@ -37,7 +37,6 @@ public class Project {
   @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "portfolio_id")
-  @NotNull
   private Portfolio portfolio;
 
 }
