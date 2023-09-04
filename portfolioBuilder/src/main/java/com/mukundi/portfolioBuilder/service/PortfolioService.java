@@ -8,6 +8,7 @@ import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import com.mukundi.portfolioBuilder.repository.ProjectRepository;
 import com.mukundi.portfolioBuilder.repository.PersonRepository;
+import com.mukundi.portfolioBuilder.service.exception.PortfolioNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class PortfolioService {
   public Portfolio getById(Long id){
     return portfolioRepository
             .findById(id)
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(() -> new PortfolioNotFoundException("Portfolio with id: " + id + " not found"));
   }
 
   @Transactional
