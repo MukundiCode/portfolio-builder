@@ -3,6 +3,8 @@ package com.mukundi.portfolioBuilder.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter @Setter
@@ -16,8 +18,10 @@ public class Person {
   private Long id;
 
   @Column(nullable = false)
+  @NotBlank
   private String username;
 
+  @Email
   private String email;
 
   @OneToOne(cascade = CascadeType.ALL)
