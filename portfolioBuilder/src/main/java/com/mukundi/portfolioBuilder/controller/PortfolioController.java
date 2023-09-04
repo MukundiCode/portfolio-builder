@@ -38,9 +38,12 @@ public class PortfolioController {
     return portfolioService.getAllExperiencesById(id);
   }
 
+  /**
+   * TODO : Change these urls since portfolio id is not needed
+   */
   @DeleteMapping("{portfolioId}/experience/{experienceId}/delete")
   public ResponseEntity deleteExperience(@PathVariable Long portfolioId, @PathVariable Long experienceId) {
-    portfolioService.deleteExperience(portfolioId, experienceId);
+    portfolioService.deleteExperience(experienceId);
     return ResponseEntity.ok().build();
   }
 
@@ -56,7 +59,7 @@ public class PortfolioController {
 
   @DeleteMapping("{portfolioId}/project/{projectId}/delete")
   public ResponseEntity deleteProject(@PathVariable Long portfolioId, @PathVariable Long projectId) {
-    portfolioService.deleteProject(portfolioId, projectId);
+    portfolioService.deleteProject(projectId);
     return ResponseEntity.ok().build();
   }
 

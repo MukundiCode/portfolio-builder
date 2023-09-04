@@ -8,6 +8,7 @@ import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import com.mukundi.portfolioBuilder.repository.ProjectRepository;
 import com.mukundi.portfolioBuilder.repository.PersonRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @EnableTransactionManagement
+@RequiredArgsConstructor
 public class PortfolioService {
 
   @Autowired
@@ -34,75 +36,58 @@ public class PortfolioService {
 
   @Transactional
   public Portfolio getById(Long id){
-    Portfolio portfolio = portfolioRepository.findById(id).get();
-    return portfolio;
+    return portfolioRepository
+            .findById(id)
+            .orElseThrow(RuntimeException::new);
   }
 
   @Transactional
   public Experience addExperience(Long id, Experience experience) {
-    Portfolio portfolio = portfolioRepository.findById(id).get();
-    experience.setPortfolio(portfolio);
+    experience.setPortfolio(getById(id));
     return experienceRepository.save(experience);
   }
 
   @Transactional
   public Project addProject(Long id, Project project) {
-    Portfolio portfolio = portfolioRepository.findById(id).get();
-    project.setPortfolio(portfolio);
+    project.setPortfolio(getById(id));
     return projectRepository.save(project);
   }
 
-//  @Transactional
-//  public Portfolio create() {
-//    Portfolio portfolio = new Portfolio(null,
-//            "Mukundi Chitamba",
-//            "Some intro",
-//            "Some about me ",
-//            new HashSet<>(),
-//            new HashSet<>());
-//    return portfolioRepository.save(portfolio);
-//  }
-
   @Transactional
   public Portfolio editAboutMe(Long id, String aboutMe) {
-    Portfolio portfolio = portfolioRepository.findById(id).get();
+    Portfolio portfolio = getById(id);
     portfolio.setAboutMe(aboutMe);
-    portfolioRepository.save(portfolio);
-    return portfolio;
+    return portfolioRepository.save(portfolio);
   }
 
   @Transactional
   public Portfolio editName(Long id, String name) {
-    Portfolio portfolio = portfolioRepository.findById(id).get();
+    Portfolio portfolio = getById(id);
     portfolio.setName(name);
-    portfolioRepository.save(portfolio);
-    return portfolio;
-
+    return portfolioRepository.save(portfolio);
   }
 
   @Transactional
   public List<Experience> getAllExperiencesById(Long id) {
-    return new ArrayList<>(portfolioRepository.findById(id).get().getExperienceList());
+    return new ArrayList<>(getById(id).getExperienceList());
   }
 
   @Transactional
   public List<Project> getAllProjectsById(Long id) {
-    return new ArrayList<>(portfolioRepository.findById(id).get().getProjectList());
+    return new ArrayList<>(getById(id).getProjectList());
   }
 
-  /**
-   * TODO Some validation here
-   */
   @Transactional
-  public void deleteExperience(Long portfolioId, Long experienceId) {
+  public void deleteExperience(Long experienceId) {
     experienceRepository.deleteById(experienceId);
   }
 
   @Transactional
-  public void deleteProject(Long portfolioId, Long projectId) {
+  public void deleteProject(Long projectId) {
     projectRepository.deleteById(projectId);
   }
 
+  @Transactional
   public Person createUser(String username) {
     Person user = new Person(username);
     Portfolio portfolio = new Portfolio();
