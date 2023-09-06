@@ -2,11 +2,10 @@ import { Col, Container, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NameAndLinks from './components/Name-and-links-component';
 import AboutAndExperience from './components/About-and-experience-componenets';
-import axios from 'axios';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Person } from '../../types/Person';
+import { editPortfolioAboutMe, editPortfolioName, getPerson } from '../../service/ProfileService';
 
 
 function Profile() {
@@ -25,38 +24,25 @@ function Profile() {
     const params = useParams<{ username: string }>();
 
     useEffect(() => {
-        console.log(params)
-        axios.get<Person>('http://localhost:8080/' + params.username)
-            .then(response => {
-                setPortfolio(response.data.portfolio)
-                setIsPortfolioReady(true)
-            }).catch(err => console.log(err));
+        getPerson(params.username).then(response => {
+            setPortfolio(response.data.portfolio)
+            setIsPortfolioReady(true)
+        }).catch(err => console.log(err));
     }, [])
 
     const editAboutMe = (aboutMe: string) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/aboutMe/edit',
-            aboutMe, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
+        editPortfolioAboutMe(portfolio.id, aboutMe)
             .then(response => {
                 setPortfolio(response.data)
             });
     }
 
     const editName = (name: string) => {
-        axios.post('http://localhost:8080/portfolio/' + portfolio.id + '/name/edit',
-            { name: name }, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
+        editPortfolioName(portfolio.id, name)
             .then(response => {
                 setPortfolio(response.data)
             });
     }
-
 
     return (
         <div>

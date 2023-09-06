@@ -27,7 +27,7 @@ public class PersonService {
   @Transactional
   public Person createUser(String username) {
     Person user = new Person(username);
-    Portfolio portfolio = new Portfolio();
+    Portfolio portfolio = new Portfolio(user);
     user.setPortfolio(portfolio);
     return personRepository.save(user);
   }

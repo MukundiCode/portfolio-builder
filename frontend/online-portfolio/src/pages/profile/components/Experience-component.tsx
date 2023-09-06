@@ -6,6 +6,7 @@ import ExperienceContainer from "./Experience-container-component";
 import axios from "axios";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
+import { addExperience, deleteExperience, getAllExperiences } from "../../../service/ProfileService";
 
 function ExperienceListComponent(props: {
     portfolioId: number | undefined
@@ -25,10 +26,9 @@ function ExperienceListComponent(props: {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:8080/portfolio/' + props.portfolioId + '/experience/all')
-            .then(response => {
-                setExperienceList(response.data)
-            });
+        getAllExperiences(props.portfolioId).then(response => {
+            setExperienceList(response.data)
+        });
     }, []);
 
     const getExperienceHandler = (name: keyof Experience) => {
@@ -39,13 +39,7 @@ function ExperienceListComponent(props: {
 
     const handleNewExperienceSubmit = async () => {
         experience.skills = experienceSkills
-        axios.post('http://localhost:8080/portfolio/' + props.portfolioId + '/experience/add',
-            experience, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(response => {
+        addExperience(props.portfolioId, experience).then(response => {
                 setExperienceList(expereinceList => [response.data, ...expereinceList])
             });
 
@@ -61,11 +55,11 @@ function ExperienceListComponent(props: {
         handleCloseExperienceModal()
     }
 
-    const handleDeleteExperience = async (id: number | undefined) => {
+    const handleDeleteExperience = async (experienceId: number | undefined) => {
         experience.skills = experienceSkills
-        axios.delete('http://localhost:8080/portfolio/' + props.portfolioId + '/experience/' + id + '/delete')
+        deleteExperience(props.portfolioId, experienceId)
             .then(response => {
-                setExperienceList((prev) => [...prev.filter(item => item.id !== id)])
+                setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
             });
     }
 
