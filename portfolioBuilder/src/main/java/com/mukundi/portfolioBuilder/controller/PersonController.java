@@ -23,7 +23,7 @@ public class PersonController {
     return ResponseEntity.ok(person);
   }
 
-  @PostMapping("/add")
+  @PostMapping("/new")
   public Person createUser(@RequestBody NewUserDto dto) {
     return personService.createUser(dto.getUsername());
   }

@@ -3,9 +3,9 @@ import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 import { Project } from "../../../types/Project";
 import ProjectContainer from "./Project-container-component";
-import axios from "axios";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
+import { addProject, deleteProject, getAllProjects } from "../../../service/ProfileService";
 
 function ProjectListComponent(props: {
     portfolioId: number | undefined
@@ -23,8 +23,7 @@ function ProjectListComponent(props: {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:8080/portfolio/' + props.portfolioId + '/project/all')
-            .then(response => {
+        getAllProjects(props.portfolioId).then(response => {
                 setProjectList(response.data)
             });
     }, []);
@@ -37,14 +36,7 @@ function ProjectListComponent(props: {
 
     const handleNewProjectSubmit = async () => {
         project.skills = projectSkills
-
-        axios.post('http://localhost:8080/portfolio/' + props.portfolioId + '/project/add',
-            project, {
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(response => {
+        addProject(props.portfolioId, project).then(response => {
                 console.log(response.data)
                 setProjectList(projectList => [response.data, ...projectList])
             });
@@ -58,11 +50,11 @@ function ProjectListComponent(props: {
         handleCloseProjectModal()
     }
 
-    const handleDeleteProject = async (id: number | undefined) => {
+    const handleDeleteProject = async (projectId: number | undefined) => {
         project.skills = projectSkills
-        axios.delete('http://localhost:8080/portfolio/' + props.portfolioId + '/project/' + id + '/delete')
-            .then(response => {
-                setProjectList((prev) => [...prev.filter(item => item.id !== id)])
+        deleteProject(props.portfolioId, projectId)    
+        .then(response => {
+                setProjectList((prev) => [...prev.filter(item => item.id !== projectId)])
             });
     }
 

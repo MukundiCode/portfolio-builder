@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
+import { createNewUser } from "../../service/ProfileService";
 
 function HomePage() {
 
@@ -12,12 +13,9 @@ function HomePage() {
     })
 
     const handleUsernameSubmit = () => {
-        console.log("Clicked")
-        axios.post('http://localhost:8080/portfolio/add', { username: username })
-            .then(response => {
-                console.log(response.data)
-                window.location.href = `/${username}`
-            });
+        createNewUser(username).then(response => {
+            window.location.href = `/${username}`
+        });
     }
 
     return (

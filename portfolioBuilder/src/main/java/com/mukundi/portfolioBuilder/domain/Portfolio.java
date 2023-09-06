@@ -46,4 +46,7 @@ public class Portfolio {
   @NotNull
   private Person person;
 
+  public Portfolio(Person person){
+    this.person = person;
+  }
 }
