@@ -1,7 +1,9 @@
-import { Button, Form, Modal, Stack } from 'react-bootstrap';
+import { Button, Form, InputGroup, Modal, Stack } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 function NameAndLinks(props: {
     name: string,
@@ -9,11 +11,14 @@ function NameAndLinks(props: {
 }) {
 
     const [showEditNameModal, setShowEditNameModal] = useState(false);
-    const [name, setName] = useState<string>("")
 
-    const handleEditAboutMeSubmit = async () => {
-        props.editName(name)
-        handleCloseEditNameModal()
+    const schema = yup.object().shape({
+        name: yup.string().required(),
+    });
+
+    const handleEditAboutMeSubmit = (name: string) => {
+            props.editName(name)
+            handleCloseEditNameModal()
     }
 
     const handleCloseEditNameModal = () => setShowEditNameModal(false);
@@ -27,21 +32,44 @@ function NameAndLinks(props: {
                     <Modal.Title>Edit Name</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Control type="text"
-                                onChange={(e) => setName(e.target.value)} />
-                        </Form.Group>
-                    </Form>
+
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={e => handleEditAboutMeSubmit(e.name)}
+                        initialValues={{
+                            name: ""
+                        }}>
+                        {({ handleSubmit, handleChange, values, touched, errors }) => (
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="validationCustom02" >
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder='Name'
+                                            name='name'
+                                            value={values.name}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.name}
+                                            required />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.name}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseEditNameModal}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type='submit'>
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Form>
+                        )}
+                    </Formik>
+
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseEditNameModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleEditAboutMeSubmit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
+
             </Modal>
 
             <div className="justify-content-center align-items-center 
