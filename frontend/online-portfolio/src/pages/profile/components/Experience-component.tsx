@@ -3,10 +3,11 @@ import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 import { Experience } from "../../../types/Experience";
 import ExperienceContainer from "./Experience-container-component";
-import axios from "axios";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
 import { addExperience, deleteExperience, getAllExperiences } from "../../../service/ProfileService";
+import { Formik } from "formik";
+import * as yup from 'yup';
 
 function ExperienceListComponent(props: {
     portfolioId: number | undefined
@@ -14,16 +15,6 @@ function ExperienceListComponent(props: {
 
     const [expereinceList, setExperienceList] = useState<Experience[]>([]);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
-    const [experienceSkills, setExperienceSkills] = useState<string[]>([]);
-    const [experience, setExperience] = useState<Experience>({
-        id: undefined,
-        position: '',
-        company: '',
-        description: '',
-        since: new Date(),
-        until: new Date(),
-        skills: []
-    });
 
     useEffect(() => {
         getAllExperiences(props.portfolioId).then(response => {
@@ -31,32 +22,32 @@ function ExperienceListComponent(props: {
         });
     }, []);
 
-    const getExperienceHandler = (name: keyof Experience) => {
-        return (event: ChangeEvent<HTMLInputElement>) => {
-            setExperience({ ...experience, [name]: event.target.value });
-        };
-    };
+    const handleNewExperienceSubmit = async (
+        position: string,
+        company: string,
+        description: string,
+        skills: string[],
+        since: Date,
+        until: Date) => {
+        console.log("Dates are " + since)
 
-    const handleNewExperienceSubmit = async () => {
-        experience.skills = experienceSkills
-        addExperience(props.portfolioId, experience).then(response => {
-                setExperienceList(expereinceList => [response.data, ...expereinceList])
-            });
-
-        setExperience({
+        const experience: Experience = {
             id: undefined,
-            position: '',
-            company: '',
-            description: '',
-            since: new Date(),
-            until: new Date(),
-            skills: []
-        })
+            position: position,
+            company: company,
+            description: description,
+            since: since,
+            until: until,
+            skills: skills
+        }
+        addExperience(props.portfolioId, experience).then(response => {
+            setExperienceList(expereinceList => [response.data, ...expereinceList])
+        });
+
         handleCloseExperienceModal()
     }
 
     const handleDeleteExperience = async (experienceId: number | undefined) => {
-        experience.skills = experienceSkills
         deleteExperience(props.portfolioId, experienceId)
             .then(response => {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
@@ -66,6 +57,15 @@ function ExperienceListComponent(props: {
     const handleCloseExperienceModal = () => setShowExperienceModal(false);
     const handleShowExperienceModal = () => setShowExperienceModal(true);
 
+    const schema = yup.object().shape({
+        position: yup.string().required(),
+        company: yup.string().required(),
+        from: yup.string().required(),
+        to: yup.string().required(),
+        skills: yup.array(),
+        description: yup.string().required(),
+    });
+
     return (
         <div>
 
@@ -74,67 +74,121 @@ function ExperienceListComponent(props: {
                     <Modal.Title>Add Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Position</Form.Label>
-                            <Form.Control
-                                type="text"
-                                // autoFocus
-                                onChange={getExperienceHandler('position')}
-                            />
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={form => handleNewExperienceSubmit(
+                            form.position,
+                            form.company,
+                            form.description,
+                            form.skills,
+                            new Date(form.from),
+                            new Date(form.to))}
+                        initialValues={{
+                            position: "",
+                            company: "",
+                            from: "",
+                            to: "",
+                            skills: [],
+                            description: ""
+                        }}>
+                        {({ handleSubmit, handleChange, values, touched, errors, setFieldValue }) => (
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Position</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='position'
+                                        value={values.position}
+                                        isInvalid={!!errors.position}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.position}
+                                    </Form.Control.Feedback>
 
-                            <Form.Label>Company</Form.Label>
-                            <Form.Control
-                                type="text"
-                                // autoFocus
-                                onChange={getExperienceHandler('company')}
-                            />
-                            <Row>
-                                <Col>
-                                    <Form.Label>From</Form.Label>
-                                    <Form.Control type="date"
-                                        name="dob"
-                                        placeholder="Start date"
-                                        onChange={getExperienceHandler('since')} />
-                                </Col>
-                                <Col>
-                                    <Form.Label>To</Form.Label>
-                                    <Form.Control type="date"
-                                        name="dob"
-                                        placeholder="End date"
-                                        onChange={getExperienceHandler('until')} />
-                                </Col>
+                                    <Form.Label>Company</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='company'
+                                        value={values.company}
+                                        isInvalid={!!errors.company}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.company}
+                                    </Form.Control.Feedback>
+                                    <Row>
+                                        <Col>
+                                            <Form.Label>From</Form.Label>
+                                            <Form.Control
+                                                type="date"
+                                                name="from"
+                                                placeholder="Start date"
+                                                value={values.from}
+                                                isInvalid={!!errors.from}
+                                                onChange={handleChange}
+                                                required />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.from}
+                                            </Form.Control.Feedback>
+                                        </Col>
+                                        <Col>
+                                            <Form.Label>To</Form.Label>
+                                            <Form.Control
+                                                type="date"
+                                                name="to"
+                                                placeholder="End date"
+                                                value={values.to}
+                                                isInvalid={!!errors.to}
+                                                onChange={handleChange}
+                                                required />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.to}
+                                            </Form.Control.Feedback>
+                                        </Col>
 
-                            </Row>
+                                    </Row>
 
-                            <Form.Label>Skills</Form.Label>
-                            <Typeahead
-                                id="basic-typeahead-single"
-                                labelKey="name"
-                                multiple
-                                onChange={selected => {
-                                    setExperienceSkills(selected.map(s => s.toString()))
-                                }}
-                                options={getSkills()}
-                                placeholder="Choose a skill..."
-                                selected={experienceSkills}
-                            />
+                                    <Form.Label>Skills</Form.Label>
+                                    <Typeahead
+                                        id="basic-typeahead-single"
+                                        labelKey="name"
+                                        multiple
+                                        onChange={selected => {
+                                            setFieldValue('skills', [...values.skills, ...selected], false)
+                                        }}
+                                        options={getSkills()}
+                                        placeholder="Choose a skill..."
+                                        selected={values.skills}
+                                    />
 
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea"
-                                rows={3}
-                                onChange={getExperienceHandler('description')} />
-                        </Form.Group>
-                    </Form>
+                                    <Form.Label>Description</Form.Label>
+                                    <Form.Control as="textarea"
+                                        rows={3}
+                                        name='description'
+                                        value={values.description}
+                                        isInvalid={!!errors.description}
+                                        onChange={handleChange}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.description}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseExperienceModal}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type="submit">
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Form>
+                        )}
+                    </Formik>
+
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseExperienceModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleNewExperienceSubmit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
 
             <Row>
