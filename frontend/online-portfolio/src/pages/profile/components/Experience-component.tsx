@@ -15,6 +15,7 @@ function ExperienceListComponent(props: {
 
     const [expereinceList, setExperienceList] = useState<Experience[]>([]);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
+    const [dateError, setDateError] = useState(false);
 
     useEffect(() => {
         getAllExperiences(props.portfolioId).then(response => {
@@ -29,22 +30,24 @@ function ExperienceListComponent(props: {
         skills: string[],
         since: Date,
         until: Date) => {
-        console.log("Dates are " + since)
-
-        const experience: Experience = {
-            id: undefined,
-            position: position,
-            company: company,
-            description: description,
-            since: since,
-            until: until,
-            skills: skills
+        
+        if (since < until && until <= new Date()){
+            const experience: Experience = {
+                id: undefined,
+                position: position,
+                company: company,
+                description: description,
+                since: since,
+                until: until,
+                skills: skills
+            }
+            addExperience(props.portfolioId, experience).then(response => {
+                setExperienceList(expereinceList => [response.data, ...expereinceList])
+            });
+            handleCloseExperienceModal()
+        } else {
+            setDateError(true)
         }
-        addExperience(props.portfolioId, experience).then(response => {
-            setExperienceList(expereinceList => [response.data, ...expereinceList])
-        });
-
-        handleCloseExperienceModal()
     }
 
     const handleDeleteExperience = async (experienceId: number | undefined) => {
@@ -148,6 +151,7 @@ function ExperienceListComponent(props: {
                                                 {errors.to}
                                             </Form.Control.Feedback>
                                         </Col>
+                                        { dateError && <div className="text-danger" >Start date can not be after end date</div>}
 
                                     </Row>
 

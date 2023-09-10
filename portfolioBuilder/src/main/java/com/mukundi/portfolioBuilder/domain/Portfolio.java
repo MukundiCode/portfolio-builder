@@ -41,6 +41,11 @@ public class Portfolio {
           mappedBy = "portfolio")
   private Set<Project> projectList = new HashSet<>();
 
+  @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "portfolio_links", joinColumns = @JoinColumn(name = "portfolio_id"))
+  @Column(nullable = false)
+  private Set<String> links = new HashSet<>();
+
   @JsonIgnore
   @OneToOne(mappedBy = "portfolio")
   @NotNull
@@ -48,5 +53,9 @@ public class Portfolio {
 
   public Portfolio(Person person){
     this.person = person;
+  }
+
+  public void addLink(String link){
+    this.links.add(link);
   }
 }

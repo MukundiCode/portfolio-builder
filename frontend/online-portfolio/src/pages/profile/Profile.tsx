@@ -5,7 +5,7 @@ import AboutAndExperience from './components/About-and-experience-componenets';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { editPortfolioAboutMe, editPortfolioName, getPerson } from '../../service/ProfileService';
+import { editPortfolioAboutMe, editPortfolioName, getPerson, addLink } from '../../service/ProfileService';
 
 
 function Profile() {
@@ -16,7 +16,8 @@ function Profile() {
         shortIntro: "",
         aboutMe: "",
         experienceList: [],
-        projectList: []
+        projectList: [],
+        links: []
     });
 
     const [isPortfolioReady, setIsPortfolioReady] = useState<boolean>(false)
@@ -44,6 +45,13 @@ function Profile() {
             });
     }
 
+    const handleAddLink = (link: string) => {
+        addLink(portfolio.id, link)
+            .then(response => {
+                setPortfolio(response.data)
+            });
+    }
+
     return (
         <div>
             {isPortfolioReady && <Container fluid className='w-75'>
@@ -51,7 +59,10 @@ function Profile() {
                     <Col xs={5}>
                         <NameAndLinks
                             name={portfolio.name}
-                            editName={editName}></NameAndLinks>
+                            links={portfolio.links}
+                            editName={editName}
+                            addLink={handleAddLink}
+                            ></NameAndLinks>
                     </Col>
 
                     <Col>

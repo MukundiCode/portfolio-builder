@@ -1,6 +1,6 @@
 package com.mukundi.portfolioBuilder.controller;
 
-import com.mukundi.portfolioBuilder.controller.dto.EditNameDto;
+import com.mukundi.portfolioBuilder.controller.dto.EditStringFieldDto;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
@@ -69,14 +69,20 @@ public class PortfolioController {
   }
 
   @PostMapping(path = "{id}/aboutMe/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Portfolio> editAboutMe(@PathVariable Long id, @RequestBody String aboutMe) {
-    Portfolio portfolio = portfolioService.editAboutMe(id, aboutMe);
+  public ResponseEntity<Portfolio> editAboutMe(@PathVariable Long id, @RequestBody EditStringFieldDto dto) {
+    Portfolio portfolio = portfolioService.editAboutMe(id, dto.getLoad());
+    return ResponseEntity.ok(portfolio);
+  }
+
+  @PostMapping(path = "{id}/link/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Portfolio> addLink(@PathVariable Long id, @RequestBody EditStringFieldDto dto) {
+    Portfolio portfolio = portfolioService.addLink(id, dto.getLoad());
     return ResponseEntity.ok(portfolio);
   }
 
   @PostMapping(path = "{id}/name/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Portfolio> editName(@PathVariable Long id, @RequestBody EditNameDto dto) {
-    Portfolio portfolio = portfolioService.editName(id, dto.getName());
+  public ResponseEntity<Portfolio> editName(@PathVariable Long id, @RequestBody EditStringFieldDto dto) {
+    Portfolio portfolio = portfolioService.editName(id, dto.getLoad());
     return ResponseEntity.ok(portfolio);
   }
 

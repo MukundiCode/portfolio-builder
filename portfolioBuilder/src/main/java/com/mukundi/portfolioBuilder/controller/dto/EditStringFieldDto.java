@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EditNameDto {
+public class EditStringFieldDto {
 
-  private String name;
+  private String load;
 
 }
