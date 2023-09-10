@@ -1,15 +1,16 @@
-# Devfolio
+# Devportfolio
 
-Devfolio is a platform where developers can create their online portfolio, kind of like an online CV. Devfolio allows developers to showcase their skills, projects, education, and work experience in a professional and attractive way. Devfolio is built using Java (Spring boot) and React with Typescript. Devfolio uses a Postgres database for persistence.
+Devportfolio is a platform where developers can create their online portfolio, kind of like an online CV. Devfolio allows developers to showcase their skills, projects, education, and work experience in a professional and attractive way. Devfolio is built using Java (Spring boot) and React with Typescript. Devfolio uses a Postgres database for persistence.
 
 ## Features
 
-- [x] User authentication and authorization
 - [x] User profile creation and editing
 - [x] User portfolio generation and customization
-- [ ] User portfolio sharing and exporting
-- [ ] User feedback and rating system
+- [X] Create and launch profile
+- [X] Persistence
+- [ ] User authentication and authorization
 - [ ] User analytics and insights
+- [ ] Deployment
 
 ## Installation
 
@@ -17,7 +18,7 @@ To run Devfolio locally, you need to have Java 11, Node.js 14, and Postgres 13 i
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/devfolio.git
+git clone https://github.com/MukundiCode/devfolio.git
 
 # Go to the backend directory
 cd devfolio/backend
@@ -42,7 +43,7 @@ The backend application will run on port 8080 and the frontend application will 
 
 ## Configuration
 
-You need to create a `.env` file in the frontend directory with the following variables:
+You need to create a `.properties` file in the frontend directory with the following variables:
 
 ```
 REACT_APP_BACKEND_URL=http://localhost:8080
