@@ -15,7 +15,7 @@ export const getPerson = (username: string | undefined) => {
 
 export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | undefined) => {
     return axios.post(URL + '/portfolio/' + id + '/aboutMe/edit',
-        aboutMe, {
+        {load: aboutMe}, {
         headers: {
             'content-type': 'application/json'
         }
@@ -24,7 +24,17 @@ export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | u
 
 export const editPortfolioName = (id: number | undefined, name: string | undefined) => {
     return axios.post(URL + '/portfolio/' + id + '/name/edit',
-        { name: name }, {
+        { load: name }, {
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+}
+
+export const addLink = (id: number | undefined, link: string | undefined) => {
+    console.log("adding")
+    return axios.post(URL + '/portfolio/' + id + '/link/add',
+        { load: link }, {
         headers: {
             'content-type': 'application/json'
         }

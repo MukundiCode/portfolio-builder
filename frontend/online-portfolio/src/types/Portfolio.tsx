@@ -8,5 +8,6 @@ export interface Portfolio {
     aboutMe: string;
     experienceList: Experience[];
     projectList: Project[];
+    links: string[];
   }
   

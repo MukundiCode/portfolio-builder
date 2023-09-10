@@ -88,4 +88,9 @@ public class PortfolioService {
     projectRepository.deleteById(projectId);
   }
 
+  public Portfolio addLink(Long id, String link) {
+    Portfolio portfolio = getById(id);
+    portfolio.addLink(link);
+    return portfolioRepository.save(portfolio);
+  }
 }
