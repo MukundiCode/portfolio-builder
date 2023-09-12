@@ -75,4 +75,51 @@ export const deleteProject = (portfolioId: number | undefined, projectId: number
     return axios.delete(URL + '/portfolio/' + portfolioId + '/project/' + projectId + '/delete');
 }
 
+export const loginUser = async (username: string, password: string): Promise<Person | null> => {
+    return axios
+        .post<Person>(URL + '/api/auth/signin', {
+            username,
+            password,
+        })
+        .then((response) => {
+            console.log(response.data)
+            if (response.data.username) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+            }
+            // window.location.replace("/");
+            return response.data;
+        })
+}
+
+export const signupUser = async (username: string, email: string, password: string) => {
+    const role = ["ADMIN"]
+    return axios
+        .post(URL + '/api/auth/signup', {
+            username,
+            email,
+            password,
+            role
+        })
+        .then((response) => {
+            console.log(response.data)
+            // if (response.data.username) {
+            //     localStorage.setItem("user", JSON.stringify(response.data));
+            // }
+            // window.location.replace("/");
+            return response.data;
+        })
+}
+
+export const logoutUser = async (): Promise<{message: string}> => {
+    localStorage.removeItem("user");
+    const response = await axios.post(URL + "signout");
+    console.log(response);
+    return response.data;
+};
+
+export const getCurrentUser = () : string | null => {
+    // @ts-ignore
+    return JSON.parse(localStorage.getItem("user"));
+};
+
 
