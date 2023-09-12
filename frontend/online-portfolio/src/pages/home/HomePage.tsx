@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Button, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
-import { createNewUser } from "../../service/ProfileService";
+import { createNewUser, getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
+import { Formik } from "formik";
+import * as yup from 'yup';
 
 function HomePage() {
 
@@ -11,15 +13,102 @@ function HomePage() {
         words: ["yourusername"],
         loop: 0
     })
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
     const handleUsernameSubmit = () => {
-        createNewUser(username).then(response => {
-            window.location.href = `/${username}`
-        });
+        console.log(getCurrentUser())
+        if (getCurrentUser() == null) {
+            handleShowLoginModal()
+        }
+        else {
+            createNewUser(username).then(response => {
+                window.location.href = `/${username}`
+            });
+        }
     }
+
+    const handleLogInSubmit = (email: string, password: string) => {
+        signupUser(username ? username : "", email, password)
+        .then(() => {
+            loginUser(username ? username : "", password)
+        })
+        .then(() =>{
+            createNewUser(username).then(response => {
+                window.location.href = `/${username}`
+            });
+        })
+    }
+
+    const handleCloseLoginModal = () => setShowLoginModal(false);
+    const handleShowLoginModal = () => setShowLoginModal(true);
+
+    const loginSchema = yup.object().shape({
+        email: yup.string().email().required(),
+        password: yup.string().required()
+    });
 
     return (
         <div>
+
+            <Modal show={showLoginModal} onHide={handleCloseLoginModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Name</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    <Formik
+                        validationSchema={loginSchema}
+                        onSubmit={form => handleLogInSubmit(form.email, form.password)}
+                        initialValues={{
+                            email: "",
+                            password: ""
+                        }}>
+                        {({ handleSubmit, handleChange, values, touched, errors }) => (
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="validationCustom02" >
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder='email'
+                                            name='email'
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.email}
+                                            required />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.email}
+                                        </Form.Control.Feedback>
+
+                                        <Form.Control
+                                            type="text"
+                                            placeholder='Password'
+                                            name='password'
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.password}
+                                            required />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.password}
+                                        </Form.Control.Feedback>
+                                        
+                                    </InputGroup>
+                                </Form.Group>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseLoginModal}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type='submit'>
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Form>
+                        )}
+                    </Formik>
+
+                </Modal.Body>
+
+            </Modal>
+
             <Container className="w-50 mt-5 pt-5">
                 <Row>
                     <div className="display-2 mb-3 home-font text-center" >

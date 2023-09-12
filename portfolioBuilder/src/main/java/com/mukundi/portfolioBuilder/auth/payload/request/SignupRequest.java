@@ -1,10 +1,13 @@
 package com.mukundi.portfolioBuilder.auth.payload.request;
 
+import lombok.ToString;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+@ToString
 public class SignupRequest {
   @NotBlank
   @Size(min = 3, max = 20)
