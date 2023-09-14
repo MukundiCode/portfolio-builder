@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin("*")
+@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", methods = {RequestMethod.POST, RequestMethod.GET})
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -24,7 +24,7 @@ public class PersonController {
     return ResponseEntity.ok(person);
   }
 
-  @PostMapping("/new")
+  @PostMapping("api/new")
   @PreAuthorize("hasRole('ADMIN')")
   public Person createUser(@RequestBody NewUserDto dto) {
     return personService.createUser(dto.getUsername());

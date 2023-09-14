@@ -4,9 +4,11 @@ import { Experience } from "../types/Experience";
 import { Project } from "../types/Project";
 
 const URL = 'http://localhost:8080';
+axios.defaults.withCredentials = true;
 
 export const createNewUser = (username: string | undefined) => {
-    return axios.post(URL + '/new', { username: username });
+    console.log("User with name " + username)
+    return axios.post(URL + '/api/new', { username: username });
 }
 
 export const getPerson = (username: string | undefined) => {
@@ -82,7 +84,7 @@ export const loginUser = async (username: string, password: string): Promise<Per
             password,
         })
         .then((response) => {
-            console.log(response.data)
+            console.log(response)
             if (response.data.username) {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
@@ -92,7 +94,7 @@ export const loginUser = async (username: string, password: string): Promise<Per
 }
 
 export const signupUser = async (username: string, email: string, password: string) => {
-    const role = ["ADMIN"]
+    const role = ["admin"]
     return axios
         .post(URL + '/api/auth/signup', {
             username,

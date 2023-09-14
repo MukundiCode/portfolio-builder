@@ -29,13 +29,17 @@ function HomePage() {
 
     const handleLogInSubmit = (email: string, password: string) => {
         signupUser(username ? username : "", email, password)
-        .then(() => {
+        .then(async () => {
+            await new Promise(resolve => setTimeout(resolve, 3000));
             loginUser(username ? username : "", password)
+            await new Promise(resolve => setTimeout(resolve, 3000));
         })
         .then(() =>{
-            createNewUser(username).then(response => {
+            createNewUser(username)
+            .then(response => {
                 window.location.href = `/${username}`
-            });
+            })
+            .catch(err => console.log(err));
         })
     }
 

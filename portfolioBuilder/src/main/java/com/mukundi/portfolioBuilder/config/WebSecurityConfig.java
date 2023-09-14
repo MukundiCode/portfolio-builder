@@ -59,9 +59,12 @@ public class WebSecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .authorizeRequests().antMatchers("/api/auth/**", "/","/index.html", "/static/**","/*.js").permitAll()
             .antMatchers("/**").permitAll()
+            .antMatchers("/api/new").permitAll()
+            .antMatchers("portfolio/**").permitAll()
             .anyRequest().authenticated();
 
     http.authenticationProvider(authenticationProvider());
