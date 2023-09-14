@@ -19,9 +19,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "react": [ "./node_modules/@types/react" ]
-    }
+    // "paths": {
+    //   "react": [ "./node_modules/@types/react" ]
+    // }
   },
   "include": [
     "src"
