@@ -6,16 +6,11 @@ import { Project } from "../types/Project";
 const URL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
 
-export const createNewUser = (username: string | undefined) => {
-    console.log("User with name " + username)
-    return axios.post(URL + '/api/new', { username: username });
-}
-
 export const getPerson = (username: string | undefined) => {
     return axios.get<Person>(URL + '/' + username);
 }
 
-export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | undefined) => {
+export const editPortfolioAboutMe = (aboutMe: string | undefined) => {
     return axios.post(URL + '/api/portfolio/aboutMe/edit',
         {load: aboutMe}, {
         headers: {
@@ -24,7 +19,7 @@ export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | u
     })
 }
 
-export const editPortfolioName = (id: number | undefined, name: string | undefined) => {
+export const editPortfolioName = (name: string | undefined) => {
     return axios.post(URL + '/api/portfolio/name/edit',
         { load: name }, {
         headers: {
@@ -33,7 +28,7 @@ export const editPortfolioName = (id: number | undefined, name: string | undefin
     })
 }
 
-export const addLink = (id: number | undefined, link: string | undefined) => {
+export const addLink = (link: string | undefined) => {
     console.log("adding")
     return axios.post(URL + '/api/portfolio/link/add',
         { load: link }, {
@@ -43,11 +38,11 @@ export const addLink = (id: number | undefined, link: string | undefined) => {
     })
 }
 
-export const getAllExperiences = (id: number | undefined) => {
+export const getAllExperiences = () => {
     return axios.get(URL + '/api/portfolio/experience/all');
 }
 
-export const addExperience = (id: number | undefined, experience: Experience) => {
+export const addExperience = (experience: Experience) => {
     return axios.post(URL + '/api/portfolio/experience/add',
         experience, {
         headers: {
@@ -56,15 +51,15 @@ export const addExperience = (id: number | undefined, experience: Experience) =>
     });
 }
 
-export const deleteExperience = (portfolioId: number | undefined, experienceId: number | undefined) => {
+export const deleteExperience = (experienceId: number | undefined) => {
     return axios.delete(URL + '/api/portfolio/experience/' + experienceId + '/delete');
 }
 
-export const getAllProjects = (id: number | undefined) => {
+export const getAllProjects = () => {
     return axios.get(URL + '/api/portfolio/project/all');
 }
 
-export const addProject = (id: number | undefined, project: Project) => {
+export const addProject = (project: Project) => {
     return axios.post(URL + '/api/portfolio/project/add',
         project, {
         headers: {
@@ -73,7 +68,7 @@ export const addProject = (id: number | undefined, project: Project) => {
     })
 }
 
-export const deleteProject = (portfolioId: number | undefined, projectId: number | undefined) => {
+export const deleteProject = (projectId: number | undefined) => {
     return axios.delete(URL + '/api/portfolio/project/' + projectId + '/delete');
 }
 

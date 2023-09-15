@@ -17,6 +17,9 @@ public class PersonService {
   @Autowired
   private UserRepository userRepository;
 
+  /**
+   * TODO Should make this return portfolio not user
+   */
   @Transactional
   public User getByUsername(String username){
     return userRepository.findByUsername(username)

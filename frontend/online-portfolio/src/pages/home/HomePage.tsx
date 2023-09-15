@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
-import { createNewUser, getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
+import { getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
 
@@ -16,14 +16,8 @@ function HomePage() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const handleUsernameSubmit = () => {
-        console.log(getCurrentUser())
         if (getCurrentUser() == null) {
             handleShowLoginModal()
-        }
-        else {
-            createNewUser(username).then(response => {
-                window.location.href = `/${username}`
-            });
         }
     }
 
