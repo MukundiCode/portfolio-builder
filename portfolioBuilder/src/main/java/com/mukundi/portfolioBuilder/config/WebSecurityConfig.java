@@ -64,7 +64,7 @@ public class WebSecurityConfig {
             .authorizeRequests().antMatchers("/api/auth/**", "/","/index.html", "/static/**","/*.js").permitAll()
             .antMatchers("/**").permitAll()
             .antMatchers("/api/new").permitAll()
-            .antMatchers("portfolio/**").permitAll()
+            .antMatchers("api/portfolio/**").permitAll()
             .anyRequest().authenticated();
 
     http.authenticationProvider(authenticationProvider());

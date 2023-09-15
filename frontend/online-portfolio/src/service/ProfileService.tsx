@@ -16,7 +16,7 @@ export const getPerson = (username: string | undefined) => {
 }
 
 export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | undefined) => {
-    return axios.post(URL + '/portfolio/' + id + '/aboutMe/edit',
+    return axios.post(URL + '/api/portfolio/aboutMe/edit',
         {load: aboutMe}, {
         headers: {
             'content-type': 'application/json'
@@ -25,7 +25,7 @@ export const editPortfolioAboutMe = (id: number | undefined, aboutMe: string | u
 }
 
 export const editPortfolioName = (id: number | undefined, name: string | undefined) => {
-    return axios.post(URL + '/portfolio/' + id + '/name/edit',
+    return axios.post(URL + '/api/portfolio/name/edit',
         { load: name }, {
         headers: {
             'content-type': 'application/json'
@@ -35,7 +35,7 @@ export const editPortfolioName = (id: number | undefined, name: string | undefin
 
 export const addLink = (id: number | undefined, link: string | undefined) => {
     console.log("adding")
-    return axios.post(URL + '/portfolio/' + id + '/link/add',
+    return axios.post(URL + '/api/portfolio/link/add',
         { load: link }, {
         headers: {
             'content-type': 'application/json'
@@ -44,11 +44,11 @@ export const addLink = (id: number | undefined, link: string | undefined) => {
 }
 
 export const getAllExperiences = (id: number | undefined) => {
-    return axios.get(URL + '/portfolio/' + id + '/experience/all');
+    return axios.get(URL + '/api/portfolio/experience/all');
 }
 
 export const addExperience = (id: number | undefined, experience: Experience) => {
-    return axios.post(URL + '/portfolio/' + id + '/experience/add',
+    return axios.post(URL + '/api/portfolio/experience/add',
         experience, {
         headers: {
             'content-type': 'application/json'
@@ -57,15 +57,15 @@ export const addExperience = (id: number | undefined, experience: Experience) =>
 }
 
 export const deleteExperience = (portfolioId: number | undefined, experienceId: number | undefined) => {
-    return axios.delete(URL + '/portfolio/' + portfolioId + '/experience/' + experienceId + '/delete');
+    return axios.delete(URL + '/api/portfolio/experience/' + experienceId + '/delete');
 }
 
 export const getAllProjects = (id: number | undefined) => {
-    return axios.get(URL + '/portfolio/' + id + '/project/all');
+    return axios.get(URL + '/api/portfolio/project/all');
 }
 
 export const addProject = (id: number | undefined, project: Project) => {
-    return axios.post(URL + '/portfolio/' + id + '/project/add',
+    return axios.post(URL + '/api/portfolio/project/add',
         project, {
         headers: {
             'content-type': 'application/json'
@@ -74,7 +74,7 @@ export const addProject = (id: number | undefined, project: Project) => {
 }
 
 export const deleteProject = (portfolioId: number | undefined, projectId: number | undefined) => {
-    return axios.delete(URL + '/portfolio/' + portfolioId + '/project/' + projectId + '/delete');
+    return axios.delete(URL + '/api/portfolio/project/' + projectId + '/delete');
 }
 
 export const loginUser = async (username: string, password: string): Promise<Person | null> => {
@@ -88,7 +88,6 @@ export const loginUser = async (username: string, password: string): Promise<Per
             if (response.data.username) {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
-            // window.location.replace("/");
             return response.data;
         })
 }

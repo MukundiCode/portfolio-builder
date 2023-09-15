@@ -26,6 +26,7 @@ function Profile() {
 
     useEffect(() => {
         getPerson(params.username).then(response => {
+            console.log(response.data)
             setPortfolio(response.data.portfolio)
             setIsPortfolioReady(true)
         }).catch(err => console.log(err));

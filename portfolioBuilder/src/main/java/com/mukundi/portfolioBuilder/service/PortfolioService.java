@@ -1,13 +1,12 @@
 package com.mukundi.portfolioBuilder.service;
 
+import com.mukundi.portfolioBuilder.auth.UserRepository;
 import com.mukundi.portfolioBuilder.domain.Experience;
 import com.mukundi.portfolioBuilder.domain.Portfolio;
 import com.mukundi.portfolioBuilder.domain.Project;
-import com.mukundi.portfolioBuilder.domain.Person;
 import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import com.mukundi.portfolioBuilder.repository.ProjectRepository;
-import com.mukundi.portfolioBuilder.repository.PersonRepository;
 import com.mukundi.portfolioBuilder.service.exception.PortfolioNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @EnableTransactionManagement
@@ -33,63 +33,79 @@ public class PortfolioService {
   private ProjectRepository projectRepository;
 
   @Autowired
-  private PersonRepository personRepository;
+  private UserRepository userRepository;
 
   @Transactional
-  public Portfolio getById(Long id){
+  public Portfolio getById(Long id) {
     return portfolioRepository
             .findById(id)
             .orElseThrow(() -> new PortfolioNotFoundException("Portfolio with id: " + id + " not found"));
   }
 
   @Transactional
-  public Experience addExperience(Long id, Experience experience) {
-    experience.setPortfolio(getById(id));
+  public Portfolio getPortfolioByUsername(String username) {
+    return userRepository
+            .findByUsername(username)
+            .orElseThrow(() -> new PortfolioNotFoundException("Portfolio for user: " + username + " not found"))
+            .getPortfolio();
+  }
+
+  @Transactional
+  public Experience addExperience(String username, Experience experience) {
+    experience.setPortfolio(getPortfolioByUsername(username));
     return experienceRepository.save(experience);
   }
 
   @Transactional
-  public Project addProject(Long id, Project project) {
-    project.setPortfolio(getById(id));
+  public Project addProject(String username, Project project) {
+    project.setPortfolio(getPortfolioByUsername(username));
     return projectRepository.save(project);
   }
 
   @Transactional
-  public Portfolio editAboutMe(Long id, String aboutMe) {
-    Portfolio portfolio = getById(id);
+  public Portfolio editAboutMe(String username, String aboutMe) {
+    Portfolio portfolio = getPortfolioByUsername(username);
     portfolio.setAboutMe(aboutMe);
     return portfolioRepository.save(portfolio);
   }
 
   @Transactional
-  public Portfolio editName(Long id, String name) {
-    Portfolio portfolio = getById(id);
+  public Portfolio editName(String username, String name) {
+    Portfolio portfolio = getPortfolioByUsername(username);
     portfolio.setName(name);
     return portfolioRepository.save(portfolio);
   }
 
   @Transactional
-  public List<Experience> getAllExperiencesById(Long id) {
-    return new ArrayList<>(getById(id).getExperienceList());
+  public List<Experience> getAllExperiencesByUsername(String username) {
+    return new ArrayList<>(getPortfolioByUsername(username).getExperienceList());
   }
 
   @Transactional
-  public List<Project> getAllProjectsById(Long id) {
-    return new ArrayList<>(getById(id).getProjectList());
+  public List<Project> getAllProjectsById(String username) {
+    return new ArrayList<>(getPortfolioByUsername(username).getProjectList());
   }
 
   @Transactional
-  public void deleteExperience(Long experienceId) {
-    experienceRepository.deleteById(experienceId);
+  public void deleteExperience(String username, Long experienceId) {
+    Experience experience = getPortfolioByUsername(username).getExperienceList().stream()
+            .filter(e -> e.getId().equals(experienceId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Unauthorized to make this request"));
+    experienceRepository.deleteById(experience.getId());
   }
 
   @Transactional
-  public void deleteProject(Long projectId) {
-    projectRepository.deleteById(projectId);
+  public void deleteProject(String username, Long projectId) {
+    Project project = getPortfolioByUsername(username).getProjectList().stream()
+            .filter(p -> p.getId().equals(projectId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Unauthorized to make this request"));
+    projectRepository.deleteById(project.getId());
   }
 
-  public Portfolio addLink(Long id, String link) {
-    Portfolio portfolio = getById(id);
+  public Portfolio addLink(String username, String link) {
+    Portfolio portfolio = getPortfolioByUsername(username);
     portfolio.addLink(link);
     return portfolioRepository.save(portfolio);
   }

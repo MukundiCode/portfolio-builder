@@ -6,6 +6,7 @@ import com.mukundi.portfolioBuilder.auth.payload.request.SignupRequest;
 import com.mukundi.portfolioBuilder.auth.payload.response.MessageResponse;
 import com.mukundi.portfolioBuilder.auth.payload.response.UserInfoResponse;
 import com.mukundi.portfolioBuilder.auth.services.UserDetailsImpl;
+import com.mukundi.portfolioBuilder.domain.Portfolio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -82,8 +83,12 @@ public class AuthController {
     User user = new User(signUpRequest.getUsername(),
             signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()));
-    System.out.println("user = " + user);
-    Set<String> strRoles = signUpRequest.getRole();
+    Portfolio portfolio = new Portfolio(user);
+    user.setPortfolio(portfolio);
+
+    Set<String> strRoles = signUpRequest.getRole().stream()
+            .map(String::toLowerCase)
+            .collect(Collectors.toSet());
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
