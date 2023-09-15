@@ -1,6 +1,8 @@
 package com.mukundi.portfolioBuilder.controller;
 
 import com.mukundi.portfolioBuilder.service.exception.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
+@Slf4j
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
   @Override
@@ -46,6 +49,8 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
     body.put("status", HttpStatus.NOT_FOUND);
+
+    log.error("Error: " + exception.getLocalizedMessage());
 
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }

@@ -9,15 +9,13 @@ import { addProject, deleteProject, getAllProjects } from "../../../service/Prof
 import { Formik } from "formik";
 import * as yup from 'yup';
 
-function ProjectListComponent(props: {
-    portfolioId: number | undefined
-}) {
+function ProjectListComponent() {
 
     const [projectList, setProjectList] = useState<Project[]>([])
     const [showProjectModal, setShowProjectModal] = useState(false);
 
     useEffect(() => {
-        getAllProjects(props.portfolioId).then(response => {
+        getAllProjects().then(response => {
             setProjectList(response.data)
         });
     }, []);
@@ -29,7 +27,7 @@ function ProjectListComponent(props: {
             description: description,
             skills: skills
         }
-        addProject(props.portfolioId, project).then(response => {
+        addProject(project).then(response => {
             console.log(response.data)
             setProjectList(projectList => [response.data, ...projectList])
         });
@@ -37,7 +35,7 @@ function ProjectListComponent(props: {
     }
 
     const handleDeleteProject = async (projectId: number | undefined) => {
-        deleteProject(props.portfolioId, projectId)
+        deleteProject(projectId)
             .then(response => {
                 setProjectList((prev) => [...prev.filter(item => item.id !== projectId)])
             });

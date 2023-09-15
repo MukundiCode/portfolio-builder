@@ -9,16 +9,14 @@ import { addExperience, deleteExperience, getAllExperiences } from "../../../ser
 import { Formik } from "formik";
 import * as yup from 'yup';
 
-function ExperienceListComponent(props: {
-    portfolioId: number | undefined
-}) {
+function ExperienceListComponent() {
 
     const [expereinceList, setExperienceList] = useState<Experience[]>([]);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
 
     useEffect(() => {
-        getAllExperiences(props.portfolioId).then(response => {
+        getAllExperiences().then(response => {
             setExperienceList(response.data)
         });
     }, []);
@@ -41,7 +39,7 @@ function ExperienceListComponent(props: {
                 until: until,
                 skills: skills
             }
-            addExperience(props.portfolioId, experience).then(response => {
+            addExperience(experience).then(response => {
                 setExperienceList(expereinceList => [response.data, ...expereinceList])
             });
             handleCloseExperienceModal()
@@ -51,7 +49,7 @@ function ExperienceListComponent(props: {
     }
 
     const handleDeleteExperience = async (experienceId: number | undefined) => {
-        deleteExperience(props.portfolioId, experienceId)
+        deleteExperience(experienceId)
             .then(response => {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
             });

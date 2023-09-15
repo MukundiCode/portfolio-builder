@@ -6,7 +6,6 @@ import ExperienceListComponent from './Experience-component';
 import ProjectListComponent from './Project-component';
 
 function AboutAndExperience(props: {
-    id: number | undefined,
     aboutMe: string,
     editAboutMe: (aboutMe: string) => void
 }) {
@@ -66,9 +65,9 @@ function AboutAndExperience(props: {
                         </p>
                     </div>
 
-                    <ExperienceListComponent portfolioId={props.id}></ExperienceListComponent>
+                    <ExperienceListComponent></ExperienceListComponent>
 
-                    <ProjectListComponent portfolioId={props.id}></ProjectListComponent>
+                    <ProjectListComponent></ProjectListComponent>
 
                 </div>
             </div>

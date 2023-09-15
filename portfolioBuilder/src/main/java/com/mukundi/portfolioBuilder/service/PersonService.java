@@ -1,8 +1,7 @@
 package com.mukundi.portfolioBuilder.service;
 
-import com.mukundi.portfolioBuilder.domain.Person;
-import com.mukundi.portfolioBuilder.domain.Portfolio;
-import com.mukundi.portfolioBuilder.repository.PersonRepository;
+import com.mukundi.portfolioBuilder.auth.User;
+import com.mukundi.portfolioBuilder.auth.UserRepository;
 import com.mukundi.portfolioBuilder.service.exception.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonService {
 
   @Autowired
-  private PersonRepository personRepository;
+  private UserRepository userRepository;
 
+  /**
+   * TODO Should make this return portfolio not user
+   */
   @Transactional
-  public Person getByUsername(String username){
-    return personRepository.findByUsername(username)
+  public User getByUsername(String username){
+    return userRepository.findByUsername(username)
             .orElseThrow(() -> new PersonNotFoundException("Person with username: " + username + " not found"));
-  }
-
-  @Transactional
-  public Person createUser(String username) {
-    Person user = new Person(username);
-    Portfolio portfolio = new Portfolio(user);
-    user.setPortfolio(portfolio);
-    return personRepository.save(user);
   }
 
 }

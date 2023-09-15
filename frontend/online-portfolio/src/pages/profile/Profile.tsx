@@ -26,27 +26,28 @@ function Profile() {
 
     useEffect(() => {
         getPerson(params.username).then(response => {
+            console.log(response.data)
             setPortfolio(response.data.portfolio)
             setIsPortfolioReady(true)
         }).catch(err => console.log(err));
     }, [])
 
     const editAboutMe = (aboutMe: string) => {
-        editPortfolioAboutMe(portfolio.id, aboutMe)
+        editPortfolioAboutMe(aboutMe)
             .then(response => {
                 setPortfolio(response.data)
             });
     }
 
     const editName = (name: string) => {
-        editPortfolioName(portfolio.id, name)
+        editPortfolioName(name)
             .then(response => {
                 setPortfolio(response.data)
             });
     }
 
     const handleAddLink = (link: string) => {
-        addLink(portfolio.id, link)
+        addLink(link)
             .then(response => {
                 setPortfolio(response.data)
             });
@@ -67,7 +68,6 @@ function Profile() {
 
                     <Col>
                         <AboutAndExperience
-                            id={portfolio.id}
                             aboutMe={portfolio.aboutMe}
                             editAboutMe={editAboutMe}></AboutAndExperience>
                     </Col>

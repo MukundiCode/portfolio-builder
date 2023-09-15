@@ -3,6 +3,7 @@ package com.mukundi.portfolioBuilder.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mukundi.portfolioBuilder.auth.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,10 +50,10 @@ public class Portfolio {
   @JsonIgnore
   @OneToOne(mappedBy = "portfolio")
   @NotNull
-  private Person person;
+  private User user;
 
-  public Portfolio(Person person){
-    this.person = person;
+  public Portfolio(User user){
+    this.user = user;
   }
 
   public void addLink(String link){
