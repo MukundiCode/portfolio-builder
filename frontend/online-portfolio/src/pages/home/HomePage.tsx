@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Button, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
 import { getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
 import { Formik } from "formik";
@@ -23,12 +23,12 @@ function HomePage() {
 
     const handleLogInSubmit = (email: string, password: string) => {
         signupUser(username ? username : "", email, password)
-        .then(async () => {
-            loginUser(username ? username : "", password)
-        })
-        .then(() =>{
-            window.location.href = `/${username}`
-        })
+            .then(async () => {
+                loginUser(username ? username : "", password)
+            })
+            .then(() => {
+                window.location.href = `/${username}`
+            })
     }
 
     const handleCloseLoginModal = () => setShowLoginModal(false);
@@ -82,7 +82,7 @@ function HomePage() {
                                         <Form.Control.Feedback type="invalid">
                                             {errors.password}
                                         </Form.Control.Feedback>
-                                        
+
                                     </InputGroup>
                                 </Form.Group>
                                 <Modal.Footer>
@@ -100,6 +100,23 @@ function HomePage() {
                 </Modal.Body>
 
             </Modal>
+            <Container className="mt-3">
+                <Card className="p-1 rounded-pill shadow-sm p-1 mb-5 bg-body rounded">
+                    <Row className=" align-items-center">
+                        <Col className="m-2">
+                            <h4>
+                                Devportfolio.me
+                            </h4>
+                        </Col>
+                        <Col className="m-1 d-flex justify-content-end">
+                            <Button variant="dark" className="rounded-pill">
+                                Sign in
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card>
+
+            </Container>
 
             <Container className="w-50 mt-5 pt-5">
                 <Row>
@@ -118,7 +135,7 @@ function HomePage() {
                                 aria-describedby="basic-addon3"
                                 placeholder={textBoxPlaceHolder + "|"}
                                 onChange={(event) => setUsername(event.target.value)} />
-                            <Button onClick={handleUsernameSubmit} variant="dark">Launch</Button>
+                            <Button onClick={handleUsernameSubmit} variant="dark" >Launch</Button>
                         </InputGroup>
                     </div>
                 </Row>
