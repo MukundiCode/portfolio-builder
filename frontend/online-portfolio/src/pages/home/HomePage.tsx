@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
-import { getCurrentUser, loginUser, signupUser, isUsernameTaken } from "../../service/ProfileService";
+import { getCurrentUser, loginUser, signupUser, isUsernameTaken, logoutUser } from "../../service/ProfileService";
 import SignUpComponent from "./components/SignUp-component";
 import LoginComponent from "./components/Login-component";
 
@@ -17,7 +17,6 @@ function HomePage() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const [isUsernameTakenVal, setIsUsernameTaken] = useState(false);
-    const [isFormTouched, setIsFormTouched] = useState(false)
 
     const handleUsernameSubmit = () => {
         if (getCurrentUser() == null) {
@@ -57,9 +56,13 @@ function HomePage() {
                             </h4>
                         </Col>
                         <Col className="m-1 d-flex justify-content-end">
-                            <Button variant="dark" className="rounded-pill" onClick={handleShowLoginModal}>
-                                Sign in
-                            </Button>
+                            {getCurrentUser() ?
+                                <Button variant="dark" className="rounded-pill" onClick={logoutUser}>
+                                    Sign out
+                                </Button> :
+                                <Button variant="dark" className="rounded-pill" onClick={handleShowLoginModal}>
+                                    Sign in
+                                </Button>}
                         </Col>
                     </Row>
                 </Card>
@@ -76,9 +79,6 @@ function HomePage() {
                     <Row className="w-75 align-middle  ">
                         <Col xs={9}>
                             <InputGroup className="align-middle ">
-                                {/* <InputGroup.Text id="basic-addon3">
-                                devportfolio.me/
-                            </InputGroup.Text> */}
                                 <Form.Control
                                     className="rounded-pill"
                                     id="basic-url"
@@ -87,7 +87,6 @@ function HomePage() {
                                     placeholder={textBoxPlaceHolder + "|"}
                                     onChange={(event) => {
                                         setUsername(event.target.value)
-                                        setIsFormTouched(true)
                                     }}
                                 />
                             </InputGroup>

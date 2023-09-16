@@ -11,10 +11,10 @@ export default function SignUpComponent(props: {
 
     const handleCloseSignUpModal = () => props.setShowSignUpModal(false);
 
-    const handleLogInSubmit = (email: string, password: string) => {
-        signupUser(props.username ? props.username : "", email, password)
+    const handleLogInSubmit = async (email: string, password: string) => {
+        await signupUser(props.username ? props.username : "", email, password)
             .then(async () => {
-                loginUser(props.username ? props.username : "", password)
+                await loginUser(props.username ? props.username : "", password)
             })
             .then(() => {
                 window.location.href = `/${props.username}`

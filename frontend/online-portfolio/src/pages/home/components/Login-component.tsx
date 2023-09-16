@@ -11,8 +11,8 @@ export default function LoginComponent(props: {
 
     const handleCloseLoginModal = () => props.setShowLoginModal(false);
 
-    const handleLogInSubmit = (username: string, password: string) => {
-        loginUser(username ? username : "", password)
+    const handleLogInSubmit = async (username: string, password: string) => {
+        await loginUser(username ? username : "", password)
             .then(() => {
                 window.location.href = `/${username}`
             })
