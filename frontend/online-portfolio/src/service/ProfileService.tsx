@@ -95,20 +95,20 @@ export const signupUser = async (username: string, email: string, password: stri
             email,
             password,
             role
-        })
+        }, {withCredentials: false})
         .then((response) => {
             console.log(response.data)
-            // if (response.data.username) {
-            //     localStorage.setItem("user", JSON.stringify(response.data));
-            // }
-            // window.location.replace("/");
             return response.data;
         })
 }
 
-export const logoutUser = async (): Promise<{message: string}> => {
+export const isUsernameTaken = (username: string) => {
+    return axios.get(URL + '/isUsernameTaken?username='+username);
+}
+
+export const logoutUser = async () => {
     localStorage.removeItem("user");
-    const response = await axios.post(URL + "signout");
+    const response = await axios.post(URL + "/api/auth/signout");
     console.log(response);
     return response.data;
 };

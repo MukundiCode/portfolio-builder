@@ -26,4 +26,7 @@ public class PersonService {
             .orElseThrow(() -> new PersonNotFoundException("Person with username: " + username + " not found"));
   }
 
+  public Boolean isUsernameTaken(String username) {
+    return userRepository.existsByUsername(username);
+  }
 }
