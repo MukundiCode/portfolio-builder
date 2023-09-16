@@ -3,103 +3,40 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
 import { getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
-import { Formik } from "formik";
-import * as yup from 'yup';
+import SignUpComponent from "./components/SignUp-component";
+import LoginComponent from "./components/Login-component";
 
 function HomePage() {
 
-    const [username, setUsername] = useState<string>();
+    const [username, setUsername] = useState<string>("");
     const [textBoxPlaceHolder, setTextBoxPlaceHolder] = useTypewriter({
         words: ["yourusername"],
         loop: 0
     })
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const handleUsernameSubmit = () => {
         if (getCurrentUser() == null) {
-            handleShowLoginModal()
+            handleShowSignUpModal()
         }
     }
 
-    const handleLogInSubmit = (email: string, password: string) => {
-        signupUser(username ? username : "", email, password)
-            .then(async () => {
-                loginUser(username ? username : "", password)
-            })
-            .then(() => {
-                window.location.href = `/${username}`
-            })
-    }
-
-    const handleCloseLoginModal = () => setShowLoginModal(false);
     const handleShowLoginModal = () => setShowLoginModal(true);
-
-    const loginSchema = yup.object().shape({
-        email: yup.string().email().required(),
-        password: yup.string().required()
-    });
+    const handleShowSignUpModal = () => setShowSignUpModal(true);
 
     return (
         <div>
 
-            <Modal show={showLoginModal} onHide={handleCloseLoginModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Name</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            <SignUpComponent
+                showSignUpModal={showSignUpModal}
+                setShowSignUpModal={setShowSignUpModal}
+                username={username}></SignUpComponent>
 
-                    <Formik
-                        validationSchema={loginSchema}
-                        onSubmit={form => handleLogInSubmit(form.email, form.password)}
-                        initialValues={{
-                            email: "",
-                            password: ""
-                        }}>
-                        {({ handleSubmit, handleChange, values, touched, errors }) => (
-                            <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3" controlId="validationCustom02" >
-                                    <InputGroup hasValidation>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder='email'
-                                            name='email'
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.email}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.email}
-                                        </Form.Control.Feedback>
+            <LoginComponent
+                setShowLoginModal={setShowLoginModal}
+                showLoginModal={showLoginModal}></LoginComponent>
 
-                                        <Form.Control
-                                            type="text"
-                                            placeholder='Password'
-                                            name='password'
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.password}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.password}
-                                        </Form.Control.Feedback>
-
-                                    </InputGroup>
-                                </Form.Group>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleCloseLoginModal}>
-                                        Close
-                                    </Button>
-                                    <Button variant="primary" type='submit'>
-                                        Save Changes
-                                    </Button>
-                                </Modal.Footer>
-                            </Form>
-                        )}
-                    </Formik>
-
-                </Modal.Body>
-
-            </Modal>
             <Container className="mt-3">
                 <Card className="p-1 rounded-pill shadow-sm p-1 mb-5 bg-body rounded">
                     <Row className=" align-items-center">
@@ -109,7 +46,7 @@ function HomePage() {
                             </h4>
                         </Col>
                         <Col className="m-1 d-flex justify-content-end">
-                            <Button variant="dark" className="rounded-pill">
+                            <Button variant="dark" className="rounded-pill" onClick={handleShowLoginModal}>
                                 Sign in
                             </Button>
                         </Col>
@@ -133,6 +70,7 @@ function HomePage() {
                             <Form.Control
                                 id="basic-url"
                                 aria-describedby="basic-addon3"
+                                required
                                 placeholder={textBoxPlaceHolder + "|"}
                                 onChange={(event) => setUsername(event.target.value)} />
                             <Button onClick={handleUsernameSubmit} variant="dark" >Launch</Button>
