@@ -106,6 +106,10 @@ export const signupUser = async (username: string, email: string, password: stri
         })
 }
 
+export const isUsernameTaken = (username: string) => {
+    return axios.get(URL + '/isUsernameTaken?username='+username);
+}
+
 export const logoutUser = async (): Promise<{message: string}> => {
     localStorage.removeItem("user");
     const response = await axios.post(URL + "signout");

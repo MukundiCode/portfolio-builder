@@ -22,4 +22,11 @@ public class PersonController {
     return ResponseEntity.ok(user);
   }
 
+  @GetMapping("/isUsernameTaken")
+  public ResponseEntity<Boolean> isUsernameTaken(@RequestParam String username){
+    return ResponseEntity.ok(
+            personService.isUsernameTaken(username)
+    );
+  }
+
 }

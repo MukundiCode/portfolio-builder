@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
-import { getCurrentUser, loginUser, signupUser } from "../../service/ProfileService";
+import { getCurrentUser, loginUser, signupUser, isUsernameTaken } from "../../service/ProfileService";
 import SignUpComponent from "./components/SignUp-component";
 import LoginComponent from "./components/Login-component";
 
@@ -16,6 +16,9 @@ function HomePage() {
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
 
+    const [isUsernameTakenVal, setIsUsernameTaken] = useState(false);
+    const [isFormTouched, setIsFormTouched] = useState(false)
+
     const handleUsernameSubmit = () => {
         if (getCurrentUser() == null) {
             handleShowSignUpModal()
@@ -24,6 +27,14 @@ function HomePage() {
 
     const handleShowLoginModal = () => setShowLoginModal(true);
     const handleShowSignUpModal = () => setShowSignUpModal(true);
+
+    useEffect(() => {
+        isUsernameTaken(username).then((response) => {
+            console.log(response.data + " " + username)
+            setIsUsernameTaken(!response.data)
+        })
+    }, [username]);
+
 
     return (
         <div>
@@ -61,22 +72,40 @@ function HomePage() {
                         Your developer portfolio is one click away!
                     </div>
                 </Row>
-                <Row className="d-flex justify-content-center">
-                    <div className="w-75 align-middle">
-                        <InputGroup className="mb-3 align-middle ">
-                            <InputGroup.Text id="basic-addon3">
+                <div className="d-flex justify-content-center">
+                    <Row className="w-75 align-middle  ">
+                        <Col xs={9}>
+                            <InputGroup className="align-middle ">
+                                {/* <InputGroup.Text id="basic-addon3">
                                 devportfolio.me/
-                            </InputGroup.Text>
-                            <Form.Control
-                                id="basic-url"
-                                aria-describedby="basic-addon3"
-                                required
-                                placeholder={textBoxPlaceHolder + "|"}
-                                onChange={(event) => setUsername(event.target.value)} />
-                            <Button onClick={handleUsernameSubmit} variant="dark" >Launch</Button>
-                        </InputGroup>
-                    </div>
-                </Row>
+                            </InputGroup.Text> */}
+                                <Form.Control
+                                    className="rounded-pill"
+                                    id="basic-url"
+                                    aria-describedby="basic-addon3"
+                                    required
+                                    placeholder={textBoxPlaceHolder + "|"}
+                                    onChange={(event) => {
+                                        setUsername(event.target.value)
+                                        setIsFormTouched(true)
+                                    }}
+                                />
+                            </InputGroup>
+                            {username !== "" && ((!isUsernameTakenVal) ?
+                                <Form.Text className=" text-danger">
+                                    Username Taken
+                                </Form.Text>
+                                :
+                                <Form.Text className="text-success">
+                                    Looks Good!
+                                </Form.Text>)
+                            }
+                        </Col>
+                        <Col>
+                            <Button disabled={isUsernameTakenVal ? false : true} onClick={handleUsernameSubmit} variant="dark" className="rounded-pill" >Launch</Button>
+                        </Col>
+                    </Row>
+                </div>
             </Container>
         </div>
     )
