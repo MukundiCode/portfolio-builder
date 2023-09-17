@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Person } from "../types/Person";
 import { Experience } from "../types/Experience";
 import { Project } from "../types/Project";
@@ -7,12 +7,12 @@ const URL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
 
 export const getPerson = (username: string | undefined) => {
-    return axios.get<Person>(URL + '/' + username);
+    return axios.get<Person>(URL + '/' + username)
 }
 
 export const editPortfolioAboutMe = (aboutMe: string | undefined) => {
     return axios.post(URL + '/api/portfolio/aboutMe/edit',
-        {load: aboutMe}, {
+        { load: aboutMe }, {
         headers: {
             'content-type': 'application/json'
         }
@@ -95,7 +95,7 @@ export const signupUser = async (username: string, email: string, password: stri
             email,
             password,
             role
-        }, {withCredentials: false})
+        }, { withCredentials: false })
         .then((response) => {
             console.log(response.data)
             return response.data;
@@ -103,19 +103,27 @@ export const signupUser = async (username: string, email: string, password: stri
 }
 
 export const isUsernameTaken = (username: string) => {
-    return axios.get(URL + '/isUsernameTaken?username='+username);
+    return axios.get(URL + '/isUsernameTaken?username=' + username);
 }
 
 export const logoutUser = async () => {
     localStorage.removeItem("user");
     const response = await axios.post(URL + "/api/auth/signout");
-    console.log(response);
+    window.location.href = "/"
     return response.data;
 };
 
-export const getCurrentUser = () : string | null => {
+export const getCurrentUser = (): string | null => {
     // @ts-ignore
     return JSON.parse(localStorage.getItem("user"));
 };
+
+export const handleUnauthorizedError = (error: Error) => {
+    if (axios.isAxiosError(error) && error.status === 401) {
+        logoutUser()
+    } else {
+        throw Error("Error",error);
+    }
+}
 
 

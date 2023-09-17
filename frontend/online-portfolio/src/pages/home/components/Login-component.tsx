@@ -41,39 +41,38 @@ export default function LoginComponent(props: {
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="validationCustom02" >
-                                    <InputGroup hasValidation>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder='Username'
-                                            name='username'
-                                            value={values.username}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.username}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.username}
-                                        </Form.Control.Feedback>
+                                    <Form.Label>Username</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='username'
+                                        value={values.username}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.username}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.username}
+                                    </Form.Control.Feedback>
 
-                                        <Form.Control
-                                            type="password"
-                                            placeholder='Password'
-                                            name='password'
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.password}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.password}
-                                        </Form.Control.Feedback>
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        name='password'
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.password}
+                                    </Form.Control.Feedback>
 
-                                    </InputGroup>
+                                    {/* <Button>Log in with GitHub</Button> */}
                                 </Form.Group>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleCloseLoginModal}>
                                         Close
                                     </Button>
                                     <Button variant="primary" type='submit'>
-                                        Save Changes
+                                        Submit
                                     </Button>
                                 </Modal.Footer>
                             </Form>

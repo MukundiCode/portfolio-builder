@@ -5,7 +5,7 @@ import AboutAndExperience from './components/About-and-experience-componenets';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { editPortfolioAboutMe, editPortfolioName, getPerson, addLink } from '../../service/ProfileService';
+import { editPortfolioAboutMe, editPortfolioName, getPerson, addLink, handleUnauthorizedError } from '../../service/ProfileService';
 
 
 function Profile() {
@@ -29,13 +29,21 @@ function Profile() {
             console.log(response.data)
             setPortfolio(response.data.portfolio)
             setIsPortfolioReady(true)
-        }).catch(err => console.log(err));
+        })
+        .catch(err => {
+            handleUnauthorizedError(err)
+            console.log(err)
+        });
     }, [])
 
     const editAboutMe = (aboutMe: string) => {
         editPortfolioAboutMe(aboutMe)
             .then(response => {
                 setPortfolio(response.data)
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
             });
     }
 
@@ -43,6 +51,10 @@ function Profile() {
         editPortfolioName(name)
             .then(response => {
                 setPortfolio(response.data)
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
             });
     }
 
@@ -50,6 +62,10 @@ function Profile() {
         addLink(link)
             .then(response => {
                 setPortfolio(response.data)
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
             });
     }
 
@@ -63,7 +79,7 @@ function Profile() {
                             links={portfolio.links}
                             editName={editName}
                             addLink={handleAddLink}
-                            ></NameAndLinks>
+                        ></NameAndLinks>
                     </Col>
 
                     <Col>

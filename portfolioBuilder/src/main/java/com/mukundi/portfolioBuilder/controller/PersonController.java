@@ -1,6 +1,7 @@
 package com.mukundi.portfolioBuilder.controller;
 
 import com.mukundi.portfolioBuilder.auth.User;
+import com.mukundi.portfolioBuilder.controller.dto.GetUserPortfolioDto;
 import com.mukundi.portfolioBuilder.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,11 @@ public class PersonController {
   private PersonService personService;
 
   @GetMapping("/{username}")
-  public ResponseEntity<User> getPerson(@PathVariable String username){
+  public ResponseEntity<GetUserPortfolioDto> getPerson(@PathVariable String username){
     User user = personService.getByUsername(username);
-    return ResponseEntity.ok(user);
+    return ResponseEntity.ok(
+            new GetUserPortfolioDto(user.getPortfolio())
+    );
   }
 
   @GetMapping("/isUsernameTaken")
