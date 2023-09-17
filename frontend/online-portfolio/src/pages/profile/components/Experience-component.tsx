@@ -5,7 +5,7 @@ import { Experience } from "../../../types/Experience";
 import ExperienceContainer from "./Experience-container-component";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
-import { addExperience, deleteExperience, getAllExperiences } from "../../../service/ProfileService";
+import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedError } from "../../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
 
@@ -16,8 +16,13 @@ function ExperienceListComponent() {
     const [dateError, setDateError] = useState(false);
 
     useEffect(() => {
-        getAllExperiences().then(response => {
+        getAllExperiences()
+        .then(response => {
             setExperienceList(response.data)
+        })
+        .catch(err => {
+            handleUnauthorizedError(err)
+            console.log(err)
         });
     }, []);
 
@@ -39,8 +44,13 @@ function ExperienceListComponent() {
                 until: until,
                 skills: skills
             }
-            addExperience(experience).then(response => {
+            addExperience(experience)
+            .then(response => {
                 setExperienceList(expereinceList => [response.data, ...expereinceList])
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
             });
             handleCloseExperienceModal()
         } else {
@@ -52,6 +62,10 @@ function ExperienceListComponent() {
         deleteExperience(experienceId)
             .then(response => {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
             });
     }
 

@@ -51,9 +51,12 @@ function HomePage() {
                 <Card className="p-1 rounded-pill shadow-sm p-1 mb-5 bg-body rounded">
                     <Row className=" align-items-center">
                         <Col className="m-2">
-                            <h4>
-                                Devportfolio.me
-                            </h4>
+                            <span className="align-middle">
+                            <h5>
+                                Dp.me
+                            </h5>
+                            </span>
+                            
                         </Col>
                         <Col className="m-1 d-flex justify-content-end">
                             {getCurrentUser() ?
@@ -101,7 +104,14 @@ function HomePage() {
                             }
                         </Col>
                         <Col>
-                            <Button disabled={isUsernameTakenVal ? false : true} onClick={handleUsernameSubmit} variant="dark" className="rounded-pill" >Launch</Button>
+                            <Button
+                                disabled={
+                                    (!getCurrentUser() &&
+                                        username !== "" &&
+                                        isUsernameTakenVal) ? false : true}
+                                onClick={handleUsernameSubmit}
+                                variant="dark"
+                                className="rounded-pill" >Launch</Button>
                         </Col>
                     </Row>
                 </div>

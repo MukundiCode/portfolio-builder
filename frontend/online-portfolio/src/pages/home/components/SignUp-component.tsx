@@ -30,7 +30,7 @@ export default function SignUpComponent(props: {
         <div>
             <Modal show={props.showSignUpModal} onHide={handleCloseSignUpModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Name</Modal.Title>
+                    <Modal.Title>Sign up</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
@@ -44,10 +44,9 @@ export default function SignUpComponent(props: {
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="validationCustom02" >
-                                    <InputGroup hasValidation>
+                                <Form.Label>Email</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder='email'
                                             name='email'
                                             value={values.email}
                                             onChange={handleChange}
@@ -57,9 +56,9 @@ export default function SignUpComponent(props: {
                                             {errors.email}
                                         </Form.Control.Feedback>
 
+                                        <Form.Label>Password</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder='Password'
                                             name='password'
                                             value={values.password}
                                             onChange={handleChange}
@@ -69,14 +68,13 @@ export default function SignUpComponent(props: {
                                             {errors.password}
                                         </Form.Control.Feedback>
 
-                                    </InputGroup>
                                 </Form.Group>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleCloseSignUpModal}>
                                         Close
                                     </Button>
                                     <Button variant="primary" type='submit'>
-                                        Save Changes
+                                        Submit
                                     </Button>
                                 </Modal.Footer>
                             </Form>
