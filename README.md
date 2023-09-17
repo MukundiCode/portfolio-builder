@@ -8,7 +8,7 @@ Devportfolio is a platform where developers can create their online portfolio, k
 - [x] User portfolio generation and customization
 - [X] Create and launch profile
 - [X] Persistence
-- [ ] User authentication and authorization
+- [X] User authentication and authorization
 - [ ] User analytics and insights
 - [ ] Deployment
 
