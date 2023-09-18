@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, InputGroup, Modal, Row, Stack } from "react-bootstrap";
 import { useTypewriter } from 'react-simple-typewriter';
 import { getCurrentUser, loginUser, signupUser, isUsernameTaken, logoutUser } from "../../service/ProfileService";
 import SignUpComponent from "./components/SignUp-component";
 import LoginComponent from "./components/Login-component";
+import { useMediaQuery } from 'react-responsive';
 
 function HomePage() {
 
@@ -17,6 +18,9 @@ function HomePage() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const [isUsernameTakenVal, setIsUsernameTaken] = useState(false);
+
+    const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
+    const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
 
     const handleUsernameSubmit = () => {
         if (getCurrentUser() == null) {
@@ -52,11 +56,11 @@ function HomePage() {
                     <Row className=" align-items-center">
                         <Col className="m-2">
                             <span className="align-middle">
-                            <h5>
-                                Dp.me
-                            </h5>
+                                <h5>
+                                    Dp.me
+                                </h5>
                             </span>
-                            
+
                         </Col>
                         <Col className="m-1 d-flex justify-content-end">
                             {getCurrentUser() ?
@@ -72,49 +76,100 @@ function HomePage() {
 
             </Container>
 
-            <Container className="w-50 mt-5 pt-5">
+            <Container className="mt-5 pt-5">
                 <Row>
-                    <div className="display-2 mb-3 home-font text-center" >
-                        Your developer portfolio is one click away!
-                    </div>
-                </Row>
-                <div className="d-flex justify-content-center">
-                    <Row className="w-75 align-middle  ">
-                        <Col xs={9}>
-                            <InputGroup className="align-middle ">
-                                <Form.Control
-                                    className="rounded-pill"
-                                    id="basic-url"
-                                    aria-describedby="basic-addon3"
-                                    required
-                                    placeholder={textBoxPlaceHolder + "|"}
-                                    onChange={(event) => {
-                                        setUsername(event.target.value)
-                                    }}
-                                />
-                            </InputGroup>
-                            {username !== "" && ((!isUsernameTakenVal) ?
-                                <Form.Text className=" text-danger">
-                                    Username Taken
-                                </Form.Text>
-                                :
-                                <Form.Text className="text-success">
-                                    Looks Good!
-                                </Form.Text>)
+
+                    <Col xs={0.5} lg="2">
+                    </Col>
+
+                    <Col>
+                        <Row>
+                            <div className="display-2 mb-3 home-font text-center" >
+                                Your developer portfolio is one click away!
+                            </div>
+                        </Row>
+                        <div className="d-flex justify-content-center">
+                            {isDesktopOrLaptop &&
+                                <Row className="w-75 align-middle  ">
+                                    <Col xs={9}>
+                                        <InputGroup className="align-middle ">
+                                            <Form.Control
+                                                className="rounded-pill"
+                                                id="basic-url"
+                                                aria-describedby="basic-addon3"
+                                                required
+                                                placeholder={textBoxPlaceHolder + "|"}
+                                                onChange={(event) => {
+                                                    setUsername(event.target.value)
+                                                }}
+                                            />
+                                        </InputGroup>
+                                        {username !== "" && ((!isUsernameTakenVal) ?
+                                            <Form.Text className=" text-danger">
+                                                Username Taken
+                                            </Form.Text>
+                                            :
+                                            <Form.Text className="text-success">
+                                                Looks Good!
+                                            </Form.Text>)
+                                        }
+                                    </Col>
+                                    <Col>
+                                        <Button
+                                            disabled={
+                                                (!getCurrentUser() &&
+                                                    username !== "" &&
+                                                    isUsernameTakenVal) ? false : true}
+                                            onClick={handleUsernameSubmit}
+                                            variant="dark"
+                                            className="rounded-pill" >Launch</Button>
+                                    </Col>
+                                </Row>
                             }
-                        </Col>
-                        <Col>
-                            <Button
-                                disabled={
-                                    (!getCurrentUser() &&
-                                        username !== "" &&
-                                        isUsernameTakenVal) ? false : true}
-                                onClick={handleUsernameSubmit}
-                                variant="dark"
-                                className="rounded-pill" >Launch</Button>
-                        </Col>
-                    </Row>
-                </div>
+
+                            {isTabletOrMobile &&
+                                <Row className="w-100 align-middle  ">
+                                    <Stack gap={3}>
+                                        <InputGroup className="align-middle ">
+                                            <Form.Control
+                                                className="rounded-pill"
+                                                id="basic-url"
+                                                aria-describedby="basic-addon3"
+                                                required
+                                                placeholder={textBoxPlaceHolder + "|"}
+                                                onChange={(event) => {
+                                                    setUsername(event.target.value)
+                                                }}
+                                            />
+                                        </InputGroup>
+                                        {username !== "" && ((!isUsernameTakenVal) ?
+                                            <Form.Text className=" text-danger">
+                                                Username Taken
+                                            </Form.Text>
+                                            :
+                                            <Form.Text className="text-success">
+                                                Looks Good!
+                                            </Form.Text>)
+                                        }
+                                        <div className="d-flex justify-content-center">
+                                        <Button
+                                            disabled={
+                                                (!getCurrentUser() &&
+                                                    username !== "" &&
+                                                    isUsernameTakenVal) ? false : true}
+                                            onClick={handleUsernameSubmit}
+                                            variant="dark"
+                                            className="w-25 rounded-pill" >Launch</Button></div>
+                                    </Stack>
+                                </Row>
+                            }
+                        </div>
+                    </Col>
+
+                    <Col xs={0.5} lg="2">
+                    </Col>
+
+                </Row>
             </Container>
         </div>
     )
