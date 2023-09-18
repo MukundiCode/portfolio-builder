@@ -1,4 +1,4 @@
-import { Button, Form, InputGroup, Modal, Stack } from 'react-bootstrap';
+import { Button, Col, Container, Form, InputGroup, Modal, Row, Stack } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react';
@@ -136,42 +136,57 @@ function NameAndLinks(props: {
 
             <div className="justify-content-center align-items-center 
               h-100 w-100  align-middle  rounded  p-3" id="intro">
-
-                <h5>
-                    Hie There, I am
-                </h5>
-                <Stack direction='horizontal' gap={3}>
+                <Container>
+                    <Row>
+                        <h5>
+                            Hie There, I am
+                        </h5>
+                    </Row>
+                    <Row>
+                        <Col xs={10}>
+                            <div className="display-2 mb-3 name-font" >
+                                {props.name ? props.name : "Name"}
+                            </div>
+                        </Col>
+                        <Col className='d-flex justify-content-end'>
+                            <Icon.PencilFill role='button' onClick={handleShowEditNameModal}></Icon.PencilFill>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div>
+                            <Stack direction="horizontal" gap={2}>
+                                <Button variant="dark">
+                                    Contact
+                                </Button>
+                                <Button variant="dark">
+                                    CV
+                                </Button>
+                            </Stack>
+                        </div>
+                    </Row>
+                    <Row>
+                        <div className='mt-3 pt-3'>
+                            <Stack direction="horizontal" gap={2}>
+                                {
+                                    props.links.map((e, i) => {
+                                        return <SocialIcon key={i} url={e} bgColor="black" style={{ height: 40, width: 40 }} />
+                                    })
+                                }
+                                <Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
+                            </Stack>
+                        </div>
+                    </Row>
+                </Container>
+                {/* <Stack direction='horizontal' gap={3}>
                     <div className="display-2 mb-3 name-font" >
                         {props.name ? props.name : "Name"}
                     </div>
                     <Icon.PencilFill role='button' onClick={handleShowEditNameModal}></Icon.PencilFill>
-                </Stack>
+                </Stack> */}
 
                 {/* <div className='mb-3'>
                     Professional Software Developer with a passion for delivering reliable software solutions
                 </div> */}
-
-                <div>
-                    <Stack direction="horizontal" gap={2}>
-                        <Button variant="dark">
-                            Hire Me
-                        </Button>
-                        <Button variant="dark">
-                            CV
-                        </Button>
-                    </Stack>
-                </div>
-
-                <div className='mt-3 pt-3'>
-                    <Stack direction="horizontal" gap={2}>
-                        {
-                            props.links.map((e, i) => {
-                                return <SocialIcon key={i} url={e} bgColor="black" style={{ height: 40, width: 40 }} />
-                            })
-                        }
-                        <Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
-                    </Stack>
-                </div>
 
             </div>
         </div>

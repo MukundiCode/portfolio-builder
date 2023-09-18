@@ -57,7 +57,7 @@ function AboutAndExperience(props: {
                                 <div>
                                     About Me
                                 </div>
-                                <Icon.PencilFill role='button' onClick={() => handleShowAboutMeModal()}></Icon.PencilFill>
+                                <Icon.PencilFill size={16} role='button' onClick={() => handleShowAboutMeModal()}></Icon.PencilFill>
                             </Stack>
                         </h5>
                         <p className="text-break">
