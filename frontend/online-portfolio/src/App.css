@@ -39,6 +39,22 @@
   font-family: 'Alata';
 }
 
+.elevated-card {
+  background-color: #262c32;
+}
+
+.custom-primary {
+  color: #3a99ff;
+}
+
+.custom-primary-btn {
+  background-color: #3a99ff !important;
+}
+
+.custom-secondary {
+  color: #C7FC86;
+}
+
 
 .new-section-element-button {
   color: #000000;

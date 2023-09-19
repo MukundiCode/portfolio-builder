@@ -144,7 +144,7 @@ function NameAndLinks(props: {
                     </Row>
                     <Row>
                         <Col xs={10}>
-                            <div className="display-2 mb-3 name-font" >
+                            <div className="display-2 mb-3 custom-primary name-font" >
                                 {props.name ? props.name : "Name"}
                             </div>
                         </Col>
@@ -155,10 +155,10 @@ function NameAndLinks(props: {
                     <Row>
                         <div>
                             <Stack direction="horizontal" gap={2}>
-                                <Button variant="dark">
+                                <Button className='custom-primary-btn' disabled>
                                     Contact
                                 </Button>
-                                <Button variant="dark">
+                                <Button className='custom-primary-btn' disabled>
                                     CV
                                 </Button>
                             </Stack>
@@ -169,7 +169,7 @@ function NameAndLinks(props: {
                             <Stack direction="horizontal" gap={2}>
                                 {
                                     props.links.map((e, i) => {
-                                        return <SocialIcon key={i} url={e} bgColor="black" style={{ height: 40, width: 40 }} />
+                                        return <SocialIcon key={i} url={e} bgColor="#caced2" style={{ height: 30, width: 30 }} />
                                     })
                                 }
                                 <Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>

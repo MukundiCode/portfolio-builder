@@ -11,8 +11,8 @@ function ExperienceContainer(props: {
 
     return (
         <div className="justify-content-center align-items-center 
-                      h-100 w-100  align-middle border rounded  p-3" id="exp-card">
-            <Container>
+                      h-100 w-100  align-middle shadow rounded  p-3 elevated-card" id="exp-card" >
+            <Container >
                 <Row >
                     <Col xs={3}>
                         <div>
@@ -45,7 +45,7 @@ function ExperienceContainer(props: {
                             <div>
                                 <div className='d-flex flex-wrap'>
                                     {props.experience.skills.map((skill, i) => {
-                                        return <Badge key={i} className='m-1' pill bg="secondary "> {skill} </Badge>
+                                        return <Badge key={i} className='m-1' pill bg='warning' style={{color: 'black'}}> {skill} </Badge>
                                     })}
                                 </div>
                             </div>

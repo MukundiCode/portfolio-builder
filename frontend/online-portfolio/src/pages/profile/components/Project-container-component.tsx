@@ -9,7 +9,7 @@ function ProjectContainer(props: {
 
     return (
         <div className="justify-content-center align-items-center 
-                      h-100 w-100  align-middle border rounded  p-3" id="exp-card">
+                      h-100 w-100  align-middle shadow elevated-card rounded  p-3" id="exp-card">
             <div>
                 <Row>
                     <Col>
@@ -32,7 +32,7 @@ function ProjectContainer(props: {
                 </p>
                 <div className='d-flex flex-wrap'>
                     {props.project.skills.map((skill, i) => {
-                        return <Badge key={i} className='m-1' pill bg="secondary "> {skill} </Badge>
+                        return <Badge key={i} className='m-1' style={{color: 'black'}} pill bg='warning'> {skill} </Badge>
                     })}
                 </div>
             </div>

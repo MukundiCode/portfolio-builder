@@ -40,7 +40,7 @@ function HomePage() {
 
 
     return (
-        <div>
+        <div >
 
             <SignUpComponent
                 showSignUpModal={showSignUpModal}
@@ -64,10 +64,10 @@ function HomePage() {
                         </Col>
                         <Col className="m-1 d-flex justify-content-end">
                             {getCurrentUser() ?
-                                <Button variant="dark" className="rounded-pill" onClick={logoutUser}>
+                                <Button className="rounded-pill" onClick={logoutUser}>
                                     Sign out
                                 </Button> :
-                                <Button variant="dark" className="rounded-pill" onClick={handleShowLoginModal}>
+                                <Button className="rounded-pill" onClick={handleShowLoginModal}>
                                     Sign in
                                 </Button>}
                         </Col>
@@ -85,7 +85,7 @@ function HomePage() {
                     <Col>
                         <Row>
                             <div className="display-2 mb-3 home-font text-center" >
-                                Your developer portfolio is one click away!
+                                Your developer portfolio is one <div className="custom-primary">click away!</div> 
                             </div>
                         </Row>
                         <div className="d-flex justify-content-center">
@@ -121,8 +121,7 @@ function HomePage() {
                                                     username !== "" &&
                                                     isUsernameTakenVal) ? false : true}
                                             onClick={handleUsernameSubmit}
-                                            variant="dark"
-                                            className="rounded-pill" >Launch</Button>
+                                            className="rounded-pill custom-primary-btn" >Launch</Button>
                                     </Col>
                                 </Row>
                             }
@@ -158,8 +157,8 @@ function HomePage() {
                                                     username !== "" &&
                                                     isUsernameTakenVal) ? false : true}
                                             onClick={handleUsernameSubmit}
-                                            variant="dark"
-                                            className="w-25 rounded-pill" >Launch</Button></div>
+                                            // variant="dark"
+                                            className="w-25 rounded-pill custom-primary-btn" >Launch</Button></div>
                                     </Stack>
                                 </Row>
                             }
