@@ -51,31 +51,6 @@ function HomePage() {
                 setShowLoginModal={setShowLoginModal}
                 showLoginModal={showLoginModal}></LoginComponent>
 
-            <Container className="mt-3">
-                <Card className="p-1 rounded-pill shadow-sm p-1 mb-5 bg-body rounded">
-                    <Row className=" align-items-center">
-                        <Col className="m-2">
-                            <span className="align-middle">
-                                <h5>
-                                    Dp.me
-                                </h5>
-                            </span>
-
-                        </Col>
-                        <Col className="m-1 d-flex justify-content-end">
-                            {getCurrentUser() ?
-                                <Button className="rounded-pill" onClick={logoutUser}>
-                                    Sign out
-                                </Button> :
-                                <Button className="rounded-pill" onClick={handleShowLoginModal}>
-                                    Sign in
-                                </Button>}
-                        </Col>
-                    </Row>
-                </Card>
-
-            </Container>
-
             <Container className="mt-5 pt-5">
                 <Row>
 

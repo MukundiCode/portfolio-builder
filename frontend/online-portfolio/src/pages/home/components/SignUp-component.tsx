@@ -23,7 +23,8 @@ export default function SignUpComponent(props: {
 
     const signUpSchema = yup.object().shape({
         email: yup.string().email().required(),
-        password: yup.string().required()
+        password: yup.string().required(),
+        username: yup.string().required()
     });
 
     return (
@@ -39,34 +40,48 @@ export default function SignUpComponent(props: {
                         onSubmit={form => handleLogInSubmit(form.email, form.password)}
                         initialValues={{
                             email: "",
-                            password: ""
+                            password: "",
+                            username: props.username
                         }}>
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="validationCustom02" >
-                                <Form.Label>Email</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name='email'
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.email}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.email}
-                                        </Form.Control.Feedback>
+                                <Form.Label>Username</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='username'
+                                        value={values.username}
+                                        readOnly={values.username != ""}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.username}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.username}
+                                    </Form.Control.Feedback>
 
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name='password'
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.password}
-                                            required />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.password}
-                                        </Form.Control.Feedback>
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='email'
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.email}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.email}
+                                    </Form.Control.Feedback>
+
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name='password'
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password}
+                                        required />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.password}
+                                    </Form.Control.Feedback>
 
                                 </Form.Group>
                                 <Modal.Footer>
