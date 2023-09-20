@@ -47,7 +47,7 @@ function AboutAndExperience(props: {
                 </Modal.Footer>
             </Modal>
 
-            <div className='d-flex justify-content-center mt-4 pt-5'>
+            <div className='d-flex justify-content-center mt-2 pt-5'>
                 <div className="justify-content-center align-items-center 
               h-100 w-100  align-middle  rounded  p-3" id="intro">
 
