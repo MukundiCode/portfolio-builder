@@ -118,6 +118,11 @@ export const getCurrentUser = (): string | null => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+export const shouldShowEditButtons = (name: string): boolean => {
+    // @ts-ignore
+    return getCurrentUser() && (JSON.parse(localStorage.getItem("user")) as Person).username === name;
+}
+ 
 export const handleUnauthorizedError = (error: Error) => {
     if (axios.isAxiosError(error) && error.status === 401) {
         logoutUser()

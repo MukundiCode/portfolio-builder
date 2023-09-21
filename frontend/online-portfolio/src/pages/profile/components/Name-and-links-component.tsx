@@ -4,6 +4,8 @@ import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { shouldShowEditButtons } from '../../../service/ProfileService';
+import { useParams } from 'react-router-dom';
 
 function NameAndLinks(props: {
     name: string,
@@ -15,6 +17,8 @@ function NameAndLinks(props: {
     const [showEditNameModal, setShowEditNameModal] = useState(false);
 
     const [showEditLinksModal, setShowEditLinksModal] = useState(false);
+
+    const params = useParams<{ username: string }>();
 
     const editNameSchema = yup.object().shape({
         name: yup.string().required(),
@@ -148,9 +152,10 @@ function NameAndLinks(props: {
                                 {props.name ? props.name : "Name"}
                             </div>
                         </Col>
-                        <Col className='d-flex justify-content-end'>
+                        {shouldShowEditButtons(params.username) && <Col className='d-flex justify-content-end'>
                             <Icon.PencilFill role='button' onClick={handleShowEditNameModal}></Icon.PencilFill>
-                        </Col>
+                        </Col>}
+
                     </Row>
                     <Row>
                         <div>
@@ -172,8 +177,13 @@ function NameAndLinks(props: {
                                         return <SocialIcon key={i} url={e} bgColor="#caced2" style={{ height: 30, width: 30 }} />
                                     })
                                 }
-                                { props.links.length == 0 && <div>Links</div> }
-                                <Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
+                                {shouldShowEditButtons(params.username) && (
+                                    props.links.length == 0 && <>
+                                        <div>Links</div><Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
+                                    </>
+                                )
+                                }
+
                             </Stack>
                         </div>
                     </Row>

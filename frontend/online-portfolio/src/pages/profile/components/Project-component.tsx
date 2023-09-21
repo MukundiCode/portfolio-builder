@@ -5,14 +5,16 @@ import { Project } from "../../../types/Project";
 import ProjectContainer from "./Project-container-component";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
-import { addProject, deleteProject, getAllProjects } from "../../../service/ProfileService";
+import { addProject, deleteProject, getAllProjects, shouldShowEditButtons } from "../../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
+import { useParams } from "react-router-dom";
 
 function ProjectListComponent() {
 
     const [projectList, setProjectList] = useState<Project[]>([])
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const params = useParams<{ username: string }>();
 
     useEffect(() => {
         getAllProjects().then(response => {
@@ -133,7 +135,10 @@ function ProjectListComponent() {
                             <div>
                                 Projects
                             </div>
-                            <Icon.PlusSquareDotted role='button' onClick={handleShowProjectModal} ></Icon.PlusSquareDotted>
+                            {shouldShowEditButtons(params.username) &&
+                                <Icon.PlusSquareDotted role='button' onClick={handleShowProjectModal} ></Icon.PlusSquareDotted>
+                            }
+
                         </Stack>
                     </h5>
                 </Col>
