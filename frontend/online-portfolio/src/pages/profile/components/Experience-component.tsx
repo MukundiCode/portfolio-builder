@@ -5,25 +5,27 @@ import { Experience } from "../../../types/Experience";
 import ExperienceContainer from "./Experience-container-component";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
-import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedError } from "../../../service/ProfileService";
+import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedError, shouldShowEditButtons } from "../../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
+import { useParams } from "react-router-dom";
 
 function ExperienceListComponent() {
 
     const [expereinceList, setExperienceList] = useState<Experience[]>([]);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
+    const params = useParams<{ username: string }>();
 
     useEffect(() => {
         getAllExperiences()
-        .then(response => {
-            setExperienceList(response.data)
-        })
-        .catch(err => {
-            handleUnauthorizedError(err)
-            console.log(err)
-        });
+            .then(response => {
+                setExperienceList(response.data)
+            })
+            .catch(err => {
+                handleUnauthorizedError(err)
+                console.log(err)
+            });
     }, []);
 
     const handleNewExperienceSubmit = async (
@@ -33,8 +35,8 @@ function ExperienceListComponent() {
         skills: string[],
         since: Date,
         until: Date) => {
-        
-        if (since < until && until <= new Date()){
+
+        if (since < until && until <= new Date()) {
             const experience: Experience = {
                 id: undefined,
                 position: position,
@@ -45,13 +47,13 @@ function ExperienceListComponent() {
                 skills: skills
             }
             addExperience(experience)
-            .then(response => {
-                setExperienceList(expereinceList => [response.data, ...expereinceList])
-            })
-            .catch(err => {
-                handleUnauthorizedError(err)
-                console.log(err)
-            });
+                .then(response => {
+                    setExperienceList(expereinceList => [response.data, ...expereinceList])
+                })
+                .catch(err => {
+                    handleUnauthorizedError(err)
+                    console.log(err)
+                });
             handleCloseExperienceModal()
         } else {
             setDateError(true)
@@ -163,7 +165,7 @@ function ExperienceListComponent() {
                                                 {errors.to}
                                             </Form.Control.Feedback>
                                         </Col>
-                                        { dateError && <div className="text-danger" >Start date can not be after end date</div>}
+                                        {dateError && <div className="text-danger" >Start date can not be after end date</div>}
 
                                     </Row>
 
@@ -214,7 +216,10 @@ function ExperienceListComponent() {
                             <div>
                                 Experience
                             </div>
-                            <Icon.PlusSquareDotted role='button' onClick={handleShowExperienceModal} ></Icon.PlusSquareDotted>
+                            {shouldShowEditButtons(params.username) &&
+                                <Icon.PlusSquareDotted role='button' onClick={handleShowExperienceModal} ></Icon.PlusSquareDotted>
+                            }
+
                         </Stack>
                     </h5>
 

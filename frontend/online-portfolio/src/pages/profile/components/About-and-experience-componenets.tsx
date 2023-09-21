@@ -4,6 +4,8 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import * as Icon from 'react-bootstrap-icons';
 import ExperienceListComponent from './Experience-component';
 import ProjectListComponent from './Project-component';
+import { useParams } from 'react-router-dom';
+import { shouldShowEditButtons } from '../../../service/ProfileService';
 
 function AboutAndExperience(props: {
     aboutMe: string,
@@ -11,6 +13,8 @@ function AboutAndExperience(props: {
 }) {
     const [showAboutMeModal, setShowAboutMeModal] = useState(false);
     const [aboutMe, setAboutMe] = useState<string>("")
+
+    const params = useParams<{ username: string }>();
 
     const handleEditAboutMeSubmit = async () => {
         props.editAboutMe(aboutMe)
@@ -57,7 +61,10 @@ function AboutAndExperience(props: {
                                 <div>
                                     About Me
                                 </div>
-                                <Icon.PencilFill size={16} role='button' onClick={() => handleShowAboutMeModal()}></Icon.PencilFill>
+                                {shouldShowEditButtons(params.username) &&
+                                    <Icon.PencilFill size={16} role='button' onClick={() => handleShowAboutMeModal()}></Icon.PencilFill>
+                                }
+
                             </Stack>
                         </h5>
                         <p className="text-break">
