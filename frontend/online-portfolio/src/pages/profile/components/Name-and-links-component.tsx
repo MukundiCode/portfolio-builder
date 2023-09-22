@@ -47,7 +47,7 @@ function NameAndLinks(props: {
 
     return (
 
-        <div className='sticky-top d-flex justify-content-center mt-2 pt-5 '>
+        <div className='d-flex justify-content-center mt-2 pt-5 '>
             <Modal show={showEditNameModal} onHide={handleCloseEditNameModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Name</Modal.Title>
@@ -178,9 +178,10 @@ function NameAndLinks(props: {
                                     })
                                 }
                                 {shouldShowEditButtons(params.username) && (
-                                    props.links.length == 0 && <>
-                                        <div>Links</div><Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
-                                    </>
+
+                                    (props.links.length == 0 ? <div>Links</div> : <div></div>)
+                                    &&
+                                    <Icon.PencilFill role='button' onClick={handleShowEditLinksModal}></Icon.PencilFill>
                                 )
                                 }
 

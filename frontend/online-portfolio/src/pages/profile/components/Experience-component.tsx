@@ -10,23 +10,25 @@ import { Formik } from "formik";
 import * as yup from 'yup';
 import { useParams } from "react-router-dom";
 
-function ExperienceListComponent() {
+function ExperienceListComponent(props: {
+    initialExpereinceList: Experience[]
+}) {
 
-    const [expereinceList, setExperienceList] = useState<Experience[]>([]);
+    const [expereinceList, setExperienceList] = useState<Experience[]>(props.initialExpereinceList);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
     const params = useParams<{ username: string }>();
 
-    useEffect(() => {
-        getAllExperiences()
-            .then(response => {
-                setExperienceList(response.data)
-            })
-            .catch(err => {
-                handleUnauthorizedError(err)
-                console.log(err)
-            });
-    }, []);
+    // useEffect(() => {
+    //     getAllExperiences()
+    //         .then(response => {
+    //             setExperienceList(response.data)
+    //         })
+    //         .catch(err => {
+    //             handleUnauthorizedError(err)
+    //             console.log(err)
+    //         });
+    // }, []);
 
     const handleNewExperienceSubmit = async (
         position: string,
@@ -175,7 +177,7 @@ function ExperienceListComponent() {
                                         labelKey="name"
                                         multiple
                                         onChange={selected => {
-                                            setFieldValue('skills', [...values.skills, ...selected], false)
+                                            setFieldValue('skills', selected, false)
                                         }}
                                         options={getSkills()}
                                         placeholder="Choose a skill..."
