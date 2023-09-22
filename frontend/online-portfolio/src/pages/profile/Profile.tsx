@@ -81,17 +81,21 @@ function Profile() {
                     <Container fluid className='w-75'>
                         <Row>
                             <Col xs={5}>
+                                <div className='sticky-top'>
                                 <NameAndLinks
                                     name={portfolio.name}
                                     links={portfolio.links}
                                     editName={editName}
                                     addLink={handleAddLink}
                                 ></NameAndLinks>
+                                </div>
                             </Col>
 
                             <Col>
                                 <AboutAndExperience
                                     aboutMe={portfolio.aboutMe}
+                                    experienceList={portfolio.experienceList}
+                                    projectList={portfolio.projectList}
                                     editAboutMe={editAboutMe}></AboutAndExperience>
                             </Col>
                         </Row>
@@ -111,6 +115,8 @@ function Profile() {
 
                             <AboutAndExperience
                                 aboutMe={portfolio.aboutMe}
+                                experienceList={portfolio.experienceList}
+                                projectList={portfolio.projectList}
                                 editAboutMe={editAboutMe}></AboutAndExperience>
 
                         </Stack>

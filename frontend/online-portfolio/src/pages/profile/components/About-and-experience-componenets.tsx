@@ -6,9 +6,13 @@ import ExperienceListComponent from './Experience-component';
 import ProjectListComponent from './Project-component';
 import { useParams } from 'react-router-dom';
 import { shouldShowEditButtons } from '../../../service/ProfileService';
+import { Experience } from '../../../types/Experience';
+import { Project } from '../../../types/Project';
 
 function AboutAndExperience(props: {
     aboutMe: string,
+    experienceList: Experience[],
+    projectList: Project[],
     editAboutMe: (aboutMe: string) => void
 }) {
     const [showAboutMeModal, setShowAboutMeModal] = useState(false);
@@ -72,9 +76,9 @@ function AboutAndExperience(props: {
                         </p>
                     </div>
 
-                    <ExperienceListComponent></ExperienceListComponent>
+                    <ExperienceListComponent initialExpereinceList={props.experienceList}></ExperienceListComponent>
 
-                    <ProjectListComponent></ProjectListComponent>
+                    <ProjectListComponent initialProjectList={props.projectList}></ProjectListComponent>
 
                 </div>
             </div>

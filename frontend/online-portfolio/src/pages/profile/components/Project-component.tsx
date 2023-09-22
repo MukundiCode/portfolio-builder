@@ -10,17 +10,19 @@ import { Formik } from "formik";
 import * as yup from 'yup';
 import { useParams } from "react-router-dom";
 
-function ProjectListComponent() {
+function ProjectListComponent(props: {
+    initialProjectList: Project[]
+}) {
 
-    const [projectList, setProjectList] = useState<Project[]>([])
+    const [projectList, setProjectList] = useState<Project[]>(props.initialProjectList)
     const [showProjectModal, setShowProjectModal] = useState(false);
     const params = useParams<{ username: string }>();
 
-    useEffect(() => {
-        getAllProjects().then(response => {
-            setProjectList(response.data)
-        });
-    }, []);
+    // useEffect(() => {
+    //     getAllProjects().then(response => {
+    //         setProjectList(response.data)
+    //     });
+    // }, []);
 
     const handleNewProjectSubmit = async (title: string, skills: string[], description: string) => {
         const project: Project = {
@@ -93,7 +95,7 @@ function ProjectListComponent() {
                                         labelKey="skills"
                                         multiple
                                         onChange={selected => {
-                                            setFieldValue('skills', [...values.skills, ...selected], false)
+                                            setFieldValue('skills', selected, false)
                                         }}
                                         options={getSkills()}
                                         placeholder="Choose a skill..."
