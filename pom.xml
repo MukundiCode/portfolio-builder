@@ -169,7 +169,7 @@
 				</plugins>
 			</build>
 			<properties>
-				<spring.profiles.active>dev</spring.profiles.active>
+				<spring.profiles.active>prod</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
