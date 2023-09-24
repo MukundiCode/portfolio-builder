@@ -6,6 +6,7 @@ import { getCurrentUser, logoutUser } from '../service/ProfileService';
 import SignUpComponent from '../pages/home/components/SignUp-component';
 import LoginComponent from '../pages/home/components/Login-component';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function NavBar() {
 
@@ -13,6 +14,8 @@ function NavBar() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     const handleShowLoginModal = () => setShowLoginModal(true);
+
+    const history = useHistory();
 
     return (
         <div>
@@ -28,7 +31,7 @@ function NavBar() {
 
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
-                    <Navbar.Brand href="#home">DevPortfolio.me</Navbar.Brand>
+                    <Navbar.Brand onClick={() => history.push("/")} role='button'>DevPortfolio.me</Navbar.Brand>
                     <Nav className="justify-content-end">
                         {getCurrentUser() ?
                             <Nav.Link className='justify-content-end' onClick={logoutUser}>Sign Out</Nav.Link> :
