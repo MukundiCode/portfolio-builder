@@ -29,7 +29,7 @@ export default function SignUpComponent(props: {
         password: yup.string().required(),
         username: yup.string().required()
     });
-
+//
     return (
         <div>
             <Modal show={props.showSignUpModal} onHide={handleCloseSignUpModal}>
