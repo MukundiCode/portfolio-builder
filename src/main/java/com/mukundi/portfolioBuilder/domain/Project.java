@@ -27,7 +27,7 @@ public class Project {
 
   @Column(nullable = false)
   @NotBlank
-  @Lob
+//  @Lob
   private String description;
 
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)

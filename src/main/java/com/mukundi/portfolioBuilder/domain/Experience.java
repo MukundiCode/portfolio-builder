@@ -33,7 +33,7 @@ public class Experience {
   @NotBlank
   private String company;
 
-  @Lob
+//  @Lob
   @Column(nullable = false)
   @NotBlank
   private String description;
