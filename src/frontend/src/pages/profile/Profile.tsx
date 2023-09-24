@@ -77,17 +77,17 @@ function Profile() {
         <div>
             {isPortfolioReady &&
 
-                (isDesktopOrLaptop &&
+                (isDesktopOrLaptop ?
                     <Container fluid className='w-75'>
                         <Row>
                             <Col xs={5}>
                                 <div className='sticky-top'>
-                                <NameAndLinks
-                                    name={portfolio.name}
-                                    links={portfolio.links}
-                                    editName={editName}
-                                    addLink={handleAddLink}
-                                ></NameAndLinks>
+                                    <NameAndLinks
+                                        name={portfolio.name}
+                                        links={portfolio.links}
+                                        editName={editName}
+                                        addLink={handleAddLink}
+                                    ></NameAndLinks>
                                 </div>
                             </Col>
 
@@ -99,11 +99,10 @@ function Profile() {
                                     editAboutMe={editAboutMe}></AboutAndExperience>
                             </Col>
                         </Row>
-                    </Container>)
+                    </Container>
 
-                ||
+                    :
 
-                (isTabletOrMobile &&
                     <Container fluid className='w-100'>
                         <Stack gap={2}>
                             <NameAndLinks
@@ -120,7 +119,28 @@ function Profile() {
                                 editAboutMe={editAboutMe}></AboutAndExperience>
 
                         </Stack>
-                    </Container>)
+                    </Container>
+                )
+
+
+                // (isTabletOrMobile &&
+                //     <Container fluid className='w-100'>
+                //         <Stack gap={2}>
+                //             <NameAndLinks
+                //                 name={portfolio.name}
+                //                 links={portfolio.links}
+                //                 editName={editName}
+                //                 addLink={handleAddLink}
+                //             ></NameAndLinks>
+
+                //             <AboutAndExperience
+                //                 aboutMe={portfolio.aboutMe}
+                //                 experienceList={portfolio.experienceList}
+                //                 projectList={portfolio.projectList}
+                //                 editAboutMe={editAboutMe}></AboutAndExperience>
+
+                //         </Stack>
+                //     </Container>)
             }
         </div>
     );
