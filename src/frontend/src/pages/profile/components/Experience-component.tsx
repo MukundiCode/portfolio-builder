@@ -11,10 +11,10 @@ import * as yup from 'yup';
 import { useParams } from "react-router-dom";
 
 function ExperienceListComponent(props: {
-    initialExpereinceList: Experience[]
+    initialExperienceList: Experience[]
 }) {
 
-    const [expereinceList, setExperienceList] = useState<Experience[]>(props.initialExpereinceList);
+    const [expereinceList, setExperienceList] = useState<Experience[]>(props.initialExperienceList);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
     const params = useParams<{ username: string }>();
@@ -233,7 +233,9 @@ function ExperienceListComponent(props: {
                 </Col>
             </Row>
             <Stack gap={3}>
-                {expereinceList.map((experience, i) => <ExperienceContainer key={i} experience={experience} handleDelete={handleDeleteExperience}></ExperienceContainer>)}
+                {expereinceList.map(
+                    (experience, i) => <ExperienceContainer key={i} experience={experience} handleDelete={handleDeleteExperience}></ExperienceContainer>
+                    )}
             </Stack>
         </div>
     )

@@ -28,6 +28,7 @@ public class Portfolio {
 
   private String shortIntro;
 
+//  @Lob
   private String aboutMe;
 
   @JsonManagedReference

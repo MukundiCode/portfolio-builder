@@ -29,7 +29,7 @@ export default function SignUpComponent(props: {
         password: yup.string().required(),
         username: yup.string().required()
     });
-
+//
     return (
         <div>
             <Modal show={props.showSignUpModal} onHide={handleCloseSignUpModal}>
@@ -64,7 +64,7 @@ export default function SignUpComponent(props: {
 
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control
-                                        type="text"
+                                        type="email"
                                         name='email'
                                         value={values.email}
                                         onChange={handleChange}
@@ -76,7 +76,7 @@ export default function SignUpComponent(props: {
 
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
-                                        type="text"
+                                        type="password"
                                         name='password'
                                         value={values.password}
                                         onChange={handleChange}

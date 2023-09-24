@@ -76,7 +76,7 @@ function AboutAndExperience(props: {
                         </p>
                     </div>
 
-                    <ExperienceListComponent initialExpereinceList={props.experienceList}></ExperienceListComponent>
+                    <ExperienceListComponent initialExperienceList={props.experienceList}></ExperienceListComponent>
 
                     <ProjectListComponent initialProjectList={props.projectList}></ProjectListComponent>
 
