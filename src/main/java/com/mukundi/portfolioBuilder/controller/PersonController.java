@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/person")
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", methods = {RequestMethod.POST, RequestMethod.GET})
+@CrossOrigin(value = "*",  methods = {RequestMethod.POST, RequestMethod.GET})
 @RequiredArgsConstructor
 public class PersonController {
 

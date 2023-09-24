@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/portfolio")
-@CrossOrigin(value = "http://localhost:3000", allowCredentials = "true", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
+@CrossOrigin(value = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class PortfolioController {
