@@ -33,9 +33,9 @@ function HomePage() {
 
     useEffect(() => {
         isUsernameTaken(username).then((response) => {
-            console.log(response.data + " " + username)
             setIsUsernameTaken(!response.data)
         })
+        .catch(console.error)
     }, [username]);
 
 

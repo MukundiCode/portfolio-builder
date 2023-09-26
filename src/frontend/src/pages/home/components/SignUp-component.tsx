@@ -1,8 +1,9 @@
 import { Formik } from "formik";
-import { Button, Form, InputGroup, Modal } from "react-bootstrap";
+import { Alert, Button, Form, InputGroup, Modal } from "react-bootstrap";
 import * as yup from 'yup';
 import { loginUser, signupUser } from "../../../service/ProfileService";
 import { useHistory } from 'react-router-dom';
+import { useState } from "react";
 
 export default function SignUpComponent(props: {
     showSignUpModal: boolean,
@@ -11,6 +12,7 @@ export default function SignUpComponent(props: {
 }) {
 
     const handleCloseSignUpModal = () => props.setShowSignUpModal(false);
+    const [shouldShowError, setShouldShowError] = useState(false);
 
     const history = useHistory()
 
@@ -22,6 +24,7 @@ export default function SignUpComponent(props: {
             .then(() => {
                 history.push(`/${props.username}`)
             })
+            .catch(() => setShouldShowError(true))
     }
 
     const signUpSchema = yup.object().shape({
@@ -29,7 +32,7 @@ export default function SignUpComponent(props: {
         password: yup.string().required(),
         username: yup.string().required()
     });
-//
+    //
     return (
         <div>
             <Modal show={props.showSignUpModal} onHide={handleCloseSignUpModal}>
@@ -37,6 +40,13 @@ export default function SignUpComponent(props: {
                     <Modal.Title>Sign up</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <div>
+                        {shouldShowError &&
+                            <Alert variant="danger">
+                                Something went wrong with your request!
+                            </Alert>
+                        }
+                    </div>
 
                     <Formik
                         validationSchema={signUpSchema}
@@ -49,7 +59,7 @@ export default function SignUpComponent(props: {
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="validationCustom02" >
-                                <Form.Label>Username</Form.Label>
+                                    <Form.Label>Username</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name='username'

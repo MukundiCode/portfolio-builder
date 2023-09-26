@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { Button, Form, InputGroup, Modal } from "react-bootstrap";
+import { Alert, Button, Form, InputGroup, Modal } from "react-bootstrap";
 import * as yup from 'yup';
 import { loginUser, signupUser } from "../../../service/ProfileService";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,7 @@ export default function LoginComponent(props: {
 }) {
 
     const handleCloseLoginModal = () => props.setShowLoginModal(false);
+    const [shouldShowError, setShouldShowError] = useState(false);
 
     const history = useHistory()
 
@@ -19,6 +20,7 @@ export default function LoginComponent(props: {
             .then(() => {
                 history.push(`/${username}`)
             })
+            .catch(() => setShouldShowError(true))
     }
 
     const loginSchema = yup.object().shape({
@@ -33,7 +35,13 @@ export default function LoginComponent(props: {
                     <Modal.Title>Log In</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
+                    <div>
+                        {shouldShowError &&
+                            <Alert variant="danger">
+                                Something went wrong with your request!
+                            </Alert>
+                        }
+                    </div>
                     <Formik
                         validationSchema={loginSchema}
                         onSubmit={form => handleLogInSubmit(form.username, form.password)}
