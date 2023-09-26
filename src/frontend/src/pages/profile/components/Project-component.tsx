@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Modal, Row, Stack } from "react-bootstrap";
+import { Alert, Button, Col, Form, InputGroup, Modal, Row, Stack } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 import { Project } from "../../../types/Project";
 import ProjectContainer from "./Project-container-component";
@@ -17,12 +17,7 @@ function ProjectListComponent(props: {
     const [projectList, setProjectList] = useState<Project[]>(props.initialProjectList)
     const [showProjectModal, setShowProjectModal] = useState(false);
     const params = useParams<{ username: string }>();
-
-    // useEffect(() => {
-    //     getAllProjects().then(response => {
-    //         setProjectList(response.data)
-    //     });
-    // }, []);
+    const [shouldShowError, setShouldShowError] = useState(false)
 
     const handleNewProjectSubmit = async (title: string, skills: string[], description: string) => {
         const project: Project = {
@@ -31,17 +26,26 @@ function ProjectListComponent(props: {
             description: description,
             skills: skills
         }
-        addProject(project).then(response => {
-            console.log(response.data)
-            setProjectList(projectList => [response.data, ...projectList])
-        });
-        handleCloseProjectModal()
+        addProject(project)
+            .then(response => {
+                console.log(response.data)
+                setProjectList(projectList => [response.data, ...projectList])
+                handleCloseProjectModal()
+            })
+            .catch(err => {
+                setShouldShowError(true)
+                // handleUnauthorizedError(err)
+            });
     }
 
     const handleDeleteProject = async (projectId: number | undefined) => {
         deleteProject(projectId)
             .then(response => {
                 setProjectList((prev) => [...prev.filter(item => item.id !== projectId)])
+            })
+            .catch(err => {
+                // handleUnauthorizedError(err)
+                console.error(err)
             });
     }
 
@@ -52,7 +56,9 @@ function ProjectListComponent(props: {
     });
 
 
-    const handleCloseProjectModal = () => setShowProjectModal(false);
+    const handleCloseProjectModal = () => {
+        setShouldShowError(false)
+        setShowProjectModal(false)};
     const handleShowProjectModal = () => setShowProjectModal(true);
 
     return (
@@ -63,7 +69,12 @@ function ProjectListComponent(props: {
                     <Modal.Title>Add Project</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
+                    {
+                        shouldShowError &&
+                        <Alert variant="danger" onClose={() => setShouldShowError(false)} dismissible>
+                            Something went wrong with your request!
+                        </Alert>
+                    }
                     <Formik
                         validationSchema={schema}
                         onSubmit={form => handleNewProjectSubmit(form.title, form.skills, form.description)}

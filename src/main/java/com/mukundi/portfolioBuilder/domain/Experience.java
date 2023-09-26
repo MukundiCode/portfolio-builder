@@ -34,7 +34,7 @@ public class Experience {
   private String company;
 
 //  @Lob
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "TEXT")
   @NotBlank
   private String description;
 

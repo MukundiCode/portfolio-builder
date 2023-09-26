@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
+import { Alert, Button, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 import { Experience } from "../../../types/Experience";
 import ExperienceContainer from "./Experience-container-component";
@@ -18,17 +18,7 @@ function ExperienceListComponent(props: {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
     const params = useParams<{ username: string }>();
-
-    // useEffect(() => {
-    //     getAllExperiences()
-    //         .then(response => {
-    //             setExperienceList(response.data)
-    //         })
-    //         .catch(err => {
-    //             handleUnauthorizedError(err)
-    //             console.log(err)
-    //         });
-    // }, []);
+    const [shouldShowError, setShouldShowError] = useState(false);
 
     const handleNewExperienceSubmit = async (
         position: string,
@@ -51,12 +41,13 @@ function ExperienceListComponent(props: {
             addExperience(experience)
                 .then(response => {
                     setExperienceList(expereinceList => [response.data, ...expereinceList])
+                    handleCloseExperienceModal()
                 })
                 .catch(err => {
-                    handleUnauthorizedError(err)
-                    console.log(err)
+                    setShouldShowError(true)
+                    // handleUnauthorizedError(err)
                 });
-            handleCloseExperienceModal()
+            
         } else {
             setDateError(true)
         }
@@ -68,12 +59,14 @@ function ExperienceListComponent(props: {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
             })
             .catch(err => {
-                handleUnauthorizedError(err)
-                console.log(err)
+                // handleUnauthorizedError(err)
+                console.error(err)
             });
     }
 
-    const handleCloseExperienceModal = () => setShowExperienceModal(false);
+    const handleCloseExperienceModal = () => {
+        setShouldShowError(false)
+        setShowExperienceModal(false)};
     const handleShowExperienceModal = () => setShowExperienceModal(true);
 
     const schema = yup.object().shape({
@@ -93,6 +86,13 @@ function ExperienceListComponent(props: {
                     <Modal.Title>Add Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {
+                        shouldShowError &&
+                        <Alert variant="danger" onClose={() => setShouldShowError(false)} dismissible>
+                            Something went wrong with your request!
+                        </Alert>
+                    }
+
                     <Formik
                         validationSchema={schema}
                         onSubmit={form => handleNewExperienceSubmit(
@@ -235,7 +235,7 @@ function ExperienceListComponent(props: {
             <Stack gap={3}>
                 {expereinceList.map(
                     (experience, i) => <ExperienceContainer key={i} experience={experience} handleDelete={handleDeleteExperience}></ExperienceContainer>
-                    )}
+                )}
             </Stack>
         </div>
     )

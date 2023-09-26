@@ -25,7 +25,7 @@ public class Project {
   @NotBlank
   private String title;
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "TEXT")
   @NotBlank
 //  @Lob
   private String description;

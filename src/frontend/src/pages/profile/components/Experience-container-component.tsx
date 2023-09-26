@@ -35,7 +35,7 @@ function ExperienceContainer(props: {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu>
-                                                <Dropdown.Item href="#/action-1">Edit <Icon.PencilFill></Icon.PencilFill></Dropdown.Item>
+                                                <Dropdown.Item >Edit <Icon.PencilFill></Icon.PencilFill></Dropdown.Item>
                                                 <Dropdown.Item onClick={() => props.handleDelete(props.experience.id)} className="text-danger">Delete <Icon.Trash3></Icon.Trash3> </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>

@@ -29,6 +29,7 @@ public class Portfolio {
   private String shortIntro;
 
 //  @Lob
+  @Column(columnDefinition = "TEXT")
   private String aboutMe;
 
   @JsonManagedReference

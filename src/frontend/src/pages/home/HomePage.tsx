@@ -33,9 +33,9 @@ function HomePage() {
 
     useEffect(() => {
         isUsernameTaken(username).then((response) => {
-            console.log(response.data + " " + username)
             setIsUsernameTaken(!response.data)
         })
+        .catch(console.error)
     }, [username]);
 
 
@@ -60,7 +60,7 @@ function HomePage() {
                     <Col>
                         <Row>
                             <div className="display-2 mb-3 home-font text-center" >
-                                Your developer portfolio is one <div className="custom-primary">click away!</div> 
+                                Your developer portfolio is one <div className="custom-primary">click away!</div>
                             </div>
                         </Row>
                         <div className="d-flex justify-content-center">
@@ -79,14 +79,24 @@ function HomePage() {
                                                 }}
                                             />
                                         </InputGroup>
-                                        {username !== "" && ((!isUsernameTakenVal) ?
-                                            <Form.Text className=" text-danger">
-                                                Username Taken
-                                            </Form.Text>
-                                            :
-                                            <Form.Text className="text-success">
-                                                Looks Good!
-                                            </Form.Text>)
+                                        {
+                                            getCurrentUser() ?
+                                                <Form.Text className="text-danger">
+                                                    You are already signed in, please sign out first.
+                                                </Form.Text> :
+                                                (
+                                                    username !== "" && ((!isUsernameTakenVal) ?
+                                                        <Form.Text className=" text-danger">
+                                                            Username Taken
+                                                        </Form.Text>
+
+                                                        :
+                                                        <Form.Text className="text-success">
+                                                            Looks Good!
+                                                        </Form.Text>)
+                                                )
+
+
                                         }
                                     </Col>
                                     <Col>
@@ -126,14 +136,14 @@ function HomePage() {
                                             </Form.Text>)
                                         }
                                         <div className="d-flex justify-content-center">
-                                        <Button
-                                            disabled={
-                                                (!getCurrentUser() &&
-                                                    username !== "" &&
-                                                    isUsernameTakenVal) ? false : true}
-                                            onClick={handleUsernameSubmit}
-                                            // variant="dark"
-                                            className="w-25 rounded-pill custom-primary-btn" >Launch</Button></div>
+                                            <Button
+                                                disabled={
+                                                    (!getCurrentUser() &&
+                                                        username !== "" &&
+                                                        isUsernameTakenVal) ? false : true}
+                                                onClick={handleUsernameSubmit}
+                                                // variant="dark"
+                                                className="w-25 rounded-pill custom-primary-btn" >Launch</Button></div>
                                     </Stack>
                                 </Row>
                             }

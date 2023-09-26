@@ -3,9 +3,9 @@ import { Person } from "../types/Person";
 import { Experience } from "../types/Experience";
 import { Project } from "../types/Project";
 
-// const URL = 'http://localhost:8080';
-const URL = '';
-axios.defaults.withCredentials = true;
+const URL = 'http://localhost:8080';
+// const URL = '';
+// axios.defaults.withCredentials = true;
 
 export const getPerson = (username: string | undefined) => {
     return axios.get<Person>(URL + '/api/person/' + username)
