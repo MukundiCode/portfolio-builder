@@ -11,7 +11,9 @@ export default function SignUpComponent(props: {
     username: string
 }) {
 
-    const handleCloseSignUpModal = () => props.setShowSignUpModal(false);
+    const handleCloseSignUpModal = () => {
+        setShouldShowError(false)
+        props.setShowSignUpModal(false)};
     const [shouldShowError, setShouldShowError] = useState(false);
 
     const history = useHistory()

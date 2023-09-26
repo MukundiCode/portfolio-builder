@@ -10,7 +10,9 @@ export default function LoginComponent(props: {
     setShowLoginModal: (val: boolean) => void,
 }) {
 
-    const handleCloseLoginModal = () => props.setShowLoginModal(false);
+    const handleCloseLoginModal = () => {
+        setShouldShowError(false)
+        props.setShowLoginModal(false)};
     const [shouldShowError, setShouldShowError] = useState(false);
 
     const history = useHistory()
