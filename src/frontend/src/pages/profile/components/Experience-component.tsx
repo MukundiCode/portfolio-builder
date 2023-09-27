@@ -5,10 +5,10 @@ import { Experience } from "../../../types/Experience";
 import ExperienceContainer from "./Experience-container-component";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
-import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedError, shouldShowEditButtons } from "../../../service/ProfileService";
+import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedError, logoutUser, shouldShowEditButtons } from "../../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 function ExperienceListComponent(props: {
     initialExperienceList: Experience[]
@@ -19,6 +19,7 @@ function ExperienceListComponent(props: {
     const [dateError, setDateError] = useState(false);
     const params = useParams<{ username: string }>();
     const [shouldShowError, setShouldShowError] = useState(false);
+    const history = useHistory()
 
     const handleNewExperienceSubmit = async (
         position: string,
@@ -44,8 +45,12 @@ function ExperienceListComponent(props: {
                     handleCloseExperienceModal()
                 })
                 .catch(err => {
+                    console.log(err)
+                    if (err.response.status === 401){
+                        logoutUser()
+                        history.push("/");
+                    }
                     setShouldShowError(true)
-                    // handleUnauthorizedError(err)
                 });
             
         } else {

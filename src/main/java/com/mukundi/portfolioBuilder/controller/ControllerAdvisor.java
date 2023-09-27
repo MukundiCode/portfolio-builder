@@ -1,8 +1,8 @@
 package com.mukundi.portfolioBuilder.controller;
 
-import com.mukundi.portfolioBuilder.service.exception.EntityNotFoundException;
+import com.mukundi.portfolioBuilder.exception.EntityNotFoundException;
+import com.mukundi.portfolioBuilder.exception.UserAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +51,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     body.put("status", HttpStatus.NOT_FOUND);
 
     log.error("Error: " + exception.getLocalizedMessage());
+
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = {UserAuthenticationException.class})
+  public ResponseEntity<Object> handleUserAuthenticationException(EntityNotFoundException exception, WebRequest request){
+    Map<String, Object> body = new LinkedHashMap<>();
+    body.put("timestamp", Timestamp.valueOf(LocalDateTime.now()));
+    body.put("status", HttpStatus.UNAUTHORIZED);
+
+    log.error("Error: " + exception.getMessage());
 
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }

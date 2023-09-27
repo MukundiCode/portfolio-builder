@@ -45,7 +45,7 @@ export default function SignUpComponent(props: {
                     <div>
                         {shouldShowError &&
                             <Alert variant="danger">
-                                Something went wrong with your request!
+                                Sign up failed
                             </Alert>
                         }
                     </div>

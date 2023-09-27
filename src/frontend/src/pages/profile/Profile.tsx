@@ -4,8 +4,8 @@ import NameAndLinks from './components/Name-and-links-component';
 import AboutAndExperience from './components/About-and-experience-componenets';
 import { Portfolio } from '../../types/Portfolio';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { editPortfolioAboutMe, editPortfolioName, getPerson, addLink, handleUnauthorizedError } from '../../service/ProfileService';
+import { useHistory, useParams } from 'react-router-dom';
+import { editPortfolioAboutMe, editPortfolioName, getPerson, addLink, handleUnauthorizedError, logoutUser } from '../../service/ProfileService';
 import { useMediaQuery } from 'react-responsive';
 
 
@@ -26,6 +26,7 @@ function Profile() {
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 })
     const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
     const [shouldShowError, setShouldShowError] = useState(false)
+    const history = useHistory()
 
     const params = useParams<{ username: string }>();
 
@@ -37,6 +38,10 @@ function Profile() {
                 setIsPortfolioReady(true)
             })
             .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
                 setShouldShowError(true)
             });
     }, [])
@@ -47,8 +52,11 @@ function Profile() {
                 setPortfolio(response.data)
             })
             .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
                 setShouldShowError(true)
-                // handleUnauthorizedError(err)
             });
     }
 
@@ -58,8 +66,11 @@ function Profile() {
                 setPortfolio(response.data)
             })
             .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
                 setShouldShowError(true)
-                // handleUnauthorizedError(err)
             });
     }
 
@@ -69,8 +80,11 @@ function Profile() {
                 setPortfolio(response.data)
             })
             .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
                 setShouldShowError(true)
-                // handleUnauthorizedError(err)
             });
     }
 

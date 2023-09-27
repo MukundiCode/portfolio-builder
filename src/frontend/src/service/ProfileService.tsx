@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { Person } from "../types/Person";
 import { Experience } from "../types/Experience";
 import { Project } from "../types/Project";
+import { useHistory } from "react-router-dom";
 
 const URL = 'http://localhost:8080';
 // const URL = '';
@@ -124,12 +125,11 @@ export const shouldShowEditButtons = (name: string): boolean => {
     return getCurrentUser() && (JSON.parse(localStorage.getItem("user")) as Person).username === name;
 }
  
-export const handleUnauthorizedError = (error: Error) => {
-    if (axios.isAxiosError(error) && error.status === 401) {
-        logoutUser()
-    } else {
-        throw Error("Error",error);
-    }
+export const handleUnauthorizedError = () => {
+    logoutUser()
+    // const history = useHistory()
+    // history.push("/")
 }
+
 
 

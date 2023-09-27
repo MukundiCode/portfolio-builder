@@ -7,7 +7,7 @@ import com.mukundi.portfolioBuilder.domain.Project;
 import com.mukundi.portfolioBuilder.repository.ExperienceRepository;
 import com.mukundi.portfolioBuilder.repository.PortfolioRepository;
 import com.mukundi.portfolioBuilder.repository.ProjectRepository;
-import com.mukundi.portfolioBuilder.service.exception.PortfolioNotFoundException;
+import com.mukundi.portfolioBuilder.exception.PortfolioNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @EnableTransactionManagement
