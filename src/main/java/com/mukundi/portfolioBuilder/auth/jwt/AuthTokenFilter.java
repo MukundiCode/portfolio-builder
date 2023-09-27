@@ -1,6 +1,7 @@
 package com.mukundi.portfolioBuilder.auth.jwt;
 
 import com.mukundi.portfolioBuilder.auth.services.UserDetailsServiceImpl;
+import com.mukundi.portfolioBuilder.exception.UserAuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       }
     } catch (Exception e) {
       logger.error("Cannot set user authentication: {}", e.getMessage());
+      throw new UserAuthenticationException("Authentication failed");
     }
 
     filterChain.doFilter(request, response);

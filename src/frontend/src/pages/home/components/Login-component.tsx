@@ -22,7 +22,9 @@ export default function LoginComponent(props: {
             .then(() => {
                 history.push(`/${username}`)
             })
-            .catch(() => setShouldShowError(true))
+            .catch((error) => {
+                console.log(error)
+                setShouldShowError(true)})
     }
 
     const loginSchema = yup.object().shape({
@@ -40,7 +42,7 @@ export default function LoginComponent(props: {
                     <div>
                         {shouldShowError &&
                             <Alert variant="danger">
-                                Something went wrong with your request!
+                                Authentication failed
                             </Alert>
                         }
                     </div>

@@ -5,10 +5,10 @@ import { Project } from "../../../types/Project";
 import ProjectContainer from "./Project-container-component";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { getSkills } from "../data/skills";
-import { addProject, deleteProject, getAllProjects, shouldShowEditButtons } from "../../../service/ProfileService";
+import { addProject, deleteProject, getAllProjects, logoutUser, shouldShowEditButtons } from "../../../service/ProfileService";
 import { Formik } from "formik";
 import * as yup from 'yup';
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 function ProjectListComponent(props: {
     initialProjectList: Project[]
@@ -18,6 +18,7 @@ function ProjectListComponent(props: {
     const [showProjectModal, setShowProjectModal] = useState(false);
     const params = useParams<{ username: string }>();
     const [shouldShowError, setShouldShowError] = useState(false)
+    const history = useHistory()
 
     const handleNewProjectSubmit = async (title: string, skills: string[], description: string) => {
         const project: Project = {
@@ -33,8 +34,11 @@ function ProjectListComponent(props: {
                 handleCloseProjectModal()
             })
             .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
                 setShouldShowError(true)
-                // handleUnauthorizedError(err)
             });
     }
 

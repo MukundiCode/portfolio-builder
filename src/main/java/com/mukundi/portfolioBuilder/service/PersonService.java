@@ -2,7 +2,7 @@ package com.mukundi.portfolioBuilder.service;
 
 import com.mukundi.portfolioBuilder.auth.User;
 import com.mukundi.portfolioBuilder.auth.UserRepository;
-import com.mukundi.portfolioBuilder.service.exception.PersonNotFoundException;
+import com.mukundi.portfolioBuilder.exception.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

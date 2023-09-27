@@ -1,4 +1,4 @@
-package com.mukundi.portfolioBuilder.service.exception;
+package com.mukundi.portfolioBuilder.exception;
 
 public class EntityNotFoundException extends RuntimeException {
 
