@@ -67,4 +67,14 @@ public class Experience {
     this.until = until;
     this.skills = skills;
   }
+
+  public Experience(String position, String company, String description, LocalDate since, LocalDate until, Set<String> skills, boolean isCurrentPosition) {
+    this.position = position;
+    this.company = company;
+    this.description = description;
+    this.since = since;
+    this.until = until;
+    this.skills = skills;
+    this.isCurrentPosition = isCurrentPosition;
+  }
 }
