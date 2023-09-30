@@ -29,6 +29,7 @@ public class PortfolioController {
 
   @PostMapping(path = "/experience/add", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Experience> addExperience(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid Experience experience) {
+    System.out.println("experience = " + experience);
     Experience savedExperience = portfolioService.addExperience(userDetails.getUsername(), experience);
     return ResponseEntity.ok(savedExperience);
   }
