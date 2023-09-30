@@ -42,8 +42,7 @@ public class Experience {
   @NotNull
   private LocalDate since;
 
-  @Column(nullable = false)
-  @NotNull
+  @Column
   private LocalDate until;
 
   @Column(columnDefinition = "boolean default false")

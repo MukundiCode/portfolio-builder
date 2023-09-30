@@ -20,6 +20,7 @@ function ExperienceListComponent(props: {
     const params = useParams<{ username: string }>();
     const [shouldShowError, setShouldShowError] = useState(false);
     const history = useHistory()
+    const [isCurrent, setIsCurrent] = useState(false)
 
     const handleNewExperienceSubmit = async (
         position: string,
@@ -30,7 +31,8 @@ function ExperienceListComponent(props: {
         until: Date,
         isCurrentPosition: boolean) => {
 
-        if (since < until && until <= new Date()) {
+        console.log(isCurrentPosition)
+        if (isCurrentPosition || (since < until && until <= new Date())) {
             const experience: Experience = {
                 id: undefined,
                 position: position,
@@ -173,26 +175,28 @@ function ExperienceListComponent(props: {
                                                 value={values.to}
                                                 isInvalid={!!errors.to}
                                                 onChange={handleChange}
-                                                required={values.isCurrentPosition} />
+                                                required={!isCurrent}
+                                                disabled={isCurrent} />
                                             <Form.Control.Feedback type="invalid">
                                                 {errors.to}
                                             </Form.Control.Feedback>
                                         </Col>
                                         {dateError && <div className="text-danger" >Start date can not be after end date</div>}
                                     </Row>
-                                    <Row>
-                                        <Form.Check
-                                            type={"checkbox"}
-                                            label="Currently work here">
-                                            <Form.Check.Input
-                                                defaultChecked={false}
-                                                // checked={values.isCurrentPosition}
-                                                onChange={() => values.isCurrentPosition = !values.isCurrentPosition}
-                                                name="isCurrentPosition"
-                                                type={'checkbox'}
-                                            />
-                                        </Form.Check>
-                                    </Row>
+                                    <Form.Check
+                                        type={"checkbox"}
+                                        label="Currently work here">
+                                        <Form.Label >I currently work here </Form.Label>
+                                        <Form.Check.Input
+                                            defaultChecked={false}
+                                            onChange={() => {
+                                                setIsCurrent(!isCurrent)
+                                                values.isCurrentPosition = !values.isCurrentPosition
+                                            }}
+                                            name="isCurrentPosition"
+                                            type={'checkbox'}
+                                        />
+                                    </Form.Check>
 
                                     <Form.Label>Skills</Form.Label>
                                     <Typeahead

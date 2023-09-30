@@ -51,6 +51,7 @@ public class PortfolioService {
 
   @Transactional
   public Experience addExperience(String username, Experience experience) {
+    if (experience.getIsCurrentPosition()) experience.setUntil(null);
     experience.setPortfolio(getPortfolioByUsername(username));
     return experienceRepository.save(experience);
   }
