@@ -48,6 +48,7 @@ function ExperienceListComponent(props: {
                 .then(response => {
                     setExperienceList(expereinceList => [response.data, ...expereinceList])
                     handleCloseExperienceModal()
+                    setIsCurrent(false)
                 })
                 .catch(err => {
                     console.log(err)
