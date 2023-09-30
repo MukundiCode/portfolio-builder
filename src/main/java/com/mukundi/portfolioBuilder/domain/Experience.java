@@ -46,6 +46,9 @@ public class Experience {
   @NotNull
   private LocalDate until;
 
+  @Column(columnDefinition = "boolean default false")
+  private boolean isCurrentPosition;
+
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
   @CollectionTable(name = "experience_skills", joinColumns = @JoinColumn(name = "experience_id"))
   @Column(nullable = false)

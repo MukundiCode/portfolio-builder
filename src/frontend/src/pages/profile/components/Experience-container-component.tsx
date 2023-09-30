@@ -19,7 +19,7 @@ function ExperienceContainer(props: {
                 <Row >
                     <Col xs={3}>
                         <div>
-                            <p className="font-weight-light" ><small>{from.getFullYear() + "/" + from.getMonth()} - {to.getFullYear() + "/" + to.getMonth()}</small></p>
+                            <p className="font-weight-light" ><small>{from.getFullYear() + "/" + from.getMonth()} - {props.experience.isCurrentPosition ? "Present" : to.getFullYear() + "/" + to.getMonth()}</small></p>
                         </div>
                     </Col>
                     <Col>
