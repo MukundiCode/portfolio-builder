@@ -187,6 +187,7 @@ function ExperienceListComponent(props: {
                                             <Form.Check.Input
                                                 defaultChecked={false}
                                                 // checked={values.isCurrentPosition}
+                                                onChange={() => values.isCurrentPosition = !values.isCurrentPosition}
                                                 name="isCurrentPosition"
                                                 type={'checkbox'}
                                             />
