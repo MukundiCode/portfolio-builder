@@ -6,6 +6,7 @@ export class Experience {
   since: Date;
   until: Date;
   skills: string[];
+  isCurrentPosition: boolean;
 
   constructor(
     id: number,
@@ -14,7 +15,8 @@ export class Experience {
     description: string,
     since: Date,
     until: Date,
-    skills: string[]
+    skills: string[],
+    isCurrentPosition: boolean
   ) {
     this.id = id;
     this.position = position;
@@ -23,5 +25,6 @@ export class Experience {
     this.since = since;
     this.until = until;
     this.skills = skills;
+    this.isCurrentPosition = isCurrentPosition
   }
 }

@@ -4,8 +4,8 @@ import { Experience } from "../types/Experience";
 import { Project } from "../types/Project";
 import { useHistory } from "react-router-dom";
 
-const URL = 'http://localhost:8080';
-// const URL = '';
+// const URL = 'http://localhost:8080';
+const URL = '';
 // axios.defaults.withCredentials = true;
 
 export const getPerson = (username: string | undefined) => {

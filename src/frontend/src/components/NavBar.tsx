@@ -1,7 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { getCurrentUser, logoutUser } from '../service/ProfileService';
 import SignUpComponent from '../pages/home/components/SignUp-component';
 import LoginComponent from '../pages/home/components/Login-component';

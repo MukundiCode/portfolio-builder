@@ -20,6 +20,7 @@ function ExperienceListComponent(props: {
     const params = useParams<{ username: string }>();
     const [shouldShowError, setShouldShowError] = useState(false);
     const history = useHistory()
+    const [isCurrent, setIsCurrent] = useState(false)
 
     const handleNewExperienceSubmit = async (
         position: string,
@@ -27,9 +28,11 @@ function ExperienceListComponent(props: {
         description: string,
         skills: string[],
         since: Date,
-        until: Date) => {
+        until: Date,
+        isCurrentPosition: boolean) => {
 
-        if (since < until && until <= new Date()) {
+        console.log(isCurrentPosition)
+        if (isCurrentPosition || (since < until && until <= new Date())) {
             const experience: Experience = {
                 id: undefined,
                 position: position,
@@ -37,22 +40,25 @@ function ExperienceListComponent(props: {
                 description: description,
                 since: since,
                 until: until,
-                skills: skills
+                skills: skills,
+                isCurrentPosition: isCurrentPosition
             }
+            console.log(experience)
             addExperience(experience)
                 .then(response => {
                     setExperienceList(expereinceList => [response.data, ...expereinceList])
                     handleCloseExperienceModal()
+                    setIsCurrent(false)
                 })
                 .catch(err => {
                     console.log(err)
-                    if (err.response.status === 401){
+                    if (err.response.status === 401) {
                         logoutUser()
                         history.push("/");
                     }
                     setShouldShowError(true)
                 });
-            
+
         } else {
             setDateError(true)
         }
@@ -64,23 +70,24 @@ function ExperienceListComponent(props: {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
             })
             .catch(err => {
-                // handleUnauthorizedError(err)
                 console.error(err)
             });
     }
 
     const handleCloseExperienceModal = () => {
         setShouldShowError(false)
-        setShowExperienceModal(false)};
+        setShowExperienceModal(false)
+    };
     const handleShowExperienceModal = () => setShowExperienceModal(true);
 
     const schema = yup.object().shape({
         position: yup.string().required(),
         company: yup.string().required(),
         from: yup.string().required(),
-        to: yup.string().required(),
+        to: yup.string(),
         skills: yup.array(),
         description: yup.string().required(),
+        isCurrentPosition: yup.boolean().default(false)
     });
 
     return (
@@ -106,14 +113,16 @@ function ExperienceListComponent(props: {
                             form.description,
                             form.skills,
                             new Date(form.from),
-                            new Date(form.to))}
+                            new Date(form.to),
+                            form.isCurrentPosition)}
                         initialValues={{
                             position: "",
                             company: "",
                             from: "",
                             to: "",
                             skills: [],
-                            description: ""
+                            description: "",
+                            isCurrentPosition: false
                         }}>
                         {({ handleSubmit, handleChange, values, touched, errors, setFieldValue }) => (
                             <Form noValidate onSubmit={handleSubmit}>
@@ -167,14 +176,28 @@ function ExperienceListComponent(props: {
                                                 value={values.to}
                                                 isInvalid={!!errors.to}
                                                 onChange={handleChange}
-                                                required />
+                                                required={!isCurrent}
+                                                disabled={isCurrent} />
                                             <Form.Control.Feedback type="invalid">
                                                 {errors.to}
                                             </Form.Control.Feedback>
                                         </Col>
                                         {dateError && <div className="text-danger" >Start date can not be after end date</div>}
-
                                     </Row>
+                                    <Form.Check
+                                        type={"checkbox"}
+                                        label="Currently work here">
+                                        <Form.Label >I currently work here </Form.Label>
+                                        <Form.Check.Input
+                                            defaultChecked={false}
+                                            onChange={() => {
+                                                setIsCurrent(!isCurrent)
+                                                values.isCurrentPosition = !values.isCurrentPosition
+                                            }}
+                                            name="isCurrentPosition"
+                                            type={'checkbox'}
+                                        />
+                                    </Form.Check>
 
                                     <Form.Label>Skills</Form.Label>
                                     <Typeahead

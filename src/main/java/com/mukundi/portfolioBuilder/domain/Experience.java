@@ -42,9 +42,11 @@ public class Experience {
   @NotNull
   private LocalDate since;
 
-  @Column(nullable = false)
-  @NotNull
+  @Column
   private LocalDate until;
+
+  @Column(columnDefinition = "boolean default false")
+  private Boolean isCurrentPosition;
 
   @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
   @CollectionTable(name = "experience_skills", joinColumns = @JoinColumn(name = "experience_id"))
@@ -63,5 +65,15 @@ public class Experience {
     this.since = since;
     this.until = until;
     this.skills = skills;
+  }
+
+  public Experience(String position, String company, String description, LocalDate since, LocalDate until, Set<String> skills, boolean isCurrentPosition) {
+    this.position = position;
+    this.company = company;
+    this.description = description;
+    this.since = since;
+    this.until = until;
+    this.skills = skills;
+    this.isCurrentPosition = isCurrentPosition;
   }
 }

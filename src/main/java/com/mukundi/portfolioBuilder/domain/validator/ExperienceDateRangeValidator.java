@@ -14,7 +14,7 @@ public class ExperienceDateRangeValidator implements ConstraintValidator<Experie
 
   @Override
   public boolean isValid(Experience experience, ConstraintValidatorContext constraintValidatorContext) {
-    return experience.getSince().isBefore(experience.getUntil());
+    return experience.getIsCurrentPosition() || experience.getSince().isBefore(experience.getUntil());
   }
 
 }

@@ -5,6 +5,7 @@ import Profile from './pages/profile/Profile';
 import HomePage from './pages/home/HomePage';
 import AuthProvider from './context/AuthProvider';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <HomePage></HomePage>
             </Route>
           </Switch>
+          <Footer></Footer>
         </div>
       </div>
     </Router>
