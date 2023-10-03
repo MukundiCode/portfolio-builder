@@ -43,7 +43,6 @@ function ExperienceListComponent(props: {
                 skills: skills,
                 isCurrentPosition: isCurrentPosition
             }
-            console.log(experience)
             addExperience(experience)
                 .then(response => {
                     setExperienceList(expereinceList => [response.data, ...expereinceList])
