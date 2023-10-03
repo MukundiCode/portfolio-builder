@@ -90,13 +90,11 @@ export const loginUser = async (username: string, password: string): Promise<Per
 }
 
 export const signupUser = async (username: string, email: string, password: string) => {
-    const role = ["admin"]
     return axios
         .post(URL + '/api/auth/signup', {
             username,
             email,
             password,
-            role
         }, { withCredentials: false })
         .then((response) => {
             console.log(response.data)
