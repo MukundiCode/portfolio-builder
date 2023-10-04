@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { shouldShowEditButtons } from '../../../service/ProfileService';
 import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
+import { Toaster } from 'sonner';
 
 function AboutAndExperience(props: {
     aboutMe: string,
@@ -30,7 +31,7 @@ function AboutAndExperience(props: {
 
     return (
         <div>
-
+            <Toaster position="top-center" richColors />
             <Modal show={showAboutMeModal} onHide={handleCloseAboutMeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit About Me</Modal.Title>

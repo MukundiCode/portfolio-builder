@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { loginUser, signupUser } from "../../../service/ProfileService";
 import { useHistory } from 'react-router-dom';
 import { useState } from "react";
+import { Toaster, toast } from "sonner";
 
 export default function SignUpComponent(props: {
     showSignUpModal: boolean,
@@ -12,10 +13,8 @@ export default function SignUpComponent(props: {
 }) {
 
     const handleCloseSignUpModal = () => {
-        setShouldShowError(false)
-        props.setShowSignUpModal(false)};
-    const [shouldShowError, setShouldShowError] = useState(false);
-
+        props.setShowSignUpModal(false)
+    };
     const history = useHistory()
 
     const handleLogInSubmit = async (email: string, password: string) => {
@@ -26,7 +25,7 @@ export default function SignUpComponent(props: {
             .then(() => {
                 history.push(`/${props.username}`)
             })
-            .catch(() => setShouldShowError(true))
+            .catch(() => toast.error('Sign up failed'))
     }
 
     const signUpSchema = yup.object().shape({
@@ -43,11 +42,7 @@ export default function SignUpComponent(props: {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        {shouldShowError &&
-                            <Alert variant="danger">
-                                Sign up failed
-                            </Alert>
-                        }
+                        <Toaster position="top-center" richColors />
                     </div>
 
                     <Formik

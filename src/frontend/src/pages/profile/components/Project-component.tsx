@@ -9,6 +9,7 @@ import { addProject, deleteProject, getAllProjects, logoutUser, shouldShowEditBu
 import { Formik } from "formik";
 import * as yup from 'yup';
 import { useHistory, useParams } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 function ProjectListComponent(props: {
     initialProjectList: Project[]
@@ -17,7 +18,6 @@ function ProjectListComponent(props: {
     const [projectList, setProjectList] = useState<Project[]>(props.initialProjectList)
     const [showProjectModal, setShowProjectModal] = useState(false);
     const params = useParams<{ username: string }>();
-    const [shouldShowError, setShouldShowError] = useState(false)
     const history = useHistory()
 
     const handleNewProjectSubmit = async (title: string, skills: string[], description: string) => {
@@ -32,13 +32,14 @@ function ProjectListComponent(props: {
                 console.log(response.data)
                 setProjectList(projectList => [response.data, ...projectList])
                 handleCloseProjectModal()
+                toast.success('Experience added successfuly')
             })
             .catch(err => {
-                if (err.response.status === 401){
+                if (err.response.status === 401) {
                     logoutUser()
                     history.push("/");
                 }
-                setShouldShowError(true)
+                toast.error('Something went wrong with your request!')
             });
     }
 
@@ -46,10 +47,12 @@ function ProjectListComponent(props: {
         deleteProject(projectId)
             .then(response => {
                 setProjectList((prev) => [...prev.filter(item => item.id !== projectId)])
+                toast.success('Experience deleted successfuly')
             })
             .catch(err => {
                 // handleUnauthorizedError(err)
                 console.error(err)
+                toast.error('Failed to delete')
             });
     }
 
@@ -61,8 +64,8 @@ function ProjectListComponent(props: {
 
 
     const handleCloseProjectModal = () => {
-        setShouldShowError(false)
-        setShowProjectModal(false)};
+        setShowProjectModal(false)
+    };
     const handleShowProjectModal = () => setShowProjectModal(true);
 
     return (
@@ -73,12 +76,7 @@ function ProjectListComponent(props: {
                     <Modal.Title>Add Project</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                        shouldShowError &&
-                        <Alert variant="danger" onClose={() => setShouldShowError(false)} dismissible>
-                            Something went wrong with your request!
-                        </Alert>
-                    }
+                    <Toaster position="top-center" richColors />
                     <Formik
                         validationSchema={schema}
                         onSubmit={form => handleNewProjectSubmit(form.title, form.skills, form.description)}

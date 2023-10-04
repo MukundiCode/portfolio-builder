@@ -4,6 +4,7 @@ import { Alert, Button, Form, InputGroup, Modal } from "react-bootstrap";
 import * as yup from 'yup';
 import { loginUser, signupUser } from "../../../service/ProfileService";
 import { useHistory } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 export default function LoginComponent(props: {
     showLoginModal: boolean,
@@ -11,9 +12,8 @@ export default function LoginComponent(props: {
 }) {
 
     const handleCloseLoginModal = () => {
-        setShouldShowError(false)
-        props.setShowLoginModal(false)};
-    const [shouldShowError, setShouldShowError] = useState(false);
+        props.setShowLoginModal(false)
+    };
 
     const history = useHistory()
 
@@ -24,7 +24,8 @@ export default function LoginComponent(props: {
             })
             .catch((error) => {
                 console.log(error)
-                setShouldShowError(true)})
+                toast.error('Authentication failed')
+            })
     }
 
     const loginSchema = yup.object().shape({
@@ -40,11 +41,7 @@ export default function LoginComponent(props: {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        {shouldShowError &&
-                            <Alert variant="danger">
-                                Authentication failed
-                            </Alert>
-                        }
+                        <Toaster position="top-center" richColors />
                     </div>
                     <Formik
                         validationSchema={loginSchema}
