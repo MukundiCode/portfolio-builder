@@ -32,7 +32,7 @@ function ProjectListComponent(props: {
                 console.log(response.data)
                 setProjectList(projectList => [response.data, ...projectList])
                 handleCloseProjectModal()
-                toast.success('Experience added successfuly')
+                toast.success('Project added successfuly')
             })
             .catch(err => {
                 if (err.response.status === 401) {
