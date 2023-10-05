@@ -4,8 +4,9 @@ import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { shouldShowEditButtons } from '../../../service/ProfileService';
-import { useParams } from 'react-router-dom';
+import { editPortfolioName, logoutUser, shouldShowEditButtons } from '../../../service/ProfileService';
+import { useHistory, useParams } from 'react-router-dom';
+import { Toaster, toast } from 'sonner';
 
 function NameAndLinks(props: {
     name: string,
@@ -18,6 +19,10 @@ function NameAndLinks(props: {
 
     const [showEditLinksModal, setShowEditLinksModal] = useState(false);
 
+    const [name, setName] = useState(props.name)
+
+    const history = useHistory()
+
     const params = useParams<{ username: string }>();
 
     const editNameSchema = yup.object().shape({
@@ -29,7 +34,20 @@ function NameAndLinks(props: {
     });
 
     const handleEditAboutMeSubmit = (name: string) => {
-        props.editName(name)
+        // props.editName(name)
+
+        editPortfolioName(name)
+            .then(response => {
+                setName(response.data)
+                toast.success('Edited successfully')
+            })
+            .catch(err => {
+                if (err.response.status === 401){
+                    logoutUser()
+                    history.push("/");
+                }
+                toast.error('Something went wrong with your request!')
+            });
         handleCloseEditNameModal()
     }
 
@@ -53,7 +71,7 @@ function NameAndLinks(props: {
                     <Modal.Title>Edit Name</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
+                <Toaster position="top-center" richColors />
                     <Formik
                         validationSchema={editNameSchema}
                         onSubmit={e => handleEditAboutMeSubmit(e.name)}
@@ -149,7 +167,7 @@ function NameAndLinks(props: {
                     <Row>
                         <Col xs={10}>
                             <div className="display-2 mb-3 custom-primary name-font" >
-                                {props.name ? props.name : "Name"}
+                                {name ? name : "Name"}
                             </div>
                         </Col>
                         {shouldShowEditButtons(params.username) && <Col className='d-flex justify-content-end'>

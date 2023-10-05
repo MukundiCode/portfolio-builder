@@ -9,6 +9,7 @@ import { addExperience, deleteExperience, getAllExperiences, handleUnauthorizedE
 import { Formik } from "formik";
 import * as yup from 'yup';
 import { useHistory, useParams } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 function ExperienceListComponent(props: {
     initialExperienceList: Experience[]
@@ -18,7 +19,6 @@ function ExperienceListComponent(props: {
     const [showExperienceModal, setShowExperienceModal] = useState(false);
     const [dateError, setDateError] = useState(false);
     const params = useParams<{ username: string }>();
-    const [shouldShowError, setShouldShowError] = useState(false);
     const history = useHistory()
     const [isCurrent, setIsCurrent] = useState(false)
 
@@ -48,6 +48,7 @@ function ExperienceListComponent(props: {
                     setExperienceList(expereinceList => [response.data, ...expereinceList])
                     handleCloseExperienceModal()
                     setIsCurrent(false)
+                    toast.success('Experience added successfuly')
                 })
                 .catch(err => {
                     console.log(err)
@@ -55,7 +56,7 @@ function ExperienceListComponent(props: {
                         logoutUser()
                         history.push("/");
                     }
-                    setShouldShowError(true)
+                    toast.error('Something went wrong with your request!')
                 });
 
         } else {
@@ -67,14 +68,15 @@ function ExperienceListComponent(props: {
         deleteExperience(experienceId)
             .then(response => {
                 setExperienceList((prev) => [...prev.filter(item => item.id !== experienceId)])
+                toast.success('Experience deleted successfuly')
             })
             .catch(err => {
                 console.error(err)
+                toast.error('Failed to delete')
             });
     }
 
     const handleCloseExperienceModal = () => {
-        setShouldShowError(false)
         setShowExperienceModal(false)
     };
     const handleShowExperienceModal = () => setShowExperienceModal(true);
@@ -97,13 +99,7 @@ function ExperienceListComponent(props: {
                     <Modal.Title>Add Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                        shouldShowError &&
-                        <Alert variant="danger" onClose={() => setShouldShowError(false)} dismissible>
-                            Something went wrong with your request!
-                        </Alert>
-                    }
-
+                    <Toaster position="top-center" richColors />
                     <Formik
                         validationSchema={schema}
                         onSubmit={form => handleNewExperienceSubmit(
