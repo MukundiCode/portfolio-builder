@@ -25,7 +25,9 @@ export default function SignUpComponent(props: {
             .then(() => {
                 history.push(`/${props.username}`)
             })
-            .catch(() => toast.error('Sign up failed'))
+            .catch((err) => {
+                console.log(err)
+                toast.error('Sign up failed')})
     }
 
     const signUpSchema = yup.object().shape({
