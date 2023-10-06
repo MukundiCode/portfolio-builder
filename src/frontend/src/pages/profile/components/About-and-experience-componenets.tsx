@@ -1,4 +1,4 @@
-import { Button, Stack, Modal, Form } from 'react-bootstrap';
+import { Button, Stack, Modal, Form, InputGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import * as Icon from 'react-bootstrap-icons';
@@ -65,14 +65,19 @@ function AboutAndExperience(props: {
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Control as="textarea"
-                                        type="text"
-                                        placeholder='About'
-                                        name='about'
-                                        value={values.about}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.about}
-                                        required />
+                                    <InputGroup hasValidation>
+                                        <Form.Control as="textarea"
+                                            type="text"
+                                            placeholder='About'
+                                            name='about'
+                                            value={values.about}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.about}
+                                            required />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.about}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
                                 </Form.Group>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleCloseAboutMeModal}>
