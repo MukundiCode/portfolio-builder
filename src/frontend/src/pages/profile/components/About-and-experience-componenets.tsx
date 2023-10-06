@@ -18,7 +18,7 @@ function AboutAndExperience(props: {
     projectList: Project[],
 }) {
     const [showAboutMeModal, setShowAboutMeModal] = useState(false);
-    
+
     const [aboutMe, setAboutMe] = useState<string>(props.aboutMe)
 
     const params = useParams<{ username: string }>();
@@ -63,7 +63,7 @@ function AboutAndExperience(props: {
                             about: ""
                         }}>
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
-                            <Form>
+                            <Form noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Control as="textarea"
                                         type="text"
