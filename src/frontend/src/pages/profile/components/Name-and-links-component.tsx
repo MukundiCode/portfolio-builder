@@ -11,7 +11,6 @@ import { Toaster, toast } from 'sonner';
 function NameAndLinks(props: {
     name: string,
     links: string[],
-    editName: (name: string) => void
     addLink: (link: string) => void
 }) {
 
@@ -33,9 +32,7 @@ function NameAndLinks(props: {
         link: yup.string().required(),
     });
 
-    const handleEditAboutMeSubmit = (name: string) => {
-        // props.editName(name)
-
+    const handleEditNameMeSubmit = (name: string) => {
         editPortfolioName(name)
             .then(response => {
                 setName(response.data)
@@ -74,7 +71,7 @@ function NameAndLinks(props: {
                 <Toaster position="top-center" richColors />
                     <Formik
                         validationSchema={editNameSchema}
-                        onSubmit={e => handleEditAboutMeSubmit(e.name)}
+                        onSubmit={e => handleEditNameMeSubmit(e.name)}
                         initialValues={{
                             name: ""
                         }}>

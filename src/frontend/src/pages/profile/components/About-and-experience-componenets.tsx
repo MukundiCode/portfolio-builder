@@ -4,25 +4,44 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import * as Icon from 'react-bootstrap-icons';
 import ExperienceListComponent from './Experience-component';
 import ProjectListComponent from './Project-component';
-import { useParams } from 'react-router-dom';
-import { shouldShowEditButtons } from '../../../service/ProfileService';
+import { useHistory, useParams } from 'react-router-dom';
+import { editPortfolioAboutMe, logoutUser, shouldShowEditButtons } from '../../../service/ProfileService';
 import { Experience } from '../../../types/Experience';
 import { Project } from '../../../types/Project';
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
+import * as yup from 'yup';
+import { Formik } from 'formik';
 
 function AboutAndExperience(props: {
     aboutMe: string,
     experienceList: Experience[],
     projectList: Project[],
-    editAboutMe: (aboutMe: string) => void
 }) {
     const [showAboutMeModal, setShowAboutMeModal] = useState(false);
-    const [aboutMe, setAboutMe] = useState<string>("")
+    
+    const [aboutMe, setAboutMe] = useState<string>(props.aboutMe)
 
     const params = useParams<{ username: string }>();
 
-    const handleEditAboutMeSubmit = async () => {
-        props.editAboutMe(aboutMe)
+    const history = useHistory()
+
+    const editAboutSchema = yup.object().shape({
+        name: yup.string().required(),
+    });
+
+    const handleEditAboutMeSubmit = (aboutMe: string) => {
+        editPortfolioAboutMe(aboutMe)
+            .then(response => {
+                setAboutMe(response.data)
+                toast.success('Edited successfully')
+            })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    logoutUser()
+                    history.push("/");
+                }
+                toast.error('Something went wrong with your request!')
+            });
         handleCloseAboutMeModal()
     }
 
@@ -37,23 +56,36 @@ function AboutAndExperience(props: {
                     <Modal.Title>Edit About Me</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Control as="textarea"
-                                rows={3}
-                                placeholder={props.aboutMe}
-                                onChange={(e) => setAboutMe(e.target.value)} />
-                        </Form.Group>
-                    </Form>
+                    <Formik
+                        validationSchema={editAboutSchema}
+                        onSubmit={e => handleEditAboutMeSubmit(e.about)}
+                        initialValues={{
+                            about: ""
+                        }}>
+                        {({ handleSubmit, handleChange, values, touched, errors }) => (
+                            <Form>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Control as="textarea"
+                                        type="text"
+                                        placeholder='About'
+                                        name='about'
+                                        value={values.about}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.about}
+                                        required />
+                                </Form.Group>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseAboutMeModal}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type='submit'>
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </Form>
+                        )}
+                    </Formik>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseAboutMeModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleEditAboutMeSubmit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
 
             <div className='d-flex justify-content-center mt-2 pt-5'>
@@ -73,7 +105,7 @@ function AboutAndExperience(props: {
                             </Stack>
                         </h5>
                         <p className="text-break">
-                            {props.aboutMe}
+                            {aboutMe}
                         </p>
                     </div>
 
