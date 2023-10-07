@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("api/portfolio")
 @CrossOrigin(value = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 public class PortfolioController {
 
   @Autowired

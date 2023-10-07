@@ -64,7 +64,7 @@ function AboutAndExperience(props: {
                         }}>
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
                             <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Group className="mb-3" controlId="validationCustom02">
                                     <InputGroup hasValidation>
                                         <Form.Control as="textarea"
                                             type="text"
