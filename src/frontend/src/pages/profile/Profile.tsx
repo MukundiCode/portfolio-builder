@@ -46,34 +46,6 @@ function Profile() {
             });
     }, [])
 
-    const editAboutMe = (aboutMe: string) => {
-        editPortfolioAboutMe(aboutMe)
-            .then(response => {
-                setPortfolio(response.data)
-            })
-            .catch(err => {
-                if (err.response.status === 401){
-                    logoutUser()
-                    history.push("/");
-                }
-                setShouldShowError(true)
-            });
-    }
-
-    const editName = (name: string) => {
-        editPortfolioName(name)
-            .then(response => {
-                setPortfolio(response.data)
-            })
-            .catch(err => {
-                if (err.response.status === 401){
-                    logoutUser()
-                    history.push("/");
-                }
-                setShouldShowError(true)
-            });
-    }
-
     const handleAddLink = (link: string) => {
         addLink(link)
             .then(response => {
@@ -108,7 +80,6 @@ function Profile() {
                                     <NameAndLinks
                                         name={portfolio.name}
                                         links={portfolio.links}
-                                        editName={editName}
                                         addLink={handleAddLink}
                                     ></NameAndLinks>
                                 </div>
@@ -119,7 +90,7 @@ function Profile() {
                                     aboutMe={portfolio.aboutMe}
                                     experienceList={portfolio.experienceList}
                                     projectList={portfolio.projectList}
-                                    editAboutMe={editAboutMe}></AboutAndExperience>
+                                    ></AboutAndExperience>
                             </Col>
                         </Row>
                     </Container>
@@ -131,7 +102,6 @@ function Profile() {
                             <NameAndLinks
                                 name={portfolio.name}
                                 links={portfolio.links}
-                                editName={editName}
                                 addLink={handleAddLink}
                             ></NameAndLinks>
 
@@ -139,7 +109,7 @@ function Profile() {
                                 aboutMe={portfolio.aboutMe}
                                 experienceList={portfolio.experienceList}
                                 projectList={portfolio.projectList}
-                                editAboutMe={editAboutMe}></AboutAndExperience>
+                                ></AboutAndExperience>
 
                         </Stack>
                     </Container>

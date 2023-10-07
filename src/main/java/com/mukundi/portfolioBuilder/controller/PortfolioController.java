@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("api/portfolio")
 @CrossOrigin(value = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 public class PortfolioController {
 
   @Autowired
@@ -65,9 +65,9 @@ public class PortfolioController {
   }
 
   @PostMapping(path = "/aboutMe/edit", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Portfolio> editAboutMe(@AuthenticationPrincipal UserDetails userDetails, @RequestBody EditStringFieldDto dto) {
+  public ResponseEntity<String> editAboutMe(@AuthenticationPrincipal UserDetails userDetails, @RequestBody EditStringFieldDto dto) {
     Portfolio portfolio = portfolioService.editAboutMe(userDetails.getUsername(), dto.getLoad());
-    return ResponseEntity.ok(portfolio);
+    return ResponseEntity.ok(portfolio.getAboutMe());
   }
 
   @PostMapping(path = "/link/add", consumes = MediaType.APPLICATION_JSON_VALUE)
