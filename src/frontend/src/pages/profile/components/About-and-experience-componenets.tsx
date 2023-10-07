@@ -32,6 +32,7 @@ function AboutAndExperience(props: {
     const handleEditAboutMeSubmit = (aboutMe: string) => {
         editPortfolioAboutMe(aboutMe)
             .then(response => {
+                console.log("Clicked:" + aboutMe)
                 setAboutMe(response.data)
                 toast.success('Edited successfully')
             })
@@ -50,12 +51,13 @@ function AboutAndExperience(props: {
 
     return (
         <div>
-            <Toaster position="top-center" richColors />
+            
             <Modal show={showAboutMeModal} onHide={handleCloseAboutMeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit About Me</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                <Toaster position="top-center" richColors />
                     <Formik
                         validationSchema={editAboutSchema}
                         onSubmit={e => handleEditAboutMeSubmit(e.about)}
