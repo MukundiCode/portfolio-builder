@@ -26,13 +26,12 @@ function AboutAndExperience(props: {
     const history = useHistory()
 
     const editAboutSchema = yup.object().shape({
-        name: yup.string().required(),
+        about: yup.string().required(),
     });
 
     const handleEditAboutMeSubmit = (aboutMe: string) => {
         editPortfolioAboutMe(aboutMe)
             .then(response => {
-                console.log("Clicked:" + aboutMe)
                 setAboutMe(response.data)
                 toast.success('Edited successfully')
             })
@@ -51,7 +50,6 @@ function AboutAndExperience(props: {
 
     return (
         <div>
-            
             <Modal show={showAboutMeModal} onHide={handleCloseAboutMeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit About Me</Modal.Title>
@@ -86,7 +84,7 @@ function AboutAndExperience(props: {
                                         Close
                                     </Button>
                                     <Button variant="primary" type='submit'>
-                                        Save Changes
+                                        Save
                                     </Button>
                                 </Modal.Footer>
                             </Form>
