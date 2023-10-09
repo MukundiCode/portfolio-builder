@@ -20,6 +20,7 @@ export default function LoginComponent(props: {
     const handleLogInSubmit = async (username: string, password: string) => {
         await loginUser(username ? username : "", password)
             .then(() => {
+                handleCloseLoginModal()
                 history.push(`/${username}`)
             })
             .catch((error) => {
